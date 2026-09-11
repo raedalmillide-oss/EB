@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Echo Bridges Sourcing & Logistics Co.</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -56,12 +53,10 @@
 </head>
 <body class="min-h-screen flex flex-col antialiased select-none">
 
-    <!-- Toast Container -->
     <div id="toast-container" class="fixed bottom-6 left-6 z-[250] space-y-3 pointer-events-none"></div>
 
     <header class="luxury-gradient text-white border-b-2 border-[#c5a059] sticky top-0 z-40 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap justify-between items-center gap-4">
-            <!-- Brand Identity -->
             <div class="flex items-center gap-3.5 cursor-pointer" onclick="navigateTo('dashboard')">
                 <div class="w-12 h-12 rounded-2xl bg-black/60 border border-[#c5a059]/60 flex items-center justify-center text-[#f5d78e] shadow-md shadow-amber-950/20">
                     <i class="fa-solid fa-bridge text-2xl"></i>
@@ -75,16 +70,13 @@
                 </div>
             </div>
 
-            <!-- Top Actions: Languages & User Session -->
             <div class="flex items-center gap-3">
-                <!-- Language Switcher -->
                 <div class="flex bg-black/50 border border-[#c5a059]/40 rounded-xl p-1 text-xs font-bold">
                     <button type="button" onclick="setLanguage('ar')" id="lang-btn-ar" class="px-2.5 py-1 rounded-lg transition">عربي</button>
                     <button type="button" onclick="setLanguage('en')" id="lang-btn-en" class="px-2.5 py-1 rounded-lg transition">EN</button>
                     <button type="button" onclick="setLanguage('zh')" id="lang-btn-zh" class="px-2.5 py-1 rounded-lg transition">中文</button>
                 </div>
 
-                <!-- User Session -->
                 <div class="flex items-center gap-2">
                     <span id="header-user-name" class="text-xs font-bold text-slate-300 hidden sm:inline-block"></span>
                     <button type="button" onclick="openAdminSettingsModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="تعديل حسابي">
@@ -98,7 +90,6 @@
             </div>
         </div>
 
-        <!-- Navigation Tabs -->
         <nav class="bg-[#121216] border-t border-slate-800">
             <div class="max-w-7xl mx-auto px-4 flex items-center gap-1.5 overflow-x-auto py-2 custom-scrollbar">
                 <button onclick="navigateTo('dashboard')" id="nav-dashboard" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap">
@@ -127,10 +118,7 @@
     </header>
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
-
-        <!-- ==================== VIEW 1: DASHBOARD ==================== -->
         <section id="view-dashboard" class="space-y-6 hidden">
-            <!-- AI Quick Action Banner -->
             <div class="luxury-gradient rounded-3xl p-6 border border-[#c5a059]/40 shadow-xl text-white flex flex-col md:flex-row items-center justify-between gap-5">
                 <div class="flex items-center gap-4 text-center md:text-right">
                     <div class="w-14 h-14 rounded-2xl bg-[#c5a059]/20 border border-[#c5a059]/40 flex items-center justify-center text-[#f5d78e] shrink-0 text-2xl">
@@ -146,7 +134,6 @@
                 </button>
             </div>
 
-            <!-- KPI Metric Cards -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
                     <span class="text-xs font-bold text-slate-500 block mb-1" id="t-kpi-clients">إجمالي العملاء</span>
@@ -167,13 +154,11 @@
             </div>
 
             <div id="admin-settings-section" class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <!-- Multi-Currency & Exchange Rates Config -->
                 <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
                     <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
                         <i class="fa-solid fa-coins text-amber-600 text-lg"></i>
                         <h3 class="font-black text-slate-900 text-base" id="t-exchange-title">أسعار الصرف والعملات (USD/RMB/EUR)</h3>
                     </div>
-                    <p class="text-xs text-slate-500 leading-relaxed" id="t-exchange-desc">لتنظيم مشتريات الصين بالرنمينبي (¥) والعملاء بالدولار ($) أو اليورو (€) دون خلط الحسابات:</p>
                     <div class="space-y-2.5 text-xs">
                         <div>
                             <label class="block font-bold text-slate-700 mb-1" id="t-rate-1">1 دولار ($ USD) كم يساوي رنمينبي صيني (¥ RMB):</label>
@@ -189,7 +174,6 @@
                     </div>
                 </div>
 
-                <!-- Official Email Settings & Inbox Tracker -->
                 <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
                     <div class="flex items-center gap-2.5 border-b border-slate-100 pb-3">
                         <i class="fa-solid fa-envelope text-amber-600 text-lg"></i>
@@ -197,12 +181,12 @@
                     </div>
                     <form onsubmit="saveCompanyEmailSettings(event)" class="space-y-3">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1" id="t-email-label">البريد الإلكتروني للشركة (المعتمد في التواقيع والـ RFQs):</label>
+                            <label class="block text-xs font-bold text-slate-700 mb-1" id="t-email-label">البريد الإلكتروني للشركة:</label>
                             <input type="email" id="setting-company-email" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-medium">
                         </div>
                         <div class="bg-amber-50/50 p-2.5 rounded-xl border border-amber-200 text-xs space-y-2">
                             <div class="flex items-center justify-between">
-                                <span class="font-bold text-amber-900" id="t-inbox-title"><i class="fa-solid fa-inbox ml-1"></i> صندوق الوارد والمرسل (Email Log):</span>
+                                <span class="font-bold text-amber-900" id="t-inbox-title"><i class="fa-solid fa-inbox ml-1"></i> سجل الرسائل:</span>
                                 <span class="text-[10px] bg-amber-200 text-amber-900 px-1.5 py-0.5 rounded font-bold" id="t-active">نشط</span>
                             </div>
                             <div id="email-log-preview-box" class="max-h-24 overflow-y-auto custom-scrollbar space-y-1 text-[11px] text-slate-600">
@@ -217,12 +201,11 @@
                     </form>
                 </div>
 
-                <!-- Staff Credentials & Permission Manager -->
                 <div class="bg-white rounded-2xl p-6 border border-slate-200/80 shadow-sm space-y-4">
                     <div class="flex justify-between items-center border-b border-slate-100 pb-3">
                         <div class="flex items-center gap-2">
                             <i class="fa-solid fa-user-shield text-blue-600 text-lg"></i>
-                            <h3 class="font-black text-slate-900 text-base" id="t-staff-mgmt">إدارة حسابات وصلاحيات الموظفين</h3>
+                            <h3 class="font-black text-slate-900 text-base" id="t-staff-mgmt">إدارة حسابات الموظفين</h3>
                         </div>
                         <button type="button" onclick="openStaffModal()" class="bg-[#c5a059] hover:bg-[#b89142] text-black px-3 py-1.5 rounded-xl text-xs font-bold transition">
                             <i class="fa-solid fa-plus"></i> <span id="t-add-staff">إضافة موظف</span>
@@ -233,7 +216,6 @@
             </div>
         </section>
 
-        <!-- ==================== VIEW 2: CLIENTS CRM ==================== -->
         <section id="view-clients" class="space-y-6 hidden">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
                 <div>
@@ -245,7 +227,6 @@
                 </button>
             </div>
 
-            <!-- Clients Table -->
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
                 <div class="p-4 border-b border-slate-100 flex flex-wrap gap-3 items-center justify-between">
                     <div class="relative flex-grow max-w-md">
@@ -272,7 +253,6 @@
             </div>
         </section>
 
-        <!-- ==================== VIEW 2.1: SINGLE CLIENT PROFILE ==================== -->
         <section id="view-client-profile" class="space-y-6 hidden">
             <div id="client-profile-header" class="bg-white rounded-3xl border border-slate-200/80 p-6 shadow-sm"></div>
 
@@ -292,7 +272,6 @@
             </div>
         </section>
 
-        <!-- ==================== VIEW 3: REQUESTS (RFQS) ==================== -->
         <section id="view-requests" class="space-y-6 hidden">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
                 <div>
@@ -306,7 +285,6 @@
             <div id="requests-list-container" class="space-y-4"></div>
         </section>
 
-        <!-- ==================== VIEW 4: INSPECTIONS ==================== -->
         <section id="view-inspections" class="space-y-6 hidden">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
                 <div>
@@ -320,7 +298,6 @@
             <div id="inspections-list-container" class="space-y-4"></div>
         </section>
 
-        <!-- ==================== VIEW 5: SHIPPING ==================== -->
         <section id="view-shipping" class="space-y-6 hidden">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
                 <div>
@@ -334,7 +311,6 @@
             <div id="shipping-list-container" class="space-y-4"></div>
         </section>
 
-        <!-- ==================== VIEW 6: SUPPLIERS DIRECTORY ==================== -->
         <section id="view-suppliers" class="space-y-6 hidden">
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
                 <div>
@@ -351,7 +327,6 @@
                 </div>
             </div>
 
-            <!-- Search and Filter Bar -->
             <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col md:flex-row gap-3">
                 <div class="relative flex-grow">
                     <i class="fa-solid fa-magnifying-glass absolute top-3.5 right-3.5 text-slate-400 text-xs"></i>
@@ -366,7 +341,6 @@
             <div id="suppliers-list-container" class="space-y-4"></div>
         </section>
 
-        <!-- ==================== VIEW 7: FINANCIAL ANALYSIS ==================== -->
         <section id="view-accounting" class="space-y-6 hidden">
             <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
@@ -382,7 +356,6 @@
                 </div>
             </div>
 
-            <!-- Financial Summary Cards -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="bg-blue-50/70 border border-blue-200 p-5 rounded-2xl">
                     <span class="text-xs font-bold text-blue-700 block mb-1" id="t-acc-client-paid">إجمالي مقبوضات العملاء</span>
@@ -398,7 +371,6 @@
                 </div>
             </div>
 
-            <!-- Detailed Client Financial Ledger View -->
             <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-5 space-y-4">
                 <h3 class="font-black text-slate-900 text-base" id="t-acc-ledger-title">سجل المقبوضات حسب العملاء</h3>
                 <div id="accounting-clients-table-container" class="overflow-x-auto custom-scrollbar"></div>
@@ -441,7 +413,7 @@
         </div>
     </div>
 
-    <!-- 1.1 ADMIN SETTINGS MODAL (CHANGE USERNAME/PASSWORD) -->
+    <!-- 1.1 ADMIN SETTINGS MODAL -->
     <div id="modal-admin-settings" class="fixed inset-0 modal-backdrop z-[200] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -565,7 +537,6 @@
                     </div>
                 </div>
 
-                <!-- Client Address Field -->
                 <div>
                     <label class="block font-bold text-slate-700 mb-1">عنوان العميل التفصيلي (المدينة / الدولة):</label>
                     <input type="text" id="client-address" placeholder="مثال: دبي، شارع الشيخ زايد، الإمارات" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl">
@@ -780,7 +751,6 @@
                     <textarea id="inspection-notes" rows="3" placeholder="ملاحظات الأبعاد، المواد، التغليف..." class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl leading-relaxed"></textarea>
                 </div>
 
-                <!-- File Upload placed above sample dispatch -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-200">
                     <div>
                         <label class="block font-bold text-slate-700 mb-1" id="t-i-modal-upload">رفع ملف الفحص أو صور التقرير (مباشر):</label>
@@ -795,7 +765,6 @@
                     </div>
                 </div>
 
-                <!-- Sample Dispatch Section -->
                 <div class="bg-amber-50/70 p-4 rounded-2xl border border-amber-200 space-y-3">
                     <span class="block font-black text-amber-950 text-xs"><i class="fa-solid fa-box-open ml-1"></i> إرسال عينة للعميل (اختياري):</span>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -906,7 +875,6 @@
                     </div>
                 </div>
 
-                <!-- Financial Breakdown -->
                 <div class="admin-only-col space-y-2 bg-amber-50/50 p-3 rounded-2xl border border-amber-200">
                     <span class="block font-black text-amber-900 text-xs" id="t-s-modal-costs-title">التكاليف المالية للشحنة ($):</span>
                     <div class="grid grid-cols-2 sm:grid-cols-6 gap-2">
@@ -937,7 +905,6 @@
                     </div>
                 </div>
 
-                <!-- Shipping Documents Uploads -->
                 <div class="space-y-2 bg-slate-50 p-3.5 rounded-2xl border border-slate-200">
                     <span class="block font-bold text-slate-800 text-xs mb-1" id="t-s-modal-docs-title">ملفات وأوراق الشحن الرسمية (تحميل ملف مباشر أو وضع رابط):</span>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
@@ -1091,7 +1058,6 @@
                     </div>
                 </div>
 
-                <!-- Supplier Notes & Multiple Files Upload -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-indigo-50/40 p-3 rounded-2xl border border-indigo-100">
                     <div>
                         <label class="block font-bold text-indigo-950 mb-1">ملاحظات المصنع:</label>
@@ -1167,7 +1133,6 @@
                 <button type="button" onclick="closeClientAccountModal()" class="w-8 h-8 rounded-lg bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
 
-            <!-- Add Client Payment Form -->
             <form onsubmit="addClientPayment(event)" class="bg-blue-50/70 p-4 rounded-2xl border border-blue-200 space-y-3 text-xs">
                 <input type="hidden" id="account-client-id">
                 
@@ -1232,7 +1197,6 @@
                 </div>
             </form>
 
-            <!-- Payments Ledger Table -->
             <div class="flex-grow overflow-y-auto custom-scrollbar border border-slate-100 rounded-2xl">
                 <table class="w-full text-right text-xs">
                     <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200">
@@ -1357,7 +1321,7 @@
         </div>
     </div>
 
-    <!-- 11. STAFF MODAL (ADD / EDIT) -->
+    <!-- 11. STAFF MODAL -->
     <div id="modal-staff" class="fixed inset-0 modal-backdrop z-[160] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
@@ -1387,7 +1351,7 @@
     </div>
 
     <script>
-        const STORAGE_KEY = 'EB_LOGISTICS_DB_V10';
+        const STORAGE_KEY = 'EB_LOGISTICS_DB_V13';
         const LOGIN_KEY = 'EB_REMEMBERED_USER';
 
         let currentLang = 'ar';
@@ -1568,11 +1532,11 @@
                 't-rate-2': '1 يورو (€ EUR) كم يساوي دولار ($ USD):',
                 't-save-rates': 'تحديث أسعار الصرف الآن',
                 't-email-config': 'إعدادات البريد ومتابعة المراسلات',
-                't-email-label': 'البريد الإلكتروني للشركة (المعتمد في التواقيع والـ RFQs):',
-                't-inbox-title': 'صندوق الوارد والمرسل (Email Log):',
+                't-email-label': 'البريد الإلكتروني للشركة:',
+                't-inbox-title': 'سجل الرسائل:',
                 't-active': 'نشط',
                 't-save-settings': 'حفظ الإعدادات',
-                't-staff-mgmt': 'إدارة حسابات وصلاحيات الموظفين',
+                't-staff-mgmt': 'إدارة حسابات الموظفين',
                 't-add-staff': 'إضافة موظف',
                 't-clients-title': 'إدارة العملاء',
                 't-clients-subtitle': 'ملفات العملاء الموثقة، الأرقام التسلسلية الثابتة، والتسجيل المالي المتكامل.',
@@ -1619,59 +1583,9 @@
                 't-nav-shipping': 'Shipping',
                 't-nav-suppliers': 'Suppliers',
                 't-nav-accounting': 'Accounting',
-                't-ai-title': 'Smart AI Assistant (Gemini AI)',
-                't-ai-desc': 'Draft RFQs in English and Chinese, analyze client specs, and translate factory quotes in 1-click.',
-                't-ai-btn': 'Launch AI Assistant',
-                't-kpi-clients': 'Total Clients',
-                't-kpi-active-reqs': 'Active Orders',
-                't-kpi-suppliers': 'Suppliers',
-                't-kpi-profit': 'Expected Profit',
-                't-exchange-title': 'Currency & Exchange Rates (USD/RMB/EUR)',
-                't-exchange-desc': 'Organize China purchases in RMB (¥) and client payments in USD ($) or EUR (€):',
-                't-rate-1': '1 USD ($) to Chinese RMB (¥):',
-                't-rate-2': '1 EUR (€) to USD ($):',
-                't-save-rates': 'Update Exchange Rates',
-                't-email-config': 'Email & Correspondence Management',
-                't-email-label': 'Company Email (Used in RFQs and Signatures):',
-                't-inbox-title': 'Inbox & Sent Email Log:',
-                't-active': 'Active',
-                't-save-settings': 'Save Settings',
-                't-staff-mgmt': 'Staff Management & Permissions',
-                't-add-staff': 'Add Staff',
-                't-clients-title': 'Clients Management',
-                't-clients-subtitle': 'Verified client profiles, fixed serials, and integrated financial records.',
-                't-add-client': 'Add New Client',
-                'th-c-serial': 'Serial',
-                'th-c-company': 'Company & Manager',
-                'th-c-cr': 'CR & Port',
-                'th-c-contact': 'Contact & Web',
-                'th-c-paid': 'Total Receipts',
-                'th-c-actions': 'Actions',
-                't-requests-title': 'RFQs',
-                't-requests-subtitle': 'Track client RFQs and multi-factory quotations for each order.',
-                't-add-request': 'Create New RFQ',
-                't-inspections-title': 'Inspection',
-                't-inspections-subtitle': 'Field inspection records, technical reports, sample tracking numbers, and client dispatches.',
-                't-add-inspection': 'Add New Inspection',
-                't-shipping-title': 'Shipping',
-                't-shipping-subtitle': 'Container tracking, live location URLs, Delivery Note details, and official shipping documents.',
-                't-add-shipping': 'Register New Shipment',
-                't-suppliers-title': 'Suppliers Directory',
-                't-suppliers-subtitle': 'Factories database, licenses, communications, commercial agreements, and ratings.',
-                't-ai-organize': 'AI Organize',
-                't-add-supplier': 'Register Supplier',
-                't-accounting-title': 'Financial Analysis',
-                't-accounting-subtitle': 'Statements, profits, supplier payments, and financial settlement by dates.',
-                'opt-all': 'All Periods',
-                'opt-month': 'Current Month',
-                'opt-year': 'Current Year',
-                't-acc-client-paid': 'Total Client Receipts',
-                't-acc-sup-paid': 'Total Supplier Payments',
-                't-acc-net-profit': 'Expected Net Profit',
-                't-acc-ledger-title': 'Client Receipts Ledger',
                 't-login-user-label': 'Username:',
                 't-login-pass-label': 'Password:',
-                't-remember-me': 'Remember login on this device',
+                't-remember-me': 'Remember login',
                 't-login-btn': 'Login'
             },
             zh: {
@@ -1683,59 +1597,9 @@
                 't-nav-shipping': '航运',
                 't-nav-suppliers': '供应商目录',
                 't-nav-accounting': '财务分析',
-                't-ai-title': '人工智能助理 (Gemini AI)',
-                't-ai-desc': '一键起草中英文询价单、分析客户规格、翻译工厂报价。',
-                't-ai-btn': '启动智能助理',
-                't-kpi-clients': '客户总数',
-                't-kpi-active-reqs': '进行中订单',
-                't-kpi-suppliers': '供应商总数',
-                't-kpi-profit': '预计利润',
-                't-exchange-title': '汇率与多币种设置 (USD/RMB/EUR)',
-                't-exchange-desc': '管理人民币 (¥) 采购及美元 ($) / 欧元 (€) 客户账目：',
-                't-rate-1': '1 美元 ($)兑换人民币 (¥):',
-                't-rate-2': '1 欧元 (€)兑换美元 ($):',
-                't-save-rates': '更新汇率设置',
-                't-email-config': '邮件与往来通讯管理',
-                't-email-label': '公司官方邮箱 (用于签名和询价单)：',
-                't-inbox-title': '收件箱与已发送日志 (Email Log):',
-                't-active': '活跃',
-                't-save-settings': '保存设置',
-                't-staff-mgmt': '员工账户与权限管理',
-                't-add-staff': '添加员工',
-                't-clients-title': '客户管理',
-                't-clients-subtitle': '完整的客户档案、固定序列号和集成财务记录。',
-                't-add-client': '新增客户',
-                'th-c-serial': '编号',
-                'th-c-company': '公司与负责人',
-                'th-c-cr': '注册号与港口',
-                'th-c-contact': '联系方式与网址',
-                'th-c-paid': '总收款',
-                'th-c-actions': '操作',
-                't-requests-title': '询价单',
-                't-requests-subtitle': '跟进所有客户询价及多家工厂报价。',
-                't-add-request': '创建新询价单',
-                't-inspections-title': '验货',
-                't-inspections-subtitle': '现场验货记录、技术报告、样品快递单号及即时客户派送。',
-                't-add-inspection': '新增验货记录',
-                't-shipping-title': '航运',
-                't-shipping-subtitle': '集装箱追踪、实时定位链接、送货单详情及官方海运单据。',
-                't-add-shipping': '登记新货运',
-                't-suppliers-title': '供应商目录',
-                't-suppliers-subtitle': '工厂数据库、营业执照、联系方式、商业协议与评级。',
-                't-ai-organize': 'AI 智能分类',
-                't-add-supplier': '登记新供应商',
-                't-accounting-title': '财务分析',
-                't-accounting-subtitle': '对账单、利润、供应商付款及按日期清算。',
-                'opt-all': '全部时间',
-                'opt-month': '本月',
-                'opt-year': '今年',
-                't-acc-client-paid': '客户总收款',
-                't-acc-sup-paid': '供应商总付款',
-                't-acc-net-profit': '预计净利润',
-                't-acc-ledger-title': '客户收款流水账',
                 't-login-user-label': '用户名:',
                 't-login-pass-label': '密码:',
-                't-remember-me': '在此设备上记住登录状态',
+                't-remember-me': '记住登录',
                 't-login-btn': '登录'
             }
         };
@@ -1774,6 +1638,8 @@
             if (!appDb) appDb = JSON.parse(JSON.stringify(defaultDatabase));
             if (!appDb.emailLog) appDb.emailLog = [];
             if (!appDb.exchangeRates) appDb.exchangeRates = { usdToCny: 7.23, eurToUsd: 1.08 };
+            if (!appDb.adminUsername) appDb.adminUsername = 'raidalmelli';
+            if (!appDb.adminPassword) appDb.adminPassword = 'Haitham2007@';
             if (!appDb.staff) appDb.staff = defaultDatabase.staff;
             if (!appDb.clients) appDb.clients = defaultDatabase.clients;
             if (!appDb.suppliers) appDb.suppliers = defaultDatabase.suppliers;
@@ -1847,6 +1713,7 @@
             const p = document.getElementById('login-password').value.trim();
             const remember = document.getElementById('remember-me-checkbox').checked;
 
+            loadDb();
             const adminUser = appDb.adminUsername || 'raidalmelli';
             const adminPass = appDb.adminPassword || 'Haitham2007@';
 
@@ -1907,7 +1774,7 @@
                 const profitCard = document.getElementById('dash-profit-card');
                 if (profitCard) profitCard.classList.add('hidden');
                 const navAcc = document.getElementById('nav-accounting');
-                if (navAcc) navAcc.classList.add('hidden');
+                if (navAcc) navAcc.classList.remove('hidden');
             }
 
             const emailInput = document.getElementById('setting-company-email');
@@ -3637,4 +3504,41 @@
         }
 
         async function executeAiQuery() {
-            const task = document.getElementById('ai-task-type').value;أنا مجرد نموذج لغوي، وهذا الأمر يفوق ما صُمِّمت لأجله.
+            const task = document.getElementById('ai-task-type').value;
+            const prompt = document.getElementById('ai-prompt-input').value.trim();
+            const resultBox = document.getElementById('ai-result-box');
+            const runBtn = document.getElementById('ai-run-btn');
+
+            if (!prompt) { showToast('يرجى كتابة تفاصيل الطلب أولاً', 'error'); return; }
+
+            resultBox.classList.remove('hidden');
+            resultBox.textContent = 'جاري المعالجة والتحليل عبر Gemini AI...';
+            runBtn.disabled = true;
+
+            const fullPrompt = `You are the chief trade assistant for Echo Bridges Sourcing & Logistics Co. Task type: ${task}. Input: ${prompt}. Company Email: ${appDb.companyEmail}.`;
+            try {
+                const apiKey = "";
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: [{ parts: [{ text: fullPrompt }] }] })
+                });
+                const data = await response.json();
+                const output = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'عذراً، لم نتمكن من الحصول على رد.';
+                resultBox.textContent = output;
+                showToast('تم إنجاز الصياغة الذكية بنجاح');
+            } catch (err) {
+                resultBox.textContent = 'تعذر الاتصال بالذكاء الاصطناعي حالياً.';
+                showToast('خطأ في الاتصال بالذكاء الاصطناعي', 'error');
+            } finally {
+                runBtn.disabled = false;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            setLanguage('ar');
+            checkSavedLogin();
+        });
+    </script>
+</body>
+</html>
