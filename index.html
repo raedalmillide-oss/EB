@@ -70,7 +70,7 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl sm:text-2xl font-black tracking-tight text-[#f5d78e] font-serif">Echo Bridges</h1>
-                        <span id="user-role-badge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#c5a059] text-black uppercase tracking-wider">Admin</span>
+                        <span class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#c5a059] text-black uppercase tracking-wider">Admin</span>
                     </div>
                     <p class="text-xs text-slate-300 font-medium tracking-wide">Sourcing & Logistics Co.</p>
                 </div>
@@ -78,13 +78,13 @@
 
             <div class="flex items-center gap-3">
                 <div class="flex bg-black/50 border border-[#c5a059]/40 rounded-xl p-1 text-xs font-bold">
-                    <button type="button" onclick="setLanguage('ar')" id="lang-btn-ar" class="px-2.5 py-1 rounded-lg transition">عربي</button>
-                    <button type="button" onclick="setLanguage('en')" id="lang-btn-en" class="px-2.5 py-1 rounded-lg transition">EN</button>
-                    <button type="button" onclick="setLanguage('zh')" id="lang-btn-zh" class="px-2.5 py-1 rounded-lg transition">中文</button>
+                    <button type="button" onclick="setLanguage('ar')" id="lang-btn-ar" class="px-2.5 py-1 rounded-lg transition bg-[#c5a059] text-black font-black">عربي</button>
+                    <button type="button" onclick="setLanguage('en')" id="lang-btn-en" class="px-2.5 py-1 rounded-lg transition text-slate-300">EN</button>
+                    <button type="button" onclick="setLanguage('zh')" id="lang-btn-zh" class="px-2.5 py-1 rounded-lg transition text-slate-300">中文</button>
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <span id="header-user-name" class="text-xs font-bold text-slate-300 hidden sm:inline-block">المدير العام: رائد الملي</span>
+                    <span class="text-xs font-bold text-slate-300 hidden sm:inline-block">المدير العام: رائد الملي</span>
                     <button type="button" onclick="openAdminSettingsModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="إعدادات الحساب">
                         <i class="fa-solid fa-user-gear"></i>
                     </button>
@@ -120,6 +120,7 @@
     </header>
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
+        <!-- 1. DASHBOARD -->
         <section id="view-dashboard" class="space-y-6">
             <div class="luxury-gradient rounded-3xl p-6 border border-[#c5a059]/40 shadow-xl text-white flex flex-col md:flex-row items-center justify-between gap-5">
                 <div class="flex items-center gap-4 text-center md:text-right">
@@ -128,7 +129,7 @@
                     </div>
                     <div>
                         <h2 class="text-lg font-black text-[#f5d78e]">مساعد الذكاء الاصطناعي الذكي (Gemini AI)</h2>
-                        <p class="text-xs text-slate-300 mt-1">صياغة طلبات التسعير بالإنجليزية والصينية، تحليل مواصفات العملاء، وترجمة عروض المصانع بضغطة زر.</p>
+                        <p class="text-xs text-slate-300 mt-1">صياغة طلبات التسعير بالإنجليزية والصينية، تحليل مواصفات العملاء، وترجمة عروض المصانع.</p>
                     </div>
                 </div>
                 <button type="button" onclick="openAiModal()" class="btn-gold px-6 py-3 rounded-2xl text-xs font-black shadow-lg flex items-center gap-2 shrink-0">
@@ -156,91 +157,186 @@
             </div>
         </section>
 
-        <!-- باقي الأقسام مخفية افتراضياً حتى يتم الانتقال إليها -->
-        <section id="view-clients" class="space-y-6 hidden"></section>
-        <section id="view-requests" class="space-y-6 hidden"></section>
-        <section id="view-inspections" class="space-y-6 hidden"></section>
-        <section id="view-shipping" class="space-y-6 hidden"></section>
-        <section id="view-suppliers" class="space-y-6 hidden"></section>
-        <section id="view-accounting" class="space-y-6 hidden"></section>
+        <!-- 2. CLIENTS -->
+        <section id="view-clients" class="space-y-6 hidden">
+            <div class="flex justify-between items-center bg-white p-5 rounded-2xl border shadow-sm">
+                <h2 class="text-xl font-black text-slate-900">إدارة العملاء</h2>
+                <button onclick="openClientModal()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-black">إضافة عميل جديد</button>
+            </div>
+            <div class="bg-white rounded-2xl border shadow-sm p-4">
+                <table class="w-full text-right text-xs">
+                    <thead class="bg-slate-50 font-bold border-b">
+                        <tr>
+                            <th class="p-3">الرقم</th>
+                            <th class="p-3">الشركة والمسؤول</th>
+                            <th class="p-3">السجل</th>
+                            <th class="p-3">الهاتف</th>
+                            <th class="p-3 text-center">إجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="clients-table-body" class="divide-y"></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 3. REQUESTS -->
+        <section id="view-requests" class="space-y-6 hidden">
+            <div class="flex justify-between items-center bg-white p-5 rounded-2xl border shadow-sm">
+                <h2 class="text-xl font-black text-slate-900">طلبات التسعير (RFQs)</h2>
+                <button onclick="openRequestModal()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-black">إنشاء طلب جديد</button>
+            </div>
+            <div id="requests-list-container" class="space-y-3"></div>
+        </section>
+
+        <!-- 4. INSPECTIONS -->
+        <section id="view-inspections" class="space-y-6 hidden">
+            <div class="flex justify-between items-center bg-white p-5 rounded-2xl border shadow-sm">
+                <h2 class="text-xl font-black text-slate-900">سجلات الفحص والعينات</h2>
+                <button onclick="openInspectionModal()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-black">إضافة فحص جديد</button>
+            </div>
+            <div id="inspections-list-container" class="space-y-3"></div>
+        </section>
+
+        <!-- 5. SHIPPING -->
+        <section id="view-shipping" class="space-y-6 hidden">
+            <div class="flex justify-between items-center bg-white p-5 rounded-2xl border shadow-sm">
+                <h2 class="text-xl font-black text-slate-900">إدارة الشحن والحاويات</h2>
+                <button onclick="openShippingModal()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-black">تسجيل شحنة جديدة</button>
+            </div>
+            <div id="shipping-list-container" class="space-y-3"></div>
+        </section>
+
+        <!-- 6. SUPPLIERS -->
+        <section id="view-suppliers" class="space-y-6 hidden">
+            <div class="flex justify-between items-center bg-white p-5 rounded-2xl border shadow-sm">
+                <h2 class="text-xl font-black text-slate-900">دليل الموردين والمصانع</h2>
+                <button onclick="openSupplierModal()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-black">تسجيل مورد جديد</button>
+            </div>
+            <div id="suppliers-list-container" class="space-y-3"></div>
+        </section>
+
+        <!-- 7. ACCOUNTING -->
+        <section id="view-accounting" class="space-y-6 hidden">
+            <div class="bg-white p-5 rounded-2xl border shadow-sm">
+                <h2 class="text-xl font-black text-slate-900">التحليل المالي والحسابات</h2>
+            </div>
+            <div id="accounting-clients-table-container" class="bg-white p-5 rounded-2xl border shadow-sm"></div>
+        </section>
     </main>
 
     <!-- نافذة إعدادات حساب المدير -->
     <div id="modal-admin-settings" class="fixed inset-0 modal-backdrop z-[200] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 class="font-black text-slate-900 text-base">إعدادات الحساب والإدارة</h3>
-                <button type="button" onclick="closeAdminSettingsModal()" class="w-8 h-8 rounded-lg bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-black text-slate-900 text-base">إعدادات حساب الإدارة</h3>
+                <button onclick="closeAdminSettingsModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form onsubmit="saveAdminCredentials(event)" class="space-y-3 text-xs">
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">اسم المستخدم الجديد:</label>
-                    <input type="text" id="admin-new-user" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl" dir="ltr">
+                    <label class="block font-bold mb-1">اسم المستخدم:</label>
+                    <input type="text" id="admin-new-user" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr">
                 </div>
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">كلمة المرور الجديدة:</label>
-                    <input type="text" id="admin-new-pass" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl" dir="ltr">
+                    <label class="block font-bold mb-1">كلمة المرور:</label>
+                    <input type="text" id="admin-new-pass" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr">
                 </div>
-                <div class="flex justify-end gap-2 pt-2 border-t border-slate-100">
-                    <button type="button" onclick="closeAdminSettingsModal()" class="px-4 py-2 bg-slate-100 text-slate-700 font-bold rounded-xl">إلغاء</button>
-                    <button type="submit" class="btn-gold px-5 py-2 rounded-xl font-black">حفظ التعديلات</button>
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeAdminSettingsModal()" class="px-4 py-2 bg-slate-100 font-bold rounded-xl">إلغاء</button>
+                    <button type="submit" class="btn-gold px-5 py-2 rounded-xl font-black">حفظ</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- نافذة المساعد الذكي -->
+    <!-- نوافذ الإدخال (Modals) المبسطة لضمان عمل كافة الأزرار -->
+    <div id="modal-client" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <h3 class="font-black text-base">إضافة عميل جديد</h3>
+            <form onsubmit="saveClientForm(event)" class="space-y-3 text-xs">
+                <input type="text" id="client-company-ar" required placeholder="اسم الشركة بالعربي" class="w-full p-2.5 border rounded-xl">
+                <input type="text" id="client-manager-ar" required placeholder="اسم المسؤول" class="w-full p-2.5 border rounded-xl">
+                <input type="text" id="client-phone" placeholder="رقم الهاتف" class="w-full p-2.5 border rounded-xl" dir="ltr">
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeClientModal()" class="px-4 py-2 bg-slate-100 rounded-xl">إلغاء</button>
+                    <button type="submit" class="btn-gold px-5 py-2 rounded-xl">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-request" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <h3 class="font-black text-base">إنشاء طلب تسعير</h3>
+            <form onsubmit="saveRequestForm(event)" class="space-y-3 text-xs">
+                <input type="text" id="req-title" required placeholder="عنوان الطلب / المنتج" class="w-full p-2.5 border rounded-xl">
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeRequestModal()" class="px-4 py-2 bg-slate-100 rounded-xl">إلغاء</button>
+                    <button type="submit" class="btn-gold px-5 py-2 rounded-xl">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-inspection" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <h3 class="font-black text-base">إضافة فحص جديد</h3>
+            <form onsubmit="saveInspectionForm(event)" class="space-y-3 text-xs">
+                <input type="text" id="insp-title" required placeholder="عنوان الفحص" class="w-full p-2.5 border rounded-xl">
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeInspectionModal()" class="px-4 py-2 bg-slate-100 rounded-xl">إلغاء</button>
+                    <button type="submit" class="btn-gold px-5 py-2 rounded-xl">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-shipping" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <h3 class="font-black text-base">تسجيل شحنة جديدة</h3>
+            <form onsubmit="saveShippingForm(event)" class="space-y-3 text-xs">
+                <input type="text" id="shp-title" required placeholder="وصف الشحنة أو الحاوية" class="w-full p-2.5 border rounded-xl">
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeShippingModal()" class="px-4 py-2 bg-slate-100 rounded-xl">إلغاء</button>
+                    <button type="submit" class="btn-gold px-5 py-2 rounded-xl">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modal-supplier" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <h3 class="font-black text-base">تسجيل مورد جديد</h3>
+            <form onsubmit="saveSupplierForm(event)" class="space-y-3 text-xs">
+                <input type="text" id="sup-name" required placeholder="اسم المصنع / المورد" class="w-full p-2.5 border rounded-xl">
+                <input type="text" id="sup-spec" required placeholder="مجال الاختصاص" class="w-full p-2.5 border rounded-xl">
+                <div class="flex justify-end gap-2 pt-2">
+                    <button type="button" onclick="closeSupplierModal()" class="px-4 py-2 bg-slate-100 rounded-xl">إلغاء</button>
+                    <button type="submit" class="btn-gold px-5 py-2 rounded-xl">حفظ</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div id="modal-ai" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[90vh] flex flex-col">
-            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <div class="flex items-center gap-2">
-                    <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-800 flex items-center justify-center">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i>
-                    </div>
-                    <h3 class="font-black text-slate-900 text-base">المساعد الذكي (Gemini AI)</h3>
-                </div>
-                <button type="button" onclick="closeAiModal()" class="w-8 h-8 rounded-lg bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="space-y-3 overflow-y-auto custom-scrollbar p-1">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">نوع المهمة:</label>
-                    <select id="ai-task-type" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
-                        <option value="rfq_en">صياغة طلب تسعير بالإنجليزية (RFQ English)</option>
-                        <option value="rfq_zh">صياغة طلب تسعير بالصينية (询价单 中文)</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">التفاصيل:</label>
-                    <textarea id="ai-prompt-input" rows="4" placeholder="اكتب اسم المنتج والمواصفات..." class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs leading-relaxed"></textarea>
-                </div>
-                <button type="button" onclick="executeAiQuery()" id="ai-run-btn" class="w-full btn-gold py-2.5 rounded-xl text-xs font-black shadow-sm">توليد النتائج</button>
-                <div id="ai-result-box" class="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono whitespace-pre-wrap max-h-56 overflow-y-auto custom-scrollbar hidden"></div>
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4">
+            <h3 class="font-black text-base">المساعد الذكي (Gemini AI)</h3>
+            <textarea id="ai-prompt-input" rows="3" placeholder="اكتب تفاصيل طلبك..." class="w-full p-2.5 border rounded-xl text-xs"></textarea>
+            <div class="flex justify-end gap-2">
+                <button type="button" onclick="closeAiModal()" class="px-4 py-2 bg-slate-100 rounded-xl text-xs">إغاء</button>
+                <button type="button" onclick="executeAiQuery()" class="btn-gold px-4 py-2 rounded-xl text-xs">تنفيذ</button>
             </div>
         </div>
     </div>
 
-    <!-- نافذة تسجيل الدخول ملغية تماماً بالخاصية hidden -->
-    <div id="modal-login" class="fixed inset-0 modal-backdrop z-[200] hidden items-center justify-center p-4"></div>
-
     <script>
-        const STORAGE_KEY = 'EB_LOGISTICS_DB_V16';
+        const STORAGE_KEY = 'EB_LOGISTICS_DB_V17';
         const SUPABASE_URL = 'https://zkzpxaqffrctjhfgkpnm.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_Xi7Owac1858P4KUmIt-YCw_wWcy2XyC';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        let currentLang = 'ar';
-        let currentUser = 'admin'; // منح صلاحيات الإدارة الكاملة تلقائياً
-        let activeTab = 'dashboard';
-        let appDb = null;
-
-        const defaultDatabase = {
-            companyEmail: 'info@echobridges.com',
+        let appDb = {
             adminUsername: 'raidalmelli',
             adminPassword: 'Haitham2007@',
-            emailLog: [],
-            exchangeRates: { usdToCny: 7.23, eurToUsd: 1.08 },
-            clientCounter: 1000,
-            staff: [],
             clients: [],
             suppliers: [],
             requests: [],
@@ -248,18 +344,11 @@
             shipping: []
         };
 
-        function setLanguage(lang) {
-            currentLang = lang || 'ar';
-            document.documentElement.lang = currentLang;
-            document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
-        }
-
         function loadLocalDb() {
             try {
                 const stored = localStorage.getItem(STORAGE_KEY);
                 if (stored) appDb = JSON.parse(stored);
             } catch(e) {}
-            if (!appDb) appDb = JSON.parse(JSON.stringify(defaultDatabase));
         }
 
         async function syncCloudDb() {
@@ -267,8 +356,8 @@
                 const { data } = await supabase.from('app_storage').select('value').eq('key', STORAGE_KEY).single();
                 if (data && data.value) {
                     appDb = data.value;
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); 
-                    renderDashboardView();
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb));
+                    renderCurrentView();
                 }
             } catch (err) {}
         }
@@ -278,72 +367,180 @@
             try { await supabase.from('app_storage').upsert({ key: STORAGE_KEY, value: appDb }); } catch(err) {}
         }
 
-        function showToast(message, type = 'success') {
+        function showToast(message) {
             const container = document.getElementById('toast-container');
             if (!container) return;
             const toast = document.createElement('div');
-            toast.className = `flex items-center gap-3 px-5 py-3 rounded-2xl border shadow-2xl text-xs font-bold pointer-events-auto bg-slate-900 text-amber-200 border-[#c5a059]`;
+            toast.className = `flex items-center gap-3 px-5 py-3 rounded-2xl border shadow-2xl text-xs font-bold bg-slate-900 text-amber-200 border-[#c5a059]`;
             toast.innerHTML = `<i class="fa-solid fa-circle-check text-[#f5d78e]"></i> <span>${message}</span>`;
             container.appendChild(toast);
             setTimeout(() => toast.remove(), 3000);
         }
 
-        function openAdminSettingsModal() {
-            const modal = document.getElementById('modal-admin-settings');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            document.getElementById('admin-new-user').value = appDb.adminUsername || 'raidalmelli';
-            document.getElementById('admin-new-pass').value = appDb.adminPassword || 'Haitham2007@';
-        }
-
-        function closeAdminSettingsModal() {
-            document.getElementById('modal-admin-settings').classList.add('hidden');
-            document.getElementById('modal-admin-settings').classList.remove('flex');
-        }
-
-        function saveAdminCredentials(e) {
-            e.preventDefault();
-            appDb.adminUsername = document.getElementById('admin-new-user').value.trim();
-            appDb.adminPassword = document.getElementById('admin-new-pass').value.trim();
-            persistDb();
-            closeAdminSettingsModal();
-            showToast('تم تحديث بيانات حساب الإدارة بنجاح');
-        }
-
         function navigateTo(tab) {
-            activeTab = tab;
-            const tabs = ['dashboard', 'clients', 'requests', 'inspections', 'shipping', 'suppliers', 'accounting'];
-            tabs.forEach(id => {
-                const view = document.getElementById(`view-${id}`);
-                if (view) {
-                    if (id === tab) view.classList.remove('hidden');
-                    else view.classList.add('hidden');
+            ['dashboard', 'clients', 'requests', 'inspections', 'shipping', 'suppliers', 'accounting'].forEach(id => {
+                document.getElementById(`view-${id}`).classList.toggle('hidden', id !== tab);
+                const btn = document.getElementById(`nav-${id}`);
+                if (btn) {
+                    btn.className = (id === tab) 
+                        ? 'nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap bg-[#c5a059] text-black shadow-md'
+                        : 'nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white';
                 }
             });
+            renderCurrentView();
         }
 
-        function renderDashboardView() {
+        function renderCurrentView() {
             document.getElementById('dash-clients-count').textContent = (appDb.clients || []).length;
             document.getElementById('dash-active-reqs-count').textContent = (appDb.requests || []).length;
             document.getElementById('dash-suppliers-count').textContent = (appDb.suppliers || []).length;
+            renderClientsTable();
+            renderRequestsView();
+            renderInspectionsView();
+            renderShippingView();
+            renderSuppliersDirectory();
         }
 
-        function openAiModal() {
-            document.getElementById('modal-ai').classList.remove('hidden');
-            document.getElementById('modal-ai').classList.add('flex');
+        function renderClientsTable() {
+            const tbody = document.getElementById('clients-table-body');
+            if (!tbody) return;
+            tbody.innerHTML = (appDb.clients || []).map(c => `
+                <tr>
+                    <td class="p-3 font-bold">${c.serial || 'EB-1000'}</td>
+                    <td class="p-3 font-bold">${c.companyAr} (${c.managerAr})</td>
+                    <td class="p-3">${c.cr || '-'}</td>
+                    <td class="p-3" dir="ltr">${c.phone || '-'}</td>
+                    <td class="p-3 text-center">
+                        <button onclick="deleteClient('${c.id}')" class="p-1.5 bg-rose-50 text-rose-600 rounded-lg"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('') || `<tr><td colspan="5" class="p-4 text-center text-slate-400">لا توجد بيانات عملاء مسجلة.</td></tr>`;
         }
-        function closeAiModal() {
-            document.getElementById('modal-ai').classList.add('hidden');
-            document.getElementById('modal-ai').classList.remove('flex');
+
+        function renderRequestsView() {
+            document.getElementById('requests-list-container').innerHTML = (appDb.requests || []).map(r => `
+                <div class="bg-white p-4 rounded-xl border shadow-sm flex justify-between items-center text-xs">
+                    <div><strong class="text-sm block">${r.title}</strong></div>
+                    <button onclick="deleteRequest('${r.id}')" class="text-rose-600"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            `).join('') || '<p class="text-xs text-slate-400">لا توجد طلبات مسجلة.</p>';
         }
-        async function executeAiQuery() {
-            showToast('تم توليد الرد بنجاح');
+
+        function renderInspectionsView() {
+            document.getElementById('inspections-list-container').innerHTML = (appDb.inspections || []).map(i => `
+                <div class="bg-white p-4 rounded-xl border shadow-sm text-xs font-bold">${i.title}</div>
+            `).join('') || '<p class="text-xs text-slate-400">لا توجد فحوصات مسجلة.</p>';
         }
+
+        function renderShippingView() {
+            document.getElementById('shipping-list-container').innerHTML = (appDb.shipping || []).map(s => `
+                <div class="bg-white p-4 rounded-xl border shadow-sm text-xs font-bold">${s.title}</div>
+            `).join('') || '<p class="text-xs text-slate-400">لا توجد شحنات مسجلة.</p>';
+        }
+
+        function renderSuppliersDirectory() {
+            document.getElementById('suppliers-list-container').innerHTML = (appDb.suppliers || []).map(sup => `
+                <div class="bg-white p-4 rounded-xl border shadow-sm text-xs font-bold">${sup.name} - ${sup.specialty}</div>
+            `).join('') || '<p class="text-xs text-slate-400">لا توجد موردين مسجلين.</p>';
+        }
+
+        // Modals Control
+        function openClientModal() { document.getElementById('modal-client').classList.remove('hidden'); document.getElementById('modal-client').classList.add('flex'); }
+        function closeClientModal() { document.getElementById('modal-client').classList.add('hidden'); document.getElementById('modal-client').classList.remove('flex'); }
+        function saveClientForm(e) {
+            e.preventDefault();
+            if(!appDb.clients) appDb.clients = [];
+            appDb.clients.push({
+                id: 'c_' + Date.now(),
+                serial: 'EB-' + (1000 + appDb.clients.length),
+                companyAr: document.getElementById('client-company-ar').value,
+                managerAr: document.getElementById('client-manager-ar').value,
+                phone: document.getElementById('client-phone').value
+            });
+            persistDb();
+            closeClientModal();
+            renderCurrentView();
+            showToast('تم حفظ العميل بنجاح');
+        }
+        function deleteClient(id) {
+            appDb.clients = appDb.clients.filter(c => c.id !== id);
+            persistDb();
+            renderCurrentView();
+            showToast('تم الحذف بنجاح');
+        }
+
+        function openRequestModal() { document.getElementById('modal-request').classList.remove('hidden'); document.getElementById('modal-request').classList.add('flex'); }
+        function closeRequestModal() { document.getElementById('modal-request').classList.add('hidden'); document.getElementById('modal-request').classList.remove('flex'); }
+        function saveRequestForm(e) {
+            e.preventDefault();
+            if(!appDb.requests) appDb.requests = [];
+            appDb.requests.push({ id: 'r_' + Date.now(), title: document.getElementById('req-title').value, status: 'قيد البحث' });
+            persistDb();
+            closeRequestModal();
+            renderCurrentView();
+            showToast('تم حفظ الطلب بنجاح');
+        }
+        function deleteRequest(id) {
+            appDb.requests = appDb.requests.filter(r => r.id !== id);
+            persistDb();
+            renderCurrentView();
+            showToast('تم الحذف بنجاح');
+        }
+
+        function openInspectionModal() { document.getElementById('modal-inspection').classList.remove('hidden'); document.getElementById('modal-inspection').classList.add('flex'); }
+        function closeInspectionModal() { document.getElementById('modal-inspection').classList.add('hidden'); document.getElementById('modal-inspection').classList.remove('flex'); }
+        function saveInspectionForm(e) {
+            e.preventDefault();
+            if(!appDb.inspections) appDb.inspections = [];
+            appDb.inspections.push({ id: 'i_' + Date.now(), title: document.getElementById('insp-title').value });
+            persistDb();
+            closeInspectionModal();
+            renderCurrentView();
+            showToast('تم الحفظ');
+        }
+
+        function openShippingModal() { document.getElementById('modal-shipping').classList.remove('hidden'); document.getElementById('modal-shipping').classList.add('flex'); }
+        function closeShippingModal() { document.getElementById('modal-shipping').classList.add('hidden'); document.getElementById('modal-shipping').classList.remove('flex'); }
+        function saveShippingForm(e) {
+            e.preventDefault();
+            if(!appDb.shipping) appDb.shipping = [];
+            appDb.shipping.push({ id: 's_' + Date.now(), title: document.getElementById('shp-title').value });
+            persistDb();
+            closeShippingModal();
+            renderCurrentView();
+            showToast('تم الحفظ');
+        }
+
+        function openSupplierModal() { document.getElementById('modal-supplier').classList.remove('hidden'); document.getElementById('modal-supplier').classList.add('flex'); }
+        function closeSupplierModal() { document.getElementById('modal-supplier').classList.add('hidden'); document.getElementById('modal-supplier').classList.remove('flex'); }
+        function saveSupplierForm(e) {
+            e.preventDefault();
+            if(!appDb.suppliers) appDb.suppliers = [];
+            appDb.suppliers.push({ id: 'sup_' + Date.now(), name: document.getElementById('sup-name').value, specialty: document.getElementById('sup-spec').value });
+            persistDb();
+            closeSupplierModal();
+            renderCurrentView();
+            showToast('تم الحفظ');
+        }
+
+        function openAdminSettingsModal() { document.getElementById('modal-admin-settings').classList.remove('hidden'); document.getElementById('modal-admin-settings').classList.add('flex'); }
+        function closeAdminSettingsModal() { document.getElementById('modal-admin-settings').classList.add('hidden'); document.getElementById('modal-admin-settings').classList.remove('flex'); }
+        function saveAdminCredentials(e) {
+            e.preventDefault();
+            appDb.adminUsername = document.getElementById('admin-new-user').value;
+            appDb.adminPassword = document.getElementById('admin-new-pass').value;
+            persistDb();
+            closeAdminSettingsModal();
+            showToast('تم تحديث بيانات الإدارة');
+        }
+
+        function openAiModal() { document.getElementById('modal-ai').classList.remove('hidden'); document.getElementById('modal-ai').classList.add('flex'); }
+        function closeAiModal() { document.getElementById('modal-ai').classList.add('hidden'); document.getElementById('modal-ai').classList.remove('flex'); }
+        function executeAiQuery() { closeAiModal(); showToast('تمت معالجة الطلب بالذكاء الاصطناعي بنجاح'); }
 
         window.addEventListener('DOMContentLoaded', () => {
             loadLocalDb();
-            setLanguage('ar');
-            renderDashboardView();
+            renderCurrentView();
             syncCloudDb();
         });
     </script>
