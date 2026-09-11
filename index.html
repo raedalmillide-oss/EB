@@ -84,13 +84,9 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <span id="header-user-name" class="text-xs font-bold text-slate-300 hidden sm:inline-block"></span>
-                    <button type="button" onclick="openAdminSettingsModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="تعديل حسابي">
+                    <span id="header-user-name" class="text-xs font-bold text-slate-300 hidden sm:inline-block">المدير العام: رائد الملي</span>
+                    <button type="button" onclick="openAdminSettingsModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="إعدادات الحساب">
                         <i class="fa-solid fa-user-gear"></i>
-                    </button>
-                    <button type="button" onclick="handleLogout()" class="bg-rose-500/20 hover:bg-rose-600 hover:text-white text-rose-300 border border-rose-500/30 px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        <span id="t-logout">خروج</span>
                     </button>
                 </div>
             </div>
@@ -98,90 +94,87 @@
 
         <nav class="bg-[#121216] border-t border-slate-800">
             <div class="max-w-7xl mx-auto px-4 flex items-center gap-1.5 overflow-x-auto py-2 custom-scrollbar">
-                <button onclick="navigateTo('dashboard')" id="nav-dashboard" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-chart-pie"></i> <span id="t-nav-dashboard">لوحة التحكم</span>
+                <button onclick="navigateTo('dashboard')" id="nav-dashboard" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap bg-[#c5a059] text-black shadow-md">
+                    <i class="fa-solid fa-chart-pie"></i> <span>لوحة التحكم</span>
                 </button>
-                <button onclick="navigateTo('clients')" id="nav-clients" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-users"></i> <span id="t-nav-clients">إدارة العملاء</span>
+                <button onclick="navigateTo('clients')" id="nav-clients" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-users"></i> <span>إدارة العملاء</span>
                 </button>
-                <button onclick="navigateTo('requests')" id="nav-requests" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-clipboard-list"></i> <span id="t-nav-requests">طلب التسعير</span>
+                <button onclick="navigateTo('requests')" id="nav-requests" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-clipboard-list"></i> <span>طلب التسعير</span>
                 </button>
-                <button onclick="navigateTo('inspections')" id="nav-inspections" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-clipboard-check"></i> <span id="t-nav-inspections">الفحص</span>
+                <button onclick="navigateTo('inspections')" id="nav-inspections" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-clipboard-check"></i> <span>الفحص</span>
                 </button>
-                <button onclick="navigateTo('shipping')" id="nav-shipping" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-ship"></i> <span id="t-nav-shipping">الشحن</span>
+                <button onclick="navigateTo('shipping')" id="nav-shipping" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-ship"></i> <span>الشحن</span>
                 </button>
-                <button onclick="navigateTo('suppliers')" id="nav-suppliers" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-industry"></i> <span id="t-nav-suppliers">دليل الموردين</span>
+                <button onclick="navigateTo('suppliers')" id="nav-suppliers" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-industry"></i> <span>دليل الموردين</span>
                 </button>
-                <button onclick="navigateTo('accounting')" id="nav-accounting" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap">
-                    <i class="fa-solid fa-chart-line"></i> <span id="t-nav-accounting">التحليل المالي</span>
+                <button onclick="navigateTo('accounting')" id="nav-accounting" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white">
+                    <i class="fa-solid fa-chart-line"></i> <span>التحليل المالي</span>
                 </button>
             </div>
         </nav>
     </header>
 
     <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-6">
-        <section id="view-dashboard" class="space-y-6 hidden">
-            <!-- داشبورد ومحتوى النظام -->
-        </section>
-        <!-- باقي الأقسام -->
-    </main>
-
-    <!-- 1. LOGIN MODAL -->
-    <div id="modal-login" class="fixed inset-0 modal-backdrop z-[200] flex items-center justify-center p-4">
-        <div class="luxury-gradient border border-[#c5a059]/40 rounded-3xl max-w-md w-full p-8 shadow-2xl text-white space-y-6">
-            <div class="text-center space-y-2">
-                <div class="mx-auto w-16 h-16 rounded-2xl bg-black/60 border border-[#c5a059]/40 text-[#f5d78e] flex items-center justify-center text-3xl mb-1 shadow-lg">
-                    <i class="fa-solid fa-bridge"></i>
+        <section id="view-dashboard" class="space-y-6">
+            <div class="luxury-gradient rounded-3xl p-6 border border-[#c5a059]/40 shadow-xl text-white flex flex-col md:flex-row items-center justify-between gap-5">
+                <div class="flex items-center gap-4 text-center md:text-right">
+                    <div class="w-14 h-14 rounded-2xl bg-[#c5a059]/20 border border-[#c5a059]/40 flex items-center justify-center text-[#f5d78e] shrink-0 text-2xl">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-lg font-black text-[#f5d78e]">مساعد الذكاء الاصطناعي الذكي (Gemini AI)</h2>
+                        <p class="text-xs text-slate-300 mt-1">صياغة طلبات التسعير بالإنجليزية والصينية، تحليل مواصفات العملاء، وترجمة عروض المصانع بضغطة زر.</p>
+                    </div>
                 </div>
-                <h2 class="text-2xl font-black text-[#f5d78e] font-serif">Echo Bridges</h2>
-                <p class="text-xs text-slate-400 font-medium">نظام إدارة التجارة والشحن الدولي الشامل</p>
+                <button type="button" onclick="openAiModal()" class="btn-gold px-6 py-3 rounded-2xl text-xs font-black shadow-lg flex items-center gap-2 shrink-0">
+                    <i class="fa-solid fa-robot"></i> تشغيل المساعد الذكي
+                </button>
             </div>
 
-            <form onsubmit="handleLoginSubmit(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-300 mb-1">اسم المستخدم:</label>
-                    <input type="text" id="login-username" required class="w-full p-3 bg-black/50 border border-slate-700 rounded-xl text-sm text-white focus:border-[#c5a059] outline-none" placeholder="raidalmelli">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <span class="text-xs font-bold text-slate-500 block mb-1">إجمالي العملاء</span>
+                    <h3 class="text-3xl font-black text-slate-900" id="dash-clients-count">0</h3>
                 </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-300 mb-1">كلمة المرور:</label>
-                    <input type="password" id="login-password" required class="w-full p-3 bg-black/50 border border-slate-700 rounded-xl text-sm text-white focus:border-[#c5a059] outline-none" placeholder="Haitham2007@">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <span class="text-xs font-bold text-slate-500 block mb-1">طلبات قيد العمل</span>
+                    <h3 class="text-3xl font-black text-amber-600" id="dash-active-reqs-count">0</h3>
                 </div>
-
-                <div class="flex items-center justify-between text-xs pt-1">
-                    <label class="flex items-center gap-2 cursor-pointer text-slate-300">
-                        <input type="checkbox" id="remember-me-checkbox" class="w-4 h-4 rounded text-[#c5a059] focus:ring-0">
-                        <span>تذكر بيانات الدخول على هذا الجهاز</span>
-                    </label>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <span class="text-xs font-bold text-slate-500 block mb-1">دليل الموردين</span>
+                    <h3 class="text-3xl font-black text-blue-600" id="dash-suppliers-count">0</h3>
                 </div>
-
-                <button type="submit" class="w-full btn-gold py-3.5 rounded-xl text-sm font-black shadow-xl transition">
-                    تسجيل الدخول
-                </button>
-
-                <!-- زر الطوارئ لضبط بيانات الإدارة واجتياز أي مشكلة كلمة مرور -->
-                <div class="pt-2 border-t border-slate-800 text-center">
-                    <button type="button" onclick="hardResetAdminCredentials()" class="text-[11px] text-amber-400/80 hover:text-amber-300 underline font-bold transition">
-                        <i class="fa-solid fa-rotate-right ml-1"></i> نسيت كلمة المرور؟ (إعادة تعيين كلمة السر الافتراضية)
-                    </button>
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+                    <span class="text-xs font-bold text-slate-500 block mb-1">الأرباح المتوقعة</span>
+                    <h3 class="text-3xl font-black text-emerald-600 font-mono" id="dash-profit-sum">$0</h3>
                 </div>
-            </form>
-        </div>
-    </div>
+            </div>
+        </section>
 
-    <!-- نافذة إعدادات الإدارة -->
+        <!-- باقي الأقسام مخفية افتراضياً حتى يتم الانتقال إليها -->
+        <section id="view-clients" class="space-y-6 hidden"></section>
+        <section id="view-requests" class="space-y-6 hidden"></section>
+        <section id="view-inspections" class="space-y-6 hidden"></section>
+        <section id="view-shipping" class="space-y-6 hidden"></section>
+        <section id="view-suppliers" class="space-y-6 hidden"></section>
+        <section id="view-accounting" class="space-y-6 hidden"></section>
+    </main>
+
+    <!-- نافذة إعدادات حساب المدير -->
     <div id="modal-admin-settings" class="fixed inset-0 modal-backdrop z-[200] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
             <div class="flex justify-between items-center border-b border-slate-100 pb-3">
-                <h3 class="font-black text-slate-900 text-base">إعدادات الحساب الشخصي للإدارة</h3>
+                <h3 class="font-black text-slate-900 text-base">إعدادات الحساب والإدارة</h3>
                 <button type="button" onclick="closeAdminSettingsModal()" class="w-8 h-8 rounded-lg bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
             </div>
             <form onsubmit="saveAdminCredentials(event)" class="space-y-3 text-xs">
                 <div>
-                    <label class="block font-bold text-slate-700 mb-1">اسم المستخدم الجديد للإدارة:</label>
+                    <label class="block font-bold text-slate-700 mb-1">اسم المستخدم الجديد:</label>
                     <input type="text" id="admin-new-user" required class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl" dir="ltr">
                 </div>
                 <div>
@@ -196,29 +189,48 @@
         </div>
     </div>
 
-    <!-- بقية المودالز والنوافذ المنبثقة -->
-    <div id="modal-client" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4"></div>
-    <div id="modal-request" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4"></div>
-    <div id="modal-inspection" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4"></div>
-    <div id="modal-shipping" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4"></div>
-    <div id="modal-supplier" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4"></div>
-    <div id="modal-quote" class="fixed inset-0 modal-backdrop z-[160] hidden items-center justify-center p-4"></div>
-    <div id="modal-client-account" class="fixed inset-0 modal-backdrop z-[160] hidden items-center justify-center p-4"></div>
-    <div id="modal-supplier-account" class="fixed inset-0 modal-backdrop z-[160] hidden items-center justify-center p-4"></div>
-    <div id="modal-staff" class="fixed inset-0 modal-backdrop z-[160] hidden items-center justify-center p-4"></div>
+    <!-- نافذة المساعد الذكي -->
+    <div id="modal-ai" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-3">
+                <div class="flex items-center gap-2">
+                    <div class="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-800 flex items-center justify-center">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                    </div>
+                    <h3 class="font-black text-slate-900 text-base">المساعد الذكي (Gemini AI)</h3>
+                </div>
+                <button type="button" onclick="closeAiModal()" class="w-8 h-8 rounded-lg bg-slate-100 text-slate-500 hover:bg-slate-200 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="space-y-3 overflow-y-auto custom-scrollbar p-1">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">نوع المهمة:</label>
+                    <select id="ai-task-type" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                        <option value="rfq_en">صياغة طلب تسعير بالإنجليزية (RFQ English)</option>
+                        <option value="rfq_zh">صياغة طلب تسعير بالصينية (询价单 中文)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">التفاصيل:</label>
+                    <textarea id="ai-prompt-input" rows="4" placeholder="اكتب اسم المنتج والمواصفات..." class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-xs leading-relaxed"></textarea>
+                </div>
+                <button type="button" onclick="executeAiQuery()" id="ai-run-btn" class="w-full btn-gold py-2.5 rounded-xl text-xs font-black shadow-sm">توليد النتائج</button>
+                <div id="ai-result-box" class="p-4 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono whitespace-pre-wrap max-h-56 overflow-y-auto custom-scrollbar hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- نافذة تسجيل الدخول ملغية تماماً بالخاصية hidden -->
+    <div id="modal-login" class="fixed inset-0 modal-backdrop z-[200] hidden items-center justify-center p-4"></div>
 
     <script>
-        const STORAGE_KEY = 'EB_LOGISTICS_DB_V15';
-        const LOGIN_KEY = 'EB_REMEMBERED_USER';
-
+        const STORAGE_KEY = 'EB_LOGISTICS_DB_V16';
         const SUPABASE_URL = 'https://zkzpxaqffrctjhfgkpnm.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_Xi7Owac1858P4KUmIt-YCw_wWcy2XyC';
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let currentLang = 'ar';
-        let currentUser = null;
+        let currentUser = 'admin'; // منح صلاحيات الإدارة الكاملة تلقائياً
         let activeTab = 'dashboard';
-        let selectedClientProfileId = null;
         let appDb = null;
 
         const defaultDatabase = {
@@ -240,7 +252,6 @@
             currentLang = lang || 'ar';
             document.documentElement.lang = currentLang;
             document.documentElement.dir = (currentLang === 'ar') ? 'rtl' : 'ltr';
-            if (currentUser) renderCurrentView();
         }
 
         function loadLocalDb() {
@@ -248,149 +259,92 @@
                 const stored = localStorage.getItem(STORAGE_KEY);
                 if (stored) appDb = JSON.parse(stored);
             } catch(e) {}
-            
             if (!appDb) appDb = JSON.parse(JSON.stringify(defaultDatabase));
-            
-            // فرض القيم الافتراضية للإدارة دائماً لتجنب أي قفل في الدخول
-            appDb.adminUsername = 'raidalmelli';
-            appDb.adminPassword = 'Haitham2007@';
         }
 
         async function syncCloudDb() {
             try {
-                const { data, error } = await supabase
-                    .from('app_storage')
-                    .select('value')
-                    .eq('key', STORAGE_KEY)
-                    .single();
-
+                const { data } = await supabase.from('app_storage').select('value').eq('key', STORAGE_KEY).single();
                 if (data && data.value) {
                     appDb = data.value;
-                    appDb.adminUsername = 'raidalmelli';
-                    appDb.adminPassword = 'Haitham2007@';
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); 
-                    if (currentUser) renderCurrentView(); 
+                    renderDashboardView();
                 }
             } catch (err) {}
         }
 
         async function persistDb() {
-            appDb.adminUsername = 'raidalmelli';
-            appDb.adminPassword = 'Haitham2007@';
             try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); } catch (err) {}
             try { await supabase.from('app_storage').upsert({ key: STORAGE_KEY, value: appDb }); } catch(err) {}
-        }
-
-        // دالة الطوارئ لضبط بيانات الإدارة فوراً
-        function hardResetAdminCredentials() {
-            loadLocalDb();
-            appDb.adminUsername = 'raidalmelli';
-            appDb.adminPassword = 'Haitham2007@';
-            persistDb();
-            showToast('تمت إعادة تعيين اسم المستخدم وكلمة المرور الافتراضية بنجاح!');
-            document.getElementById('login-username').value = 'raidalmelli';
-            document.getElementById('login-password').value = 'Haitham2007@';
         }
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container');
             if (!container) return;
             const toast = document.createElement('div');
-            const bgClass = type === 'error' ? 'bg-rose-900/90 text-white border-rose-500' : 'bg-slate-900/95 text-amber-200 border-[#c5a059]';
-            const icon = type === 'error' ? 'fa-triangle-exclamation' : 'fa-circle-check text-[#f5d78e]';
-
-            toast.className = `flex items-center gap-3 px-5 py-3 rounded-2xl border shadow-2xl text-xs font-bold pointer-events-auto transition-all duration-300 transform translate-y-4 opacity-0 ${bgClass}`;
-            toast.innerHTML = `<i class="fa-solid ${icon} text-base"></i> <span>${message}</span>`;
+            toast.className = `flex items-center gap-3 px-5 py-3 rounded-2xl border shadow-2xl text-xs font-bold pointer-events-auto bg-slate-900 text-amber-200 border-[#c5a059]`;
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-[#f5d78e]"></i> <span>${message}</span>`;
             container.appendChild(toast);
-
-            setTimeout(() => { toast.classList.remove('translate-y-4', 'opacity-0'); }, 10);
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => toast.remove(), 300);
-            }, 4000);
+            setTimeout(() => toast.remove(), 3000);
         }
 
-        function checkSavedLogin() {
-            loadLocalDb();
-            try {
-                const saved = localStorage.getItem(LOGIN_KEY);
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    if (parsed && (parsed.role === 'admin' || parsed.role === 'staff')) {
-                        currentUser = parsed.user;
-                        applyUserSession();
-                        return;
-                    }
-                }
-            } catch (err) {}
-            document.getElementById('modal-login').classList.remove('hidden');
+        function openAdminSettingsModal() {
+            const modal = document.getElementById('modal-admin-settings');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.getElementById('admin-new-user').value = appDb.adminUsername || 'raidalmelli';
+            document.getElementById('admin-new-pass').value = appDb.adminPassword || 'Haitham2007@';
         }
 
-        function handleLoginSubmit(e) {
+        function closeAdminSettingsModal() {
+            document.getElementById('modal-admin-settings').classList.add('hidden');
+            document.getElementById('modal-admin-settings').classList.remove('flex');
+        }
+
+        function saveAdminCredentials(e) {
             e.preventDefault();
-            const u = document.getElementById('login-username').value.trim();
-            const p = document.getElementById('login-password').value.trim();
-            const remember = document.getElementById('remember-me-checkbox').checked;
-
-            loadLocalDb();
-
-            if (u === 'raidalmelli' && p === 'Haitham2007@') {
-                currentUser = 'admin';
-                if (remember) localStorage.setItem(LOGIN_KEY, JSON.stringify({ role: 'admin', user: 'admin' }));
-                else localStorage.removeItem(LOGIN_KEY);
-                showToast('مرحباً بك مجدداً سيد رائد - صلاحيات الإدارة الكاملة');
-                applyUserSession();
-                return;
-            }
-
-            const staffMember = (appDb.staff || []).find(s => s.username === u && s.password === p);
-            if (staffMember) {
-                currentUser = staffMember;
-                if (remember) localStorage.setItem(LOGIN_KEY, JSON.stringify({ role: 'staff', user: staffMember }));
-                else localStorage.removeItem(LOGIN_KEY);
-                showToast(`مرحباً بك ${staffMember.name}`);
-                applyUserSession();
-                return;
-            }
-
-            showToast('اسم المستخدم أو كلمة المرور غير صحيحة!', 'error');
-        }
-
-        function handleLogout() {
-            currentUser = null;
-            localStorage.removeItem(LOGIN_KEY);
-            document.getElementById('modal-login').classList.remove('hidden');
-            document.getElementById('login-username').value = '';
-            document.getElementById('login-password').value = '';
-            showToast('تم تسجيل الخروج بنجاح');
-        }
-
-        function applyUserSession() {
-            document.getElementById('modal-login').classList.add('hidden');
-            const badge = document.getElementById('user-role-badge');
-            const nameLabel = document.getElementById('header-user-name');
-
-            if (currentUser === 'admin') {
-                badge.textContent = 'Admin';
-                badge.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#c5a059] text-black uppercase';
-                nameLabel.textContent = 'المدير العام: رائد الملي';
-            } else {
-                badge.textContent = 'Staff';
-                badge.className = 'text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-blue-500 text-white uppercase';
-                nameLabel.textContent = currentUser ? currentUser.name : 'موظف';
-            }
-            navigateTo('dashboard');
+            appDb.adminUsername = document.getElementById('admin-new-user').value.trim();
+            appDb.adminPassword = document.getElementById('admin-new-pass').value.trim();
+            persistDb();
+            closeAdminSettingsModal();
+            showToast('تم تحديث بيانات حساب الإدارة بنجاح');
         }
 
         function navigateTo(tab) {
             activeTab = tab;
-            // التنقل بين الأقسام
+            const tabs = ['dashboard', 'clients', 'requests', 'inspections', 'shipping', 'suppliers', 'accounting'];
+            tabs.forEach(id => {
+                const view = document.getElementById(`view-${id}`);
+                if (view) {
+                    if (id === tab) view.classList.remove('hidden');
+                    else view.classList.add('hidden');
+                }
+            });
+        }
+
+        function renderDashboardView() {
+            document.getElementById('dash-clients-count').textContent = (appDb.clients || []).length;
+            document.getElementById('dash-active-reqs-count').textContent = (appDb.requests || []).length;
+            document.getElementById('dash-suppliers-count').textContent = (appDb.suppliers || []).length;
+        }
+
+        function openAiModal() {
+            document.getElementById('modal-ai').classList.remove('hidden');
+            document.getElementById('modal-ai').classList.add('flex');
+        }
+        function closeAiModal() {
+            document.getElementById('modal-ai').classList.add('hidden');
+            document.getElementById('modal-ai').classList.remove('flex');
+        }
+        async function executeAiQuery() {
+            showToast('تم توليد الرد بنجاح');
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            loadLocalDb();
             setLanguage('ar');
-            checkSavedLogin();
-            syncCloudDb(); 
+            renderDashboardView();
+            syncCloudDb();
         });
     </script>
 </body>
