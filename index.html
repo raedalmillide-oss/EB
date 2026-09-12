@@ -51,7 +51,7 @@
                         <h1 class="text-xl sm:text-2xl font-black tracking-tight text-[#f5d78e] font-serif">Echo Bridges Trade Co.</h1>
                         <span id="user-role-badge" class="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-[#c5a059] text-black uppercase tracking-wider">Admin</span>
                     </div>
-                    <p class="text-xs text-slate-300 font-medium tracking-wide" data-i18n="headerSubtitle">Sourcing & Logistics Co. (صدى الجسور)</p>
+                    <p class="text-xs text-slate-300 font-medium tracking-wide" data-i18n="headerSubtitle">Sourcing & Logistics Co.</p>
                 </div>
             </div>
 
@@ -65,7 +65,7 @@
 
                 <div class="flex items-center gap-2">
                     <span id="header-user-name" class="text-xs font-bold text-slate-300 hidden sm:inline-block" data-i18n="managerName">المدير العام: رائد الملي</span>
-                    <button type="button" onclick="openAdminSettingsModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="إعدادات الحساب">
+                    <button type="button" onclick="openAdminSettingsModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5 admin-only-col" title="إعدادات الحساب">
                         <i class="fa-solid fa-user-gear"></i> <span data-i18n="navSettings">الحساب</span>
                     </button>
                     <button type="button" onclick="handleLogout()" class="bg-rose-500/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="تسجيل الخروج">
@@ -85,7 +85,8 @@
                 <button onclick="navigateTo('inspections')" id="nav-inspections" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-clipboard-check"></i> <span data-i18n="navInspections">الفحص</span></button>
                 <button onclick="navigateTo('shipping')" id="nav-shipping" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-ship"></i> <span data-i18n="navShipping">الشحن</span></button>
                 <button onclick="navigateTo('suppliers')" id="nav-suppliers" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-industry"></i> <span data-i18n="navSuppliers">دليل الموردين</span></button>
-                <button onclick="navigateTo('accounting')" id="nav-accounting" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-chart-line"></i> <span data-i18n="navAccounting">التحليل المالي والديون</span></button>
+                <!-- ACCOUNTING TAB (HIDDEN FOR EMPLOYEES) -->
+                <button onclick="navigateTo('accounting')" id="nav-accounting" class="nav-item admin-only-tab px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-chart-line"></i> <span data-i18n="navAccounting">التحليل المالي والديون</span></button>
             </div>
         </nav>
     </header>
@@ -126,7 +127,7 @@
                 <div class="bg-white rounded-2xl p-6 border shadow-sm space-y-4">
                     <div class="border-b pb-3 flex items-center gap-2"><i class="fa-solid fa-envelope text-emerald-600 text-lg"></i><h3 class="font-black text-slate-900 text-base" data-i18n="emailSettingsTitle">نظام إرسال الإيميلات الداخلي (EmailJS)</h3></div>
                     <form onsubmit="saveEmailApiSettings(event)" class="space-y-3 text-xs">
-                        <p class="text-slate-500 mb-2" data-i18n="emailSettingsDesc">أدخل بيانات خدمة EmailJS لتمكين المراسلة المباشرة مع الموردين والعملاء بدون Outlook.</p>
+                        <p class="text-slate-500 mb-2" data-i18n="emailSettingsDesc">أدخل بيانات خدمة EmailJS المجانية لتمكين المراسلة المباشرة.</p>
                         <div class="grid grid-cols-2 gap-3">
                             <div><label class="block font-bold mb-1">Service ID:</label><input type="text" id="emailjs-service-id" placeholder="service_xyz" class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono" dir="ltr"></div>
                             <div><label class="block font-bold mb-1">Template ID:</label><input type="text" id="emailjs-template-id" placeholder="template_abc" class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono" dir="ltr"></div>
@@ -148,7 +149,7 @@
                             <div><label class="block font-bold mb-1 text-slate-700">1 EUR = USD:</label><input type="number" step="0.0001" id="rate-eur-usd" class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono font-bold"></div>
                         </div>
                         <div class="grid grid-cols-2 gap-2 pt-1">
-                            <button type="button" onclick="fetchLiveExchangeRates()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-2.5 rounded-xl transition shadow-sm"><i class="fa-solid fa-rotate"></i> <span data-i18n="btnUpdateRates">تحديث حي</span></button>
+                            <button type="button" onclick="fetchLiveExchangeRates()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 rounded-xl transition shadow-sm"><i class="fa-solid fa-rotate"></i> <span data-i18n="btnUpdateRates">تحديث حي</span></button>
                             <button type="button" onclick="saveExchangeRates()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2.5 rounded-xl transition shadow-sm"><i class="fa-solid fa-check"></i> <span data-i18n="btnSaveRates">حفظ</span></button>
                         </div>
                     </div>
@@ -157,7 +158,7 @@
                 <!-- STAFF MANAGEMENT -->
                 <div class="bg-white rounded-2xl p-6 border shadow-sm space-y-4">
                     <div class="flex justify-between items-center border-b pb-3">
-                        <h3 class="font-black text-slate-900 text-base"><i class="fa-solid fa-user-shield text-indigo-600 ml-1"></i> <span data-i18n="staffMgmtTitle">إدارة الموظفين</span></h3>
+                        <h3 class="font-black text-slate-900 text-base"><i class="fa-solid fa-user-shield text-indigo-600 ml-1"></i> <span data-i18n="staffMgmtTitle">إدارة الموظفين والصلاحيات</span></h3>
                         <button type="button" onclick="openStaffModal()" class="bg-slate-100 text-slate-800 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm hover:bg-slate-200"><i class="fa-solid fa-plus"></i> <span data-i18n="btnAdd">إضافة</span></button>
                     </div>
                     <div id="staff-list-container" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar"></div>
@@ -255,7 +256,7 @@
                 <div class="flex justify-between items-center border-b pb-4 mb-4"><div class="relative w-full max-w-md"><i class="fa-solid fa-magnifying-glass absolute top-3.5 right-3.5 text-slate-400 text-xs"></i><input type="text" id="client-search-input" onkeyup="renderClientsTable()" placeholder="ابحث باسم العميل أو الشركة..." class="w-full pl-3 pr-9 py-2 bg-slate-50 border rounded-xl text-xs font-medium"></div><span class="text-xs font-bold" id="clients-count-badge">0</span></div>
                 <div class="overflow-x-auto custom-scrollbar">
                     <table class="w-full text-right text-xs">
-                        <thead class="bg-slate-50 font-bold border-b"><tr><th class="p-3.5">الرقم</th><th class="p-3.5">الشركة والمسؤول</th><th class="p-3.5">السجل والميناء</th><th class="p-3.5">التواصل</th><th class="p-3.5">الديون والأرصدة</th><th class="p-3.5 text-center">إجراءات</th></tr></thead>
+                        <thead class="bg-slate-50 font-bold border-b"><tr><th class="p-3.5">الرقم</th><th class="p-3.5">الشركة والمسؤول</th><th class="p-3.5">السجل والميناء</th><th class="p-3.5">التواصل</th><th class="p-3.5 admin-only-col">الديون والأرصدة</th><th class="p-3.5 text-center">إجراءات</th></tr></thead>
                         <tbody id="clients-table-body" class="divide-y"></tbody>
                     </table>
                 </div>
@@ -317,9 +318,9 @@
         </section>
 
         <!-- ========================================== -->
-        <!-- 8. ACCOUNTING & DEBTS -->
+        <!-- 8. ACCOUNTING & DEBTS (ADMIN ONLY) -->
         <!-- ========================================== -->
-        <section id="view-accounting" class="space-y-6 hidden animate-fade-in">
+        <section id="view-accounting" class="space-y-6 hidden animate-fade-in admin-only-tab">
             <div class="bg-white p-5 rounded-2xl border shadow-sm">
                 <h2 class="text-xl font-black text-slate-900" data-i18n="accTitle">التحليل المالي وكشوفات الديون</h2>
                 <p class="text-xs text-slate-500 mt-0.5" data-i18n="accSubtitle">نظام المحاسبة المباشر للأرصدة يوضح (الديون) و (الأمانات) لكل عميل بدقة.</p>
@@ -336,7 +337,7 @@
     </main>
 
     <!-- ==================================================== -->
-    <!-- ALL MODALS (100% COMPLETE & UNMINIFIED) -->
+    <!-- ALL MODALS (100% COMPLETE & ROLE-BASED) -->
     <!-- ==================================================== -->
 
     <!-- LOGIN MODAL -->
@@ -348,36 +349,42 @@
                 <p class="text-xs text-slate-400 font-medium">تسجيل الدخول للنظام</p>
             </div>
             <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-                <div><label class="block text-xs font-bold text-slate-300 mb-1">المستخدم:</label><input type="text" id="login-username" required class="w-full p-3 bg-black/50 border border-slate-700 rounded-xl text-sm text-white outline-none" dir="ltr" value="admin"></div>
-                <div><label class="block text-xs font-bold text-slate-300 mb-1">كلمة المرور:</label><input type="password" id="login-password" required class="w-full p-3 bg-black/50 border border-slate-700 rounded-xl text-sm text-white outline-none" dir="ltr" placeholder="123456"></div>
-                <div class="flex items-center justify-between text-xs pt-1"><label class="flex items-center gap-2 cursor-pointer text-slate-300"><input type="checkbox" id="remember-admin-checkbox" checked class="w-4 h-4 rounded text-[#c5a059]"><span>تذكرني</span></label></div>
+                <div><label class="block text-xs font-bold text-slate-300 mb-1">اسم المستخدم:</label><input type="text" id="login-username" required class="w-full p-3 bg-black/50 border border-slate-700 rounded-xl text-sm text-white outline-none" dir="ltr"></div>
+                <div><label class="block text-xs font-bold text-slate-300 mb-1">كلمة المرور:</label><input type="password" id="login-password" required class="w-full p-3 bg-black/50 border border-slate-700 rounded-xl text-sm text-white outline-none" dir="ltr"></div>
+                <div class="flex items-center justify-between text-xs pt-1"><label class="flex items-center gap-2 cursor-pointer text-slate-300"><input type="checkbox" id="remember-admin-checkbox" checked class="w-4 h-4 rounded text-[#c5a059]"><span>تذكرني على هذا الجهاز</span></label></div>
                 <button type="submit" class="w-full btn-gold py-3.5 rounded-xl text-sm font-black shadow-xl">تسجيل الدخول</button>
             </form>
         </div>
     </div>
 
-    <!-- ADMIN SETTINGS -->
+    <!-- ADMIN SETTINGS & PASSWORD CHANGE -->
     <div id="modal-admin-settings" class="fixed inset-0 modal-backdrop z-[200] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">تعديل بيانات الحساب الرئيسي</h3><button type="button" onclick="closeAdminSettingsModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
+            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">تعديل بيانات الحساب (المدير الرئيسي)</h3><button type="button" onclick="closeAdminSettingsModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
             <form onsubmit="saveAdminCredentials(event)" class="space-y-3 text-xs">
                 <div><label class="block font-bold mb-1">اسم المستخدم الجديد:</label><input type="text" id="admin-new-user" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
                 <div><label class="block font-bold mb-1">كلمة المرور الجديدة:</label><input type="text" id="admin-new-pass" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
-                <div class="flex justify-end gap-2 pt-2 border-t"><button type="button" onclick="closeAdminSettingsModal()" class="px-4 py-2 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-5 py-2 rounded-xl font-black">حفظ التعديلات</button></div>
+                <div class="flex justify-end gap-2 pt-2 border-t"><button type="button" onclick="closeAdminSettingsModal()" class="px-4 py-2 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-5 py-2 rounded-xl font-black">حفظ كلمة المرور</button></div>
             </form>
         </div>
     </div>
 
-    <!-- STAFF MODAL -->
+    <!-- STAFF MODAL (WITH ROLES) -->
     <div id="modal-staff" class="fixed inset-0 modal-backdrop z-[160] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4">
-            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">إضافة / تعديل موظف</h3><button type="button" onclick="closeStaffModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
+            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">إضافة / تعديل حساب موظف</h3><button type="button" onclick="closeStaffModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
             <form onsubmit="saveStaffAccount(event)" class="space-y-3 text-xs">
                 <input type="hidden" id="staff-edit-id">
                 <div><label class="block font-bold mb-1">الاسم الكامل:</label><input type="text" id="staff-fullname" required class="w-full p-2.5 bg-slate-50 border rounded-xl"></div>
-                <div><label class="block font-bold mb-1">المستخدم:</label><input type="text" id="staff-username" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
+                <div><label class="block font-bold mb-1">صلاحية النظام (Role):</label>
+                    <select id="staff-role" class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold">
+                        <option value="admin">شريك / مدير (صلاحيات كاملة لكل شيء)</option>
+                        <option value="employee">سكرتير / موظف (حجب الماليات، الديون والإعدادات)</option>
+                    </select>
+                </div>
+                <div><label class="block font-bold mb-1">اسم المستخدم (للدخول):</label><input type="text" id="staff-username" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
                 <div><label class="block font-bold mb-1">كلمة المرور:</label><input type="text" id="staff-password" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
-                <div class="flex justify-end gap-2 pt-2 border-t"><button type="button" onclick="closeStaffModal()" class="px-4 py-2 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-5 py-2 rounded-xl font-black">حفظ الموظف</button></div>
+                <div class="flex justify-end gap-2 pt-2 border-t"><button type="button" onclick="closeStaffModal()" class="px-4 py-2 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-5 py-2 rounded-xl font-black">حفظ حساب الموظف</button></div>
             </form>
         </div>
     </div>
@@ -395,7 +402,7 @@
         </div>
     </div>
 
-    <!-- CLIENT MODAL (FULL) -->
+    <!-- CLIENT MODAL FULL -->
     <div id="modal-client" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-3xl w-full p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
             <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base" id="client-modal-title">إضافة / تعديل بيانات عميل</h3><button type="button" onclick="closeClientModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
@@ -435,7 +442,7 @@
         </div>
     </div>
 
-    <!-- REQUEST (RFQ) MODAL (FULL) -->
+    <!-- REQUEST (RFQ) MODAL FULL -->
     <div id="modal-request" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-3xl w-full p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
             <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">إنشاء طلب تسعير (وتسجيل مطالبة مالية)</h3><button type="button" onclick="closeRequestModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
@@ -458,16 +465,16 @@
                     <div><label class="block font-bold mb-1">شروط الشراء (FOB/EXW):</label><input type="text" id="request-budget" class="w-full p-2 bg-slate-50 border rounded-xl"></div>
                 </div>
                 <div><label class="block font-bold mb-1">المواصفات الفنية الدقيقة:</label><textarea id="request-specs" rows="2" class="w-full p-2.5 bg-slate-50 border rounded-xl"></textarea></div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-amber-50/50 p-3 rounded-2xl border border-amber-200">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-amber-50/50 p-3 rounded-2xl border border-amber-200 admin-only-col">
                     <div><label class="block font-bold text-amber-900 mb-1">قيمة الصفقة الإجمالية المحملة على العميل ($):</label><input type="number" step="any" id="request-total-cost" class="w-full p-2.5 bg-white border border-amber-300 rounded-xl font-bold font-mono text-amber-950" placeholder="0"></div>
                     <div><label class="block font-bold mb-1">الحالة:</label><select id="request-status-select" class="w-full p-2.5 bg-white border rounded-xl font-bold"><option value="قيد البحث">قيد البحث</option><option value="تم الاتفاق">تم الاتفاق</option><option value="مكتمل">مكتمل</option></select></div>
                 </div>
-                <div class="flex justify-end gap-2.5 pt-3 border-t"><button type="button" onclick="closeRequestModal()" class="px-5 py-2.5 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-6 py-2.5 rounded-xl font-black">حفظ وإدراج كدين</button></div>
+                <div class="flex justify-end gap-2.5 pt-3 border-t"><button type="button" onclick="closeRequestModal()" class="px-5 py-2.5 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-6 py-2.5 rounded-xl font-black">حفظ وإدراج بالذمة المالية</button></div>
             </form>
         </div>
     </div>
 
-    <!-- INSPECTION MODAL (FULL) -->
+    <!-- INSPECTION MODAL FULL -->
     <div id="modal-inspection" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
             <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">إضافة فحص وعينة</h3><button type="button" onclick="closeInspectionModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
@@ -489,7 +496,7 @@
                         <div><label class="block font-bold mb-1">شركة الشحن:</label><input type="text" id="insp-shipping-company" class="w-full p-2 bg-white border rounded-xl"></div>
                         <div><label class="block font-bold mb-1">رقم التتبع:</label><input type="text" id="insp-sample-track" class="w-full p-2 bg-white border rounded-xl font-mono"></div>
                         <div><label class="block font-bold mb-1">الوزن KG:</label><input type="text" id="insp-sample-weight" class="w-full p-2 bg-white border rounded-xl"></div>
-                        <div><label class="block font-bold text-rose-800 mb-1">تكلفة الشحن ($):</label><input type="number" step="any" id="insp-sample-cost" class="w-full p-2 bg-white border border-rose-200 rounded-xl font-mono font-bold text-rose-900" placeholder="0"></div>
+                        <div class="admin-only-col"><label class="block font-bold text-rose-800 mb-1">تكلفة الشحن ($):</label><input type="number" step="any" id="insp-sample-cost" class="w-full p-2 bg-white border border-rose-200 rounded-xl font-mono font-bold text-rose-900" placeholder="0"></div>
                     </div>
                 </div>
                 <div class="flex justify-end gap-2.5 pt-3 border-t"><button type="button" onclick="closeInspectionModal()" class="px-5 py-2.5 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-6 py-2.5 rounded-xl font-black">حفظ تقرير الفحص</button></div>
@@ -497,7 +504,7 @@
         </div>
     </div>
 
-    <!-- SHIPPING MODAL (FULL) -->
+    <!-- SHIPPING MODAL FULL -->
     <div id="modal-shipping" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-3xl w-full p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
             <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">تسجيل شحنة وتوزيع التكاليف</h3><button type="button" onclick="closeShippingModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
@@ -517,10 +524,10 @@
                     <div><label class="block font-bold mb-1">الخط الملاحي / شركة الشحن:</label><input type="text" id="shipping-company-name" class="w-full p-2 bg-white border rounded-xl"></div>
                     <div><label class="block font-bold mb-1">رابط التتبع الحي (URL):</label><input type="text" id="shipping-tracking-url" class="w-full p-2 bg-white border rounded-xl" dir="ltr"></div>
                 </div>
-                <div class="bg-amber-50/50 p-3 rounded-2xl border border-amber-200 space-y-2">
+                <div class="bg-amber-50/50 p-3 rounded-2xl border border-amber-200 space-y-2 admin-only-col">
                     <span class="block font-bold text-amber-900">التكاليف المالية للشحنة ($):</span>
                     <div class="grid grid-cols-2 sm:grid-cols-6 gap-2">
-                        <div><label class="block font-bold mb-1 text-blue-700">سعر العميل:</label><input type="number" step="any" id="shipping-client-price" class="w-full p-1.5 bg-white border font-mono font-bold text-blue-800" value="0" title="هذا الرقم سيضاف على ديون العميل"></div>
+                        <div><label class="block font-bold mb-1 text-blue-700">سعر العميل:</label><input type="number" step="any" id="shipping-client-price" class="w-full p-1.5 bg-white border font-mono font-bold text-blue-800" value="0"></div>
                         <div><label class="block font-bold mb-1 text-rose-700">تكلفة الشحن:</label><input type="number" step="any" id="shipping-cost" class="w-full p-1.5 bg-white border font-mono font-bold text-rose-800" value="0"></div>
                         <div><label class="block font-bold mb-1">مستودع:</label><input type="number" step="any" id="shipping-warehouse-cost" class="w-full p-1.5 bg-white border font-mono" value="0"></div>
                         <div><label class="block font-bold mb-1">نقل داخلي:</label><input type="number" step="any" id="shipping-internal-cost" class="w-full p-1.5 bg-white border font-mono" value="0"></div>
@@ -528,12 +535,12 @@
                         <div><label class="block font-bold mb-1">شوكية:</label><input type="number" step="any" id="shipping-forklift-cost" class="w-full p-1.5 bg-white border font-mono" value="0"></div>
                     </div>
                 </div>
-                <div class="flex justify-end gap-2.5 pt-3 border-t"><button type="button" onclick="closeShippingModal()" class="px-5 py-2.5 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-6 py-2.5 rounded-xl font-black">حفظ وإدراج كدين</button></div>
+                <div class="flex justify-end gap-2.5 pt-3 border-t"><button type="button" onclick="closeShippingModal()" class="px-5 py-2.5 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-6 py-2.5 rounded-xl font-black">حفظ الشحنة وإدراج دين العميل</button></div>
             </form>
         </div>
     </div>
 
-    <!-- SUPPLIER MODAL (FULL) -->
+    <!-- SUPPLIER MODAL FULL -->
     <div id="modal-supplier" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
             <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">تسجيل مورد / مصنع</h3><button type="button" onclick="closeSupplierModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
@@ -618,7 +625,7 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- JAVASCRIPT MASTER SYSTEM (PRO MAX - 100% COMPLETE)   -->
+    <!-- JAVASCRIPT MASTER SYSTEM (PRO MAX - 100% COMPLETE & RBAC) -->
     <!-- ==================================================== -->
     <script>
         // PDF.js worker setup
@@ -636,7 +643,7 @@
 
         // Global State
         let currentLang = 'ar';
-        let currentUser = null;
+        let currentUser = null; // { username: string, role: string }
         let activeTab = 'dashboard';
         let selectedClientProfileId = null;
         let appDb = null;
@@ -656,12 +663,12 @@
                 navDashboard: 'لوحة التحكم', navComparator: 'مقارنة العروض', navClients: 'إدارة العملاء',
                 navRequests: 'طلب التسعير', navInspections: 'الفحص', navShipping: 'الشحن',
                 navSuppliers: 'دليل الموردين', navAccounting: 'التحليل المالي والديون',
-                navSettings: 'الحساب', navLogout: 'خروج', headerSubtitle: 'Sourcing & Logistics Co. (صدى الجسور)', managerName: 'المدير العام: رائد الملي',
+                navSettings: 'الحساب', navLogout: 'خروج', headerSubtitle: 'Sourcing & Logistics Co.', managerName: 'المدير العام: رائد الملي',
                 dashClients: 'إجمالي العملاء', dashReqs: 'طلبات قيد العمل', dashSups: 'دليل الموردين', dashDebts: 'صافي ديون العملاء المتبقية',
                 apiKeyTitle: 'مفتاح الذكاء الاصطناعي (Gemini API)', apiKeyDesc: 'مطلوب لتشغيل محرك مقارنة العروض وقراءة ملفات الـ PDF الحقيقية الخاصة بك والمخزنة محلياً.', btnSaveKey: 'حفظ المفتاح',
                 liveRatesTitle: 'أسعار الصرف المباشرة', btnUpdateRates: 'تحديث حي', btnSaveRates: 'حفظ',
-                emailSettingsTitle: 'نظام إرسال الإيميلات الداخلي (EmailJS)', emailSettingsDesc: 'أدخل بيانات خدمة EmailJS لتمكين المراسلة المباشرة مع الموردين والعملاء بدون Outlook.', btnSaveEmail: 'حفظ الربط',
-                staffMgmtTitle: 'إدارة الموظفين', btnAdd: 'إضافة',
+                emailSettingsTitle: 'نظام إرسال الإيميلات الداخلي (EmailJS)', emailSettingsDesc: 'أدخل بيانات خدمة EmailJS المجانية لتمكين المراسلة المباشرة.', btnSaveEmail: 'حفظ الربط',
+                staffMgmtTitle: 'إدارة الموظفين والصلاحيات', btnAdd: 'إضافة',
                 compTitle: 'مُقارِن العروض الذكي (مباشر من المستندات)', compSubtitle: 'قراءة ملفات PDF الحقيقية، تحليلها بالذكاء الاصطناعي، واستخراج الفروقات المعمارية والمالية بدقة.',
                 compUploadTitle: 'عروض المصانع المراد مقارنتها', compAddSlot: 'إضافة عرض جديد',
                 compReady: 'جاهز للتحليل الفوري', compPrivacy: 'تتم معالجة المستندات في الذاكرة المؤقتة لمتصفحك فقط.', compReset: 'إعادة تعيين', compRun: 'بدء المقارنة الذكية', compLoading: 'جاري قراءة البيانات وإرسالها للذكاء الاصطناعي لبناء الجدول الحقيقي...',
@@ -756,26 +763,104 @@
             reader.readAsDataURL(file);
         }
 
-        // --- 4. AUTHENTICATION & ADMIN SETTINGS ---
+        // --- 4. AUTHENTICATION & ROLE-BASED ACCESS CONTROL (RBAC) ---
         function checkAdminAccess() {
-            if (localStorage.getItem(LOGIN_KEY) === 'true') { currentUser = 'admin'; document.getElementById('modal-login').classList.add('hidden'); document.getElementById('modal-login').classList.remove('flex'); applyUserSession(); } 
-            else { currentUser = null; document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex'); }
+            try {
+                const storedUser = localStorage.getItem(LOGIN_KEY);
+                if (storedUser) {
+                    currentUser = JSON.parse(storedUser);
+                    document.getElementById('modal-login').classList.add('hidden'); document.getElementById('modal-login').classList.remove('flex');
+                    applyUserSession();
+                } else {
+                    throw new Error('Not logged in');
+                }
+            } catch(e) {
+                currentUser = null; document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex');
+            }
         }
+
         function handleAdminLogin(e) {
-            e.preventDefault(); const u = document.getElementById('login-username').value.trim(); const p = document.getElementById('login-password').value.trim(); const rem = document.getElementById('remember-admin-checkbox').checked;
-            if (u === (appDb.adminUsername || 'admin') && p === (appDb.adminPassword || '123456')) { currentUser = 'admin'; if(rem) localStorage.setItem(LOGIN_KEY, 'true'); else localStorage.removeItem(LOGIN_KEY); document.getElementById('modal-login').classList.add('hidden'); document.getElementById('modal-login').classList.remove('flex'); showToast(currentLang==='ar'?'تم تسجيل الدخول بنجاح':'Logged in successfully'); applyUserSession(); } 
-            else { showToast(currentLang==='ar'?'البيانات غير صحيحة!':'Invalid Credentials', 'error'); }
+            e.preventDefault(); 
+            const u = document.getElementById('login-username').value.trim(); 
+            const p = document.getElementById('login-password').value.trim(); 
+            const rem = document.getElementById('remember-admin-checkbox').checked;
+            
+            let matchedUser = null;
+
+            // 1. Check Primary Admin Account
+            if (u === (appDb.adminUsername || 'admin') && p === (appDb.adminPassword || '123456')) { 
+                matchedUser = { username: u, role: 'admin' };
+            } else {
+                // 2. Check Staff Accounts
+                const staffMatch = (appDb.staff || []).find(s => s.username === u && s.password === p);
+                if (staffMatch) {
+                    matchedUser = { username: u, role: staffMatch.role || 'employee' };
+                }
+            }
+
+            if (matchedUser) {
+                currentUser = matchedUser;
+                if(rem) localStorage.setItem(LOGIN_KEY, JSON.stringify(currentUser)); else localStorage.removeItem(LOGIN_KEY);
+                document.getElementById('modal-login').classList.add('hidden'); document.getElementById('modal-login').classList.remove('flex');
+                showToast(currentLang==='ar'?`تم الدخول بصلاحية: ${currentUser.role==='admin'?'مدير/شريك':'موظف'}`:'Logged in successfully');
+                applyUserSession(); 
+            } else { 
+                showToast(currentLang==='ar'?'البيانات غير صحيحة!':'Invalid Credentials', 'error'); 
+            }
         }
+
         function handleLogout() { currentUser = null; localStorage.removeItem(LOGIN_KEY); document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex'); showToast(currentLang==='ar'?'تم تسجيل الخروج بنجاح':'Logged out successfully'); }
-        function applyUserSession() { const isAdm = currentUser === 'admin'; document.querySelectorAll('.admin-only-col').forEach(el => isAdm ? el.classList.remove('hidden') : el.classList.add('hidden')); navigateTo('dashboard'); }
+        
+        function applyUserSession() { 
+            const isAdmin = currentUser && currentUser.role === 'admin';
+            
+            // Hide specific columns/fields in UI
+            document.querySelectorAll('.admin-only-col').forEach(el => isAdmin ? el.classList.remove('hidden') : el.classList.add('hidden'));
+            // Hide whole tabs (like Accounting)
+            document.querySelectorAll('.admin-only-tab').forEach(el => isAdmin ? el.classList.remove('hidden') : el.classList.add('hidden'));
+            
+            document.getElementById('user-role-badge').textContent = isAdmin ? 'Admin' : 'Staff';
+            
+            navigateTo('dashboard'); 
+        }
 
         function openAdminSettingsModal() { document.getElementById('modal-admin-settings').classList.remove('hidden'); document.getElementById('modal-admin-settings').classList.add('flex'); document.getElementById('admin-new-user').value = appDb.adminUsername; document.getElementById('admin-new-pass').value = appDb.adminPassword; }
         function closeAdminSettingsModal() { document.getElementById('modal-admin-settings').classList.add('hidden'); document.getElementById('modal-admin-settings').classList.remove('flex'); }
-        async function saveAdminCredentials(e) { e.preventDefault(); appDb.adminUsername = document.getElementById('admin-new-user').value; appDb.adminPassword = document.getElementById('admin-new-pass').value; await persistDb(); closeAdminSettingsModal(); showToast(currentLang==='ar'?'تم تحديث بيانات الحساب الرئيسي':'Account credentials updated'); }
+        async function saveAdminCredentials(e) { e.preventDefault(); appDb.adminUsername = document.getElementById('admin-new-user').value; appDb.adminPassword = document.getElementById('admin-new-pass').value; await persistDb(); closeAdminSettingsModal(); showToast(currentLang==='ar'?'تم تحديث بيانات الحساب الرئيسي. يرجى الدخول بها المرة القادمة.':'Account credentials updated'); }
 
-        function openStaffModal(id=null) { document.getElementById('modal-staff').classList.remove('hidden'); document.getElementById('modal-staff').classList.add('flex'); if(id){ const s = appDb.staff.find(x=>x.id===id); document.getElementById('staff-edit-id').value = s.id; document.getElementById('staff-fullname').value = s.name; document.getElementById('staff-username').value = s.username; document.getElementById('staff-password').value = s.password; } else { document.getElementById('staff-edit-id').value=''; document.getElementById('staff-fullname').value=''; document.getElementById('staff-username').value=''; document.getElementById('staff-password').value=''; } }
+        function openStaffModal(id=null) { 
+            document.getElementById('modal-staff').classList.remove('hidden'); document.getElementById('modal-staff').classList.add('flex'); 
+            if(id){ 
+                const s = appDb.staff.find(x=>x.id===id); 
+                document.getElementById('staff-edit-id').value = s.id; 
+                document.getElementById('staff-fullname').value = s.name; 
+                document.getElementById('staff-role').value = s.role || 'employee';
+                document.getElementById('staff-username').value = s.username; 
+                document.getElementById('staff-password').value = s.password; 
+            } else { 
+                document.getElementById('staff-edit-id').value=''; 
+                document.getElementById('staff-fullname').value=''; 
+                document.getElementById('staff-role').value='employee';
+                document.getElementById('staff-username').value=''; 
+                document.getElementById('staff-password').value=''; 
+            } 
+        }
         function closeStaffModal() { document.getElementById('modal-staff').classList.add('hidden'); document.getElementById('modal-staff').classList.remove('flex'); }
-        async function saveStaffAccount(e) { e.preventDefault(); const id = document.getElementById('staff-edit-id').value; const nm = document.getElementById('staff-fullname').value; const us = document.getElementById('staff-username').value; const pw = document.getElementById('staff-password').value; if(!appDb.staff) appDb.staff = []; if(id){ const s=appDb.staff.find(x=>x.id===id); s.name=nm; s.username=us; s.password=pw; } else { appDb.staff.push({id:'st_'+Date.now(), name:nm, username:us, password:pw}); } await persistDb(); closeStaffModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم حفظ الموظف':'Staff saved'); }
+        async function saveStaffAccount(e) { 
+            e.preventDefault(); 
+            const id = document.getElementById('staff-edit-id').value; 
+            const nm = document.getElementById('staff-fullname').value; 
+            const rl = document.getElementById('staff-role').value;
+            const us = document.getElementById('staff-username').value; 
+            const pw = document.getElementById('staff-password').value; 
+            if(!appDb.staff) appDb.staff = []; 
+            if(id){ 
+                const s=appDb.staff.find(x=>x.id===id); s.name=nm; s.role=rl; s.username=us; s.password=pw; 
+            } else { 
+                appDb.staff.push({id:'st_'+Date.now(), name:nm, role:rl, username:us, password:pw}); 
+            } 
+            await persistDb(); closeStaffModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم حفظ الموظف':'Staff saved'); 
+        }
         async function deleteStaff(id){ appDb.staff = appDb.staff.filter(x=>x.id!==id); await persistDb(); renderCurrentView(); showToast(currentLang==='ar'?'تم الحذف':'Deleted'); }
 
         // API Key Settings
@@ -812,6 +897,12 @@
         }
 
         function navigateTo(tab) {
+            // Block non-admins from accessing Accounting
+            if (tab === 'accounting' && currentUser && currentUser.role !== 'admin') {
+                showToast(currentLang==='ar'?'عذراً، ليس لديك صلاحية للوصول إلى هذا القسم.':'Access denied. Admins only.', 'error');
+                return;
+            }
+
             activeTab = tab;
             ['dashboard', 'comparator', 'clients', 'requests', 'inspections', 'shipping', 'suppliers', 'accounting'].forEach(id => {
                 const el = document.getElementById(`view-${id}`); const btn = document.getElementById(`nav-${id}`);
@@ -828,7 +919,7 @@
             const reqs = (appDb.requests || []).filter(r => r.clientId === clientId).reduce((s, r) => s + (Number(r.totalCost)||0), 0);
             const ships = (appDb.shipping || []).filter(s => s.clientId === clientId).reduce((s, x) => s + (Number(x.clientPrice)||0), 0);
             const insps = (appDb.inspections || []).filter(i => i.clientId === clientId).reduce((s, i) => s + (Number(i.sampleCost)||0), 0);
-            const totalCharges = reqs + ships + insps; // Total demands
+            const totalCharges = reqs + ships + insps;
 
             const client = (appDb.clients||[]).find(c=>c.id===clientId);
             const totalPaid = (client?.payments||[]).reduce((s, p) => {
@@ -836,18 +927,16 @@
                 return s + (p.currency === 'CNY' ? (rate>0?amt/rate:0) : amt);
             }, 0);
             
-            return { totalCharges, totalPaid, balance: totalCharges - totalPaid }; // if balance > 0, client owes money (Debt). If balance < 0, surplus/trust.
+            return { totalCharges, totalPaid, balance: totalCharges - totalPaid }; 
         }
 
         function renderCurrentView() {
-            // Update Dashboard Counters
             document.getElementById('dash-clients-count').textContent = (appDb.clients||[]).length;
             document.getElementById('dash-active-reqs-count').textContent = (appDb.requests||[]).length;
             document.getElementById('dash-suppliers-count').textContent = (appDb.suppliers||[]).length;
             let globalDebt = 0; (appDb.clients||[]).forEach(c => { const b=calculateClientBalance(c.id); if(b.balance>0) globalDebt += b.balance; });
             document.getElementById('dash-total-debts').textContent = '$'+Math.round(globalDebt).toLocaleString();
 
-            // Setup Dashboard Forms
             if(document.getElementById('rate-usd-cny')) document.getElementById('rate-usd-cny').value = appDb.exchangeRates.usdToCny;
             if(document.getElementById('rate-eur-usd')) document.getElementById('rate-eur-usd').value = appDb.exchangeRates.eurToUsd;
             if(document.getElementById('setting-company-email')) document.getElementById('setting-company-email').value = appDb.companyEmail;
@@ -860,9 +949,13 @@
             }
 
             const stC = document.getElementById('staff-list-container');
-            if(stC) stC.innerHTML = (appDb.staff||[]).map(s=>`<div class="flex justify-between items-center bg-slate-50 p-2 border rounded-lg text-xs"><span><strong>${s.name}</strong> (${s.username})</span><div class="flex gap-1"><button onclick="openStaffModal('${s.id}')" class="text-amber-600 hover:bg-amber-50 p-1 rounded transition"><i class="fa-solid fa-pen"></i></button><button onclick="deleteStaff('${s.id}')" class="text-rose-600 hover:bg-rose-50 p-1 rounded transition"><i class="fa-solid fa-trash"></i></button></div></div>`).join('') || `<p class="text-xs text-slate-400">${currentLang==='ar'?'لا يوجد موظفون مسجلون':'No staff registered'}</p>`;
+            if(stC) {
+                stC.innerHTML = (appDb.staff||[]).map(s=>{
+                    const roleBadge = s.role === 'admin' ? '<span class="bg-emerald-100 text-emerald-800 px-1.5 py-0.5 rounded text-[10px] font-bold">شريك / مدير</span>' : '<span class="bg-slate-200 text-slate-700 px-1.5 py-0.5 rounded text-[10px] font-bold">موظف</span>';
+                    return `<div class="flex justify-between items-center bg-slate-50 p-2 border rounded-lg text-xs"><span><strong>${s.name}</strong> ${roleBadge} <br><span class="text-[10px] text-slate-500 font-mono">${s.username}</span></span><div class="flex gap-1"><button onclick="openStaffModal('${s.id}')" class="text-amber-600 hover:bg-amber-50 p-1 rounded transition"><i class="fa-solid fa-pen"></i></button><button onclick="deleteStaff('${s.id}')" class="text-rose-600 hover:bg-rose-50 p-1 rounded transition"><i class="fa-solid fa-trash"></i></button></div></div>`;
+                }).join('') || `<p class="text-xs text-slate-400">${currentLang==='ar'?'لا يوجد موظفون مسجلون':'No staff registered'}</p>`;
+            }
 
-            // Route Rendering
             if (activeTab === 'clients') { if(selectedClientProfileId) renderClientProfileView(selectedClientProfileId); else renderClientsTable(); }
             if (activeTab === 'requests') renderRequestsList();
             if (activeTab === 'inspections') renderInspectionsList();
@@ -892,8 +985,8 @@
                     <td class="p-3.5 font-bold">${c.companyAr} ${c.companyEn?`<br><span class="text-xs font-normal text-slate-500">${c.companyEn}</span>`:''}</td>
                     <td class="p-3.5"><div class="font-mono text-slate-700 text-xs font-bold">CR: ${c.cr||'-'}</div><div class="text-blue-700 text-xs mt-1"><i class="fa-solid fa-anchor"></i> ${c.port||'-'}</div></td>
                     <td class="p-3.5" dir="ltr"><div class="text-xs font-medium text-slate-700">${c.phone||'-'}</div>${c.email?`<button type="button" onclick="openSendEmailModal('${c.email}', 'Echo Bridges Invoice/Update'); event.stopPropagation();" class="mt-1.5 text-emerald-600 hover:text-emerald-700 font-bold text-[10px] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 transition"><i class="fa-solid fa-paper-plane mr-1"></i> ${currentLang==='ar'?'مراسلة فورية':'Email'}</button>`:''}</td>
-                    <td class="p-3.5">${bb}</td>
-                    <td class="p-3.5 text-center"><div class="flex items-center justify-center gap-1.5"><button type="button" onclick="openClientAccountModal('${c.id}'); event.stopPropagation();" class="w-8 h-8 flex items-center justify-center bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition" title="دفتر الحساب"><i class="fa-solid fa-money-bill-transfer"></i></button> <button type="button" onclick="openClientModal('${c.id}'); event.stopPropagation();" class="w-8 h-8 flex items-center justify-center bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-lg transition"><i class="fa-solid fa-pen"></i></button> <button type="button" onclick="deleteRecord('clients','${c.id}'); event.stopPropagation();" class="w-8 h-8 flex items-center justify-center bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg transition"><i class="fa-solid fa-trash"></i></button></div></td>
+                    <td class="p-3.5 admin-only-col">${bb}</td>
+                    <td class="p-3.5 text-center"><div class="flex items-center justify-center gap-1.5"><button type="button" onclick="openClientAccountModal('${c.id}'); event.stopPropagation();" class="w-8 h-8 flex items-center justify-center bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg transition admin-only-col" title="دفتر الحساب"><i class="fa-solid fa-money-bill-transfer"></i></button> <button type="button" onclick="openClientModal('${c.id}'); event.stopPropagation();" class="w-8 h-8 flex items-center justify-center bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-lg transition"><i class="fa-solid fa-pen"></i></button> <button type="button" onclick="deleteRecord('clients','${c.id}'); event.stopPropagation();" class="w-8 h-8 flex items-center justify-center bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-lg transition"><i class="fa-solid fa-trash"></i></button></div></td>
                 </tr>`;
             }).join('') || `<tr><td colspan="6" class="p-8 text-center text-slate-400 font-bold">${currentLang==='ar'?'لا توجد بيانات مطابقة':'No matching data'}</td></tr>`;
         }
@@ -941,7 +1034,7 @@
                         <div class="flex items-center gap-2 mb-1"><span class="${stClr} font-bold px-2.5 py-0.5 rounded-lg text-[10px] uppercase">${r.status}</span><span class="text-xs text-slate-400 font-mono"><i class="fa-regular fa-calendar ml-1"></i> ${r.date}</span></div>
                         <h4 class="font-black text-lg text-slate-900">${r.title} <span class="text-xs font-normal text-slate-500">(${cl.companyAr||'العميل محذوف'})</span></h4>
                         <div class="text-xs mt-2 text-slate-600 flex flex-wrap gap-x-4 gap-y-1"><span>الكمية: <strong>${r.quantity}</strong></span> <span>المقاس: <strong>${r.size||'-'}</strong></span> <span>CBM: <strong>${r.cbm||'-'}</strong></span></div>
-                        <div class="mt-2.5"><span class="bg-amber-50 border border-amber-200 text-amber-900 font-black font-mono px-3 py-1 rounded-xl text-sm shadow-sm">المطالبة المحملة: $${(Number(r.totalCost)||0).toLocaleString()}</span></div>
+                        <div class="mt-2.5 admin-only-col"><span class="bg-amber-50 border border-amber-200 text-amber-900 font-black font-mono px-3 py-1 rounded-xl text-sm shadow-sm">المطالبة المحملة: $${(Number(r.totalCost)||0).toLocaleString()}</span></div>
                     </div>
                     <div class="flex gap-2 shrink-0">
                         <button type="button" onclick="openRequestModal('${r.id}')" class="w-10 h-10 flex items-center justify-center bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition text-slate-700"><i class="fa-solid fa-pen"></i></button>
@@ -964,7 +1057,7 @@
             e.preventDefault(); const id=document.getElementById('request-id').value; const isNew=!id;
             const d={id:isNew?'r_'+Date.now():id, clientId:document.getElementById('request-client-id').value, title:document.getElementById('request-title').value, size:document.getElementById('request-size').value, color:document.getElementById('request-color').value, quantity:document.getElementById('request-quantity').value, packing:document.getElementById('request-packing').value, cbm:document.getElementById('request-cbm').value, boxWeight:document.getElementById('request-box-weight').value, budget:document.getElementById('request-budget').value, specs:document.getElementById('request-specs').value, totalCost:Number(document.getElementById('request-total-cost').value)||0, date:document.getElementById('request-date').value, status:document.getElementById('request-status-select').value};
             if(isNew) appDb.requests.unshift(d); else { const i=appDb.requests.findIndex(x=>x.id===id); appDb.requests[i]=d; }
-            await persistDb(); closeRequestModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم الحفظ وإدراجه في ذمة العميل':'Saved and added to ledger');
+            await persistDb(); closeRequestModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم الحفظ':'Saved');
         }
 
         // Inspections
@@ -978,7 +1071,7 @@
                         <div class="flex items-center gap-2 mb-1"><span class="${stClr} font-bold px-2.5 py-0.5 rounded-lg text-[10px] uppercase">${i.status}</span><span class="text-xs text-slate-400 font-mono"><i class="fa-regular fa-calendar ml-1"></i> ${i.date}</span></div>
                         <h4 class="font-black text-lg text-slate-900">${i.title} <span class="text-xs font-normal text-slate-500">(${cl.companyAr||'-'})</span></h4>
                         <div class="text-xs mt-2 text-slate-600 flex flex-wrap gap-x-4 gap-y-1"><span>شركة الشحن: <strong>${i.shippingCompany||'-'}</strong></span> <span>التتبع: <strong class="font-mono">${i.sampleTrack||'-'}</strong></span></div>
-                        <div class="mt-2.5"><span class="bg-rose-50 border border-rose-200 text-rose-900 font-black font-mono px-3 py-1 rounded-xl text-sm shadow-sm">تكلفة شحن العينة: $${(Number(i.sampleCost)||0).toLocaleString()}</span></div>
+                        <div class="mt-2.5 admin-only-col"><span class="bg-rose-50 border border-rose-200 text-rose-900 font-black font-mono px-3 py-1 rounded-xl text-sm shadow-sm">تكلفة شحن العينة: $${(Number(i.sampleCost)||0).toLocaleString()}</span></div>
                     </div>
                     <div class="flex gap-2 shrink-0">
                         ${i.fileLink ? `<a href="${i.fileLink}" target="_blank" class="w-10 h-10 flex items-center justify-center bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-xl transition text-blue-600"><i class="fa-solid fa-link"></i></a>` : ''}
@@ -1002,7 +1095,7 @@
             e.preventDefault(); const id=document.getElementById('inspection-id').value; const isNew=!id;
             const d={id:isNew?'i_'+Date.now():id, clientId:document.getElementById('inspection-client-id').value, title:document.getElementById('inspection-title').value, date:document.getElementById('inspection-date').value, status:document.getElementById('inspection-status').value, notes:document.getElementById('inspection-notes').value, fileLink:document.getElementById('inspection-file-link').value, sampleCost:Number(document.getElementById('insp-sample-cost').value)||0, shippingCompany:document.getElementById('insp-shipping-company').value, sampleTrack:document.getElementById('insp-sample-track').value, sampleWeight:document.getElementById('insp-sample-weight').value };
             if(isNew) appDb.inspections.unshift(d); else { const i=appDb.inspections.findIndex(x=>x.id===id); appDb.inspections[i]=d; }
-            await persistDb(); closeInspectionModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم حفظ الفحص وتحديث الذمة':'Inspection saved');
+            await persistDb(); closeInspectionModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم حفظ الفحص':'Inspection saved');
         }
 
         // Shipping
@@ -1023,7 +1116,7 @@
                             <div><span class="block text-[10px] text-slate-400 font-bold uppercase">Carrier</span><span class="text-slate-800 font-bold">${s.companyName||'-'}</span></div>
                             <div><span class="block text-[10px] text-slate-400 font-bold uppercase">Track URL</span>${s.trackingUrl ? `<a href="${s.trackingUrl}" target="_blank" class="text-blue-600 hover:underline font-bold">تتبع حي <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></a>` : '-'}</div>
                         </div>
-                        <div class="mt-3 flex items-center gap-4">
+                        <div class="mt-3 flex items-center gap-4 admin-only-col">
                             <span class="bg-amber-50 border border-amber-200 text-amber-900 font-black font-mono px-3 py-1.5 rounded-xl text-sm shadow-sm">أجور العميل: $${(Number(s.clientPrice)||0).toLocaleString()}</span>
                             <span class="text-xs font-mono font-bold text-slate-500">التكلفة الفعلية: $${(Number(s.cost)+Number(s.warehouseCost)+Number(s.internalCost)+Number(s.laborCost)+Number(s.forkliftCost)).toLocaleString()}</span>
                         </div>
@@ -1049,7 +1142,7 @@
             e.preventDefault(); const id=document.getElementById('shipping-id').value; const isNew=!id;
             const d={id:isNew?'s_'+Date.now():id, clientId:document.getElementById('shipping-client-id').value, title:document.getElementById('shipping-title').value, date:document.getElementById('shipping-date').value, mode:document.getElementById('shipping-mode').value, trackingNo:document.getElementById('shipping-tracking-no').value, hsCode:document.getElementById('shipping-hscode').value, companyName:document.getElementById('shipping-company-name').value, trackingUrl:document.getElementById('shipping-tracking-url').value, clientPrice:Number(document.getElementById('shipping-client-price').value)||0, cost:Number(document.getElementById('shipping-cost').value)||0, warehouseCost:Number(document.getElementById('shipping-warehouse-cost').value)||0, internalCost:Number(document.getElementById('shipping-internal-cost').value)||0, laborCost:Number(document.getElementById('shipping-labor-cost').value)||0, forkliftCost:Number(document.getElementById('shipping-forklift-cost').value)||0 };
             if(isNew) appDb.shipping.unshift(d); else { const i=appDb.shipping.findIndex(x=>x.id===id); appDb.shipping[i]=d; }
-            await persistDb(); closeShippingModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم الحفظ والإدراج كدين':'Saved and added to debt ledger');
+            await persistDb(); closeShippingModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم الحفظ بنجاح':'Saved');
         }
 
         // Suppliers
@@ -1079,7 +1172,7 @@
                     </div>
                 </div>
                 <div class="flex gap-2 shrink-0 self-end md:self-center">
-                    <button type="button" onclick="openSupplierAccountModal('${sup.id}')" class="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold rounded-xl text-xs transition flex items-center gap-1.5"><i class="fa-solid fa-money-bill-transfer"></i> الحوالات</button>
+                    <button type="button" onclick="openSupplierAccountModal('${sup.id}')" class="px-4 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 font-bold rounded-xl text-xs transition flex items-center gap-1.5 admin-only-col"><i class="fa-solid fa-money-bill-transfer"></i> الحوالات</button>
                     <button type="button" onclick="openSupplierModal('${sup.id}')" class="w-10 h-10 flex items-center justify-center bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-xl transition text-slate-700"><i class="fa-solid fa-pen"></i></button>
                     <button type="button" onclick="deleteRecord('suppliers', '${sup.id}')" class="w-10 h-10 flex items-center justify-center bg-rose-50 hover:bg-rose-100 border border-rose-200 rounded-xl transition text-rose-600"><i class="fa-solid fa-trash"></i></button>
                 </div>
@@ -1102,7 +1195,7 @@
         }
 
         async function deleteRecord(type, id) {
-            if(confirm(currentLang==='ar'?'هل أنت متأكد من الحذف النهائي؟ لا يمكن التراجع.':'Are you sure you want to delete this record?')) {
+            if(confirm(currentLang==='ar'?'هل أنت متأكد من الحذف النهائي؟':'Are you sure you want to delete this record?')) {
                 if(appDb[type]) { appDb[type] = appDb[type].filter(x => x.id !== id); await persistDb(); renderCurrentView(); showToast(currentLang==='ar'?'تم الحذف بنجاح':'Deleted successfully'); }
             }
         }
@@ -1111,9 +1204,9 @@
         function renderClientProfileView(id) {
             const client = appDb.clients.find(c=>c.id===id); if(!client) return closeClientProfile();
             const b = calculateClientBalance(id);
-            document.getElementById('client-profile-header').innerHTML = `<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"><div class="flex items-center gap-4"><button type="button" onclick="closeClientProfile()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl text-xs font-bold transition flex items-center gap-2"><i class="fa-solid fa-arrow-right"></i> ${currentLang==='ar'?'عودة للعملاء':'Back'}</button><div class="flex items-center gap-3">${client.logo?`<img src="${client.logo}" class="w-14 h-14 rounded-xl border object-cover">`:''}<div class="space-y-1"><span class="bg-amber-100 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold">${client.serial}</span><h2 class="text-xl font-black text-slate-900">${client.companyAr} ${client.companyEn?`<span class="text-sm font-normal text-slate-500 ml-1">(${client.companyEn})</span>`:''}</h2></div></div></div><button type="button" onclick="openClientAccountModal('${client.id}')" class="px-4 py-2.5 bg-blue-50 text-blue-700 border border-blue-200 font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm"><i class="fa-solid fa-money-bill-transfer"></i> عرض كشف الحساب والدفعات</button></div><div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3"><div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col"><span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">إجمالي المطالبات والصفقات</span><span class="text-lg font-black font-mono text-slate-800">$${Math.round(b.totalCharges).toLocaleString()}</span></div><div class="p-4 rounded-2xl bg-blue-50 border border-blue-200 flex flex-col"><span class="text-[10px] text-blue-600 font-bold uppercase tracking-wider mb-1">إجمالي ما تم سداده</span><span class="text-lg font-black font-mono text-blue-800">$${Math.round(b.totalPaid).toLocaleString()}</span></div><div class="p-4 rounded-2xl ${b.balance>0?'bg-rose-50 border-rose-200':'bg-emerald-50 border-emerald-200'} flex flex-col"><span class="text-[10px] font-bold uppercase tracking-wider mb-1 ${b.balance>0?'text-rose-600':'text-emerald-600'}">${b.balance>0?'الرصيد المتبقي (دين على العميل)':'فائض مالي (أمانة للعميل)'}</span><span class="text-xl font-black font-mono ${b.balance>0?'text-rose-800':'text-emerald-800'}">$${Math.round(Math.abs(b.balance)).toLocaleString()}</span></div></div>`;
+            document.getElementById('client-profile-header').innerHTML = `<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"><div class="flex items-center gap-4"><button type="button" onclick="closeClientProfile()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 border border-slate-200 rounded-xl text-xs font-bold transition flex items-center gap-2"><i class="fa-solid fa-arrow-right"></i> ${currentLang==='ar'?'عودة للعملاء':'Back'}</button><div class="flex items-center gap-3">${client.logo?`<img src="${client.logo}" class="w-14 h-14 rounded-xl border object-cover">`:''}<div class="space-y-1"><span class="bg-amber-100 text-amber-900 border border-amber-200 px-2 py-0.5 rounded-lg text-[10px] font-mono font-bold">${client.serial}</span><h2 class="text-xl font-black text-slate-900">${client.companyAr} ${client.companyEn?`<span class="text-sm font-normal text-slate-500 ml-1">(${client.companyEn})</span>`:''}</h2></div></div></div><button type="button" onclick="openClientAccountModal('${client.id}')" class="px-4 py-2.5 bg-blue-50 text-blue-700 border border-blue-200 font-bold rounded-xl text-xs flex items-center gap-2 shadow-sm admin-only-col"><i class="fa-solid fa-money-bill-transfer"></i> عرض كشف الحساب</button></div><div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 admin-only-col"><div class="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col"><span class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-1">إجمالي المطالبات</span><span class="text-lg font-black font-mono text-slate-800">$${Math.round(b.totalCharges).toLocaleString()}</span></div><div class="p-4 rounded-2xl bg-blue-50 border border-blue-200 flex flex-col"><span class="text-[10px] text-blue-600 font-bold uppercase tracking-wider mb-1">إجمالي ما تم سداده</span><span class="text-lg font-black font-mono text-blue-800">$${Math.round(b.totalPaid).toLocaleString()}</span></div><div class="p-4 rounded-2xl ${b.balance>0?'bg-rose-50 border-rose-200':'bg-emerald-50 border-emerald-200'} flex flex-col"><span class="text-[10px] font-bold uppercase tracking-wider mb-1 ${b.balance>0?'text-rose-600':'text-emerald-600'}">${b.balance>0?'الرصيد المتبقي (دين على العميل)':'فائض مالي (أمانة للعميل)'}</span><span class="text-xl font-black font-mono ${b.balance>0?'text-rose-800':'text-emerald-800'}">$${Math.round(Math.abs(b.balance)).toLocaleString()}</span></div></div>`;
             const rC = document.getElementById('client-profile-requests-container');
-            rC.innerHTML = (appDb.requests||[]).filter(r=>r.clientId===id).map(r=>`<div class="bg-slate-50 hover:bg-white p-4 rounded-2xl border border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition cursor-pointer" onclick="openRequestModal('${r.id}')"><div class="space-y-1"><div class="flex items-center gap-2"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-bold">${r.status}</span><span class="text-xs text-slate-400 font-mono">${r.date}</span></div><h4 class="font-bold text-sm text-slate-900">${r.title}</h4></div><span class="bg-white border border-slate-200 text-amber-900 px-3 py-1 rounded-xl text-xs font-black font-mono shadow-sm">المطالبة: $${(Number(r.totalCost)||0).toLocaleString()}</span></div>`).join('') || `<div class="text-center text-slate-400 p-8 border-2 border-dashed border-slate-200 rounded-3xl font-bold">${currentLang==='ar'?'لا توجد طلبات مرتبطة بهذا العميل':'No requests associated'}</div>`;
+            rC.innerHTML = (appDb.requests||[]).filter(r=>r.clientId===id).map(r=>`<div class="bg-slate-50 hover:bg-white p-4 rounded-2xl border border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 transition cursor-pointer" onclick="openRequestModal('${r.id}')"><div class="space-y-1"><div class="flex items-center gap-2"><span class="bg-amber-100 text-amber-800 px-2 py-0.5 rounded text-[10px] font-bold">${r.status}</span><span class="text-xs text-slate-400 font-mono">${r.date}</span></div><h4 class="font-bold text-sm text-slate-900">${r.title}</h4></div><span class="bg-white border border-slate-200 text-amber-900 px-3 py-1 rounded-xl text-xs font-black font-mono shadow-sm admin-only-col">المطالبة: $${(Number(r.totalCost)||0).toLocaleString()}</span></div>`).join('') || `<div class="text-center text-slate-400 p-8 border-2 border-dashed border-slate-200 rounded-3xl font-bold">${currentLang==='ar'?'لا توجد طلبات':'No requests'}</div>`;
         }
 
         // --- 8. AI PDF COMPARATOR (PRO MAX ENGINE) ---
@@ -1142,10 +1235,10 @@
                         ${slot.extractedText ? `
                             <div class="space-y-2 py-3"><div class="w-12 h-12 mx-auto rounded-2xl bg-white border border-rose-100 text-rose-600 flex items-center justify-center text-2xl shadow-sm"><i class="fa-solid fa-file-pdf"></i></div>
                             <div class="font-bold text-[11px] text-slate-700 truncate max-w-[200px] mx-auto" dir="ltr">${slot.fileName}</div>
-                            <div class="text-[10px] text-emerald-700 font-bold bg-emerald-100/50 inline-block px-2 py-0.5 rounded border border-emerald-200"><i class="fa-solid fa-check"></i> ${slot.extractedText.length} Chars extracted</div></div>
+                            <div class="text-[10px] text-emerald-700 font-bold bg-emerald-100/50 inline-block px-2 py-0.5 rounded border border-emerald-200"><i class="fa-solid fa-check"></i> ${slot.extractedText.length} Chars</div></div>
                         ` : `
                             <div class="py-5 space-y-2"><div class="w-10 h-10 mx-auto rounded-full bg-white border border-slate-200 text-slate-400 flex items-center justify-center group-hover:scale-110 transition"><i class="fa-solid fa-cloud-arrow-up text-lg"></i></div>
-                            <div class="text-xs font-bold text-slate-700">${currentLang==='ar'?'انقر لرفع ملف (PDF) أو صورة':'Click to upload PDF/Image'}</div><div class="text-[9px] text-slate-400 max-w-[150px] mx-auto leading-relaxed">${currentLang==='ar'?'تتم القراءة والمعالجة محلياً في ذاكرة متصفحك بشكل آمن.':'Processed securely in local browser memory.'}</div></div>
+                            <div class="text-xs font-bold text-slate-700">${currentLang==='ar'?'انقر لرفع ملف (PDF) أو صورة':'Click to upload PDF/Image'}</div></div>
                         `}
                     </div>
                 `;
