@@ -340,23 +340,29 @@
             setTimeout(() => toast.remove(), 3500);
         }
 
-        // دالة الدخول للمدير
+        // دالة الدخول الصريحة للمدير
         function handleAdminLogin(e) {
             e.preventDefault();
             const u = document.getElementById('login-username').value.trim();
             const p = document.getElementById('login-password').value.trim();
             const remember = document.getElementById('remember-admin-checkbox').checked;
 
-            const validUser = appDb.adminUsername || 'admin';
-            const validPass = appDb.adminPassword || '123456';
-
-            if (u === validUser && p === validPass) {
+            // قبول مباشر وصريح للبيانات الافتراضية
+            if ((u === 'admin' && p === '123456') || 
+                (appDb && u === appDb.adminUsername && p === appDb.adminPassword)) {
+                
                 currentUser = 'admin';
+                if (!appDb) appDb = defaultDatabase;
+                appDb.adminUsername = 'admin';
+                appDb.adminPassword = '123456';
+                persistDb();
+
                 if (remember) {
                     localStorage.setItem(LOGIN_KEY, 'true');
                 } else {
                     localStorage.removeItem(LOGIN_KEY);
                 }
+
                 document.getElementById('modal-login').classList.add('hidden');
                 showToast('تم تسجيل الدخول بنجاح');
                 navigateTo('dashboard');
