@@ -4,15 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Echo Bridges Sourcing & Logistics Co.</title>
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css)">
-    <link href="[https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap](https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap)" rel="stylesheet">
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js)"></script>
-    <script src="[https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js](https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js)"></script>
-    <script src="[https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2](https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2)"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- PDF.js Library for reading local PDF files -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <!-- HTML2Canvas for Comparator Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Supabase JS Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
-        :root { --eb-gold-main: #c5a059; --eb-gold-light: #f5d78e; }
+        :root {
+            --eb-black-dark: #08080a;
+            --eb-black-card: #131317;
+            --eb-gold-main: #c5a059;
+            --eb-gold-light: #f5d78e;
+            --eb-gold-dark: #987838;
+        }
         body { font-family: 'Cairo', 'Inter', sans-serif; background-color: #f8fafc; color: #1e293b; }
         .luxury-gradient { background: linear-gradient(135deg, #09090b 0%, #17171c 50%, #0d0d10 100%); }
         .btn-gold { background: linear-gradient(135deg, #d8b262 0%, #b89142 100%); color: #08080a; font-weight: 800; }
@@ -32,10 +46,13 @@
 
     <div id="toast-container" class="fixed bottom-6 left-6 z-[250] space-y-3 pointer-events-none"></div>
 
+    <!-- MAIN HEADER -->
     <header class="luxury-gradient text-white border-b-2 border-[#c5a059] sticky top-0 z-40 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3.5 flex flex-wrap justify-between items-center gap-4">
             <div class="flex items-center gap-3.5 cursor-pointer" onclick="navigateTo('dashboard')">
-                <div class="w-12 h-12 rounded-2xl bg-black/60 border border-[#c5a059]/60 flex items-center justify-center text-[#f5d78e] shadow-md shadow-amber-950/20"><i class="fa-solid fa-bridge text-2xl"></i></div>
+                <div class="w-12 h-12 rounded-2xl bg-black/60 border border-[#c5a059]/60 flex items-center justify-center text-[#f5d78e] shadow-md shadow-amber-950/20">
+                    <i class="fa-solid fa-bridge text-2xl"></i>
+                </div>
                 <div>
                     <div class="flex items-center gap-2">
                         <h1 class="text-xl sm:text-2xl font-black tracking-tight text-[#f5d78e] font-serif">Echo Bridges</h1>
@@ -44,29 +61,37 @@
                     <p class="text-xs text-slate-300 font-medium tracking-wide">Sourcing & Logistics Co.</p>
                 </div>
             </div>
+
             <div class="flex items-center gap-3">
                 <div class="flex bg-black/50 border border-[#c5a059]/40 rounded-xl p-1 text-xs font-bold">
                     <button type="button" onclick="setLanguage('ar')" id="lang-btn-ar" class="px-2.5 py-1 rounded-lg transition bg-[#c5a059] text-black font-black shadow-sm">عربي</button>
                     <button type="button" onclick="setLanguage('en')" id="lang-btn-en" class="px-2.5 py-1 rounded-lg transition text-slate-300 hover:text-white">EN</button>
                     <button type="button" onclick="setLanguage('zh')" id="lang-btn-zh" class="px-2.5 py-1 rounded-lg transition text-slate-300 hover:text-white">中文</button>
                 </div>
+
                 <div class="flex items-center gap-2">
                     <span id="header-user-name" class="text-xs font-bold text-slate-300 hidden sm:inline-block">المدير العام: رائد الملي</span>
-                    <button type="button" onclick="openAdminSettingsModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5"><i class="fa-solid fa-user-gear"></i></button>
-                    <button type="button" onclick="handleLogout()" class="bg-rose-500/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5"><i class="fa-solid fa-right-from-bracket"></i></button>
+                    <button type="button" onclick="openAdminSettingsModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="إعدادات الحساب">
+                        <i class="fa-solid fa-user-gear"></i> <span id="t-nav-settings">الحساب</span>
+                    </button>
+                    <button type="button" onclick="handleLogout()" class="bg-rose-500/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="تسجيل الخروج">
+                        <i class="fa-solid fa-right-from-bracket"></i> <span id="t-nav-logout">خروج</span>
+                    </button>
                 </div>
             </div>
         </div>
+
+        <!-- NAVIGATION TABS -->
         <nav class="bg-[#121216] border-t border-slate-800">
             <div class="max-w-7xl mx-auto px-4 flex items-center gap-1.5 overflow-x-auto py-2 custom-scrollbar">
-                <button onclick="navigateTo('dashboard')" id="nav-dashboard" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap bg-[#c5a059] text-black shadow-md"><i class="fa-solid fa-chart-pie"></i> لوحة التحكم</button>
-                <button onclick="navigateTo('comparator')" id="nav-comparator" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-scale-balanced"></i> مقارنة العروض</button>
-                <button onclick="navigateTo('clients')" id="nav-clients" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-users"></i> إدارة العملاء</button>
-                <button onclick="navigateTo('requests')" id="nav-requests" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-clipboard-list"></i> طلب التسعير</button>
-                <button onclick="navigateTo('inspections')" id="nav-inspections" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-clipboard-check"></i> الفحص</button>
-                <button onclick="navigateTo('shipping')" id="nav-shipping" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-ship"></i> الشحن</button>
-                <button onclick="navigateTo('suppliers')" id="nav-suppliers" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-industry"></i> دليل الموردين</button>
-                <button onclick="navigateTo('accounting')" id="nav-accounting" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-chart-line"></i> التحليل المالي والديون</button>
+                <button onclick="navigateTo('dashboard')" id="nav-dashboard" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap bg-[#c5a059] text-black shadow-md"><i class="fa-solid fa-chart-pie"></i> <span id="t-nav-dashboard">لوحة التحكم</span></button>
+                <button onclick="navigateTo('comparator')" id="nav-comparator" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-scale-balanced"></i> <span id="t-nav-comparator">مقارنة العروض</span></button>
+                <button onclick="navigateTo('clients')" id="nav-clients" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-users"></i> <span id="t-nav-clients">إدارة العملاء</span></button>
+                <button onclick="navigateTo('requests')" id="nav-requests" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-clipboard-list"></i> <span id="t-nav-requests">طلب التسعير</span></button>
+                <button onclick="navigateTo('inspections')" id="nav-inspections" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-clipboard-check"></i> <span id="t-nav-inspections">الفحص</span></button>
+                <button onclick="navigateTo('shipping')" id="nav-shipping" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-ship"></i> <span id="t-nav-shipping">الشحن</span></button>
+                <button onclick="navigateTo('suppliers')" id="nav-suppliers" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-industry"></i> <span id="t-nav-suppliers">دليل الموردين</span></button>
+                <button onclick="navigateTo('accounting')" id="nav-accounting" class="nav-item px-3.5 py-2 rounded-xl text-xs font-extrabold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white"><i class="fa-solid fa-chart-line"></i> <span id="t-nav-accounting">التحليل المالي والديون</span></button>
             </div>
         </nav>
     </header>
@@ -75,75 +100,125 @@
         
         <!-- 1. DASHBOARD -->
         <section id="view-dashboard" class="space-y-6 hidden animate-fade-in">
+            <!-- KPIs -->
             <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="bg-white p-5 rounded-2xl border shadow-sm"><span class="text-xs font-bold text-slate-500 block mb-1">إجمالي العملاء</span><h3 class="text-3xl font-black text-slate-900" id="dash-clients-count">0</h3></div>
                 <div class="bg-white p-5 rounded-2xl border shadow-sm"><span class="text-xs font-bold text-slate-500 block mb-1">طلبات قيد العمل</span><h3 class="text-3xl font-black text-amber-600" id="dash-active-reqs-count">0</h3></div>
                 <div class="bg-white p-5 rounded-2xl border shadow-sm"><span class="text-xs font-bold text-slate-500 block mb-1">دليل الموردين</span><h3 class="text-3xl font-black text-blue-600" id="dash-suppliers-count">0</h3></div>
                 <div class="bg-white p-5 rounded-2xl border shadow-sm admin-only-col"><span class="text-xs font-bold text-slate-500 block mb-1">صافي ديون العملاء المتبقية</span><h3 class="text-3xl font-black text-rose-600 font-mono" id="dash-total-debts">$0</h3></div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 admin-only-col">
+
+            <!-- DASHBOARD SETTINGS (4 Sections) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 admin-only-col">
+                
+                <!-- AI API Key Settings -->
                 <div class="bg-white rounded-2xl p-6 border shadow-sm space-y-4">
-                    <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-slate-900 text-base"><i class="fa-solid fa-globe text-amber-600"></i> أسعار الصرف</h3><span id="rate-last-update-time" class="text-[10px] text-slate-400 font-mono">تحديث حي</span></div>
+                    <div class="flex items-center gap-2.5 border-b pb-3">
+                        <i class="fa-solid fa-key text-[#c5a059] text-lg"></i>
+                        <h3 class="font-black text-slate-900 text-base">مفتاح الذكاء الاصطناعي (Gemini API)</h3>
+                    </div>
                     <div class="space-y-2.5 text-xs">
-                        <label class="block font-bold mb-1">1 دولار كم رنمينبي صيني:</label>
-                        <input type="number" step="0.0001" id="rate-usd-cny" class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono font-bold" placeholder="7.23">
-                        <label class="block font-bold mb-1 mt-2">1 يورو كم دولار:</label>
-                        <input type="number" step="0.0001" id="rate-eur-usd" class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono font-bold" placeholder="1.08">
-                        <div class="grid grid-cols-2 gap-2 mt-2">
-                            <button type="button" onclick="fetchLiveExchangeRates()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 rounded-xl transition"><i class="fa-solid fa-rotate"></i> تحديث حي</button>
-                            <button type="button" onclick="saveExchangeRates()" class="bg-[#c5a059] hover:bg-[#b89142] text-black font-black py-2 rounded-xl transition"><i class="fa-solid fa-check"></i> حفظ</button>
+                        <p class="text-slate-500 leading-relaxed">مطلوب لتشغيل محرك مقارنة العروض وقراءة ملفات ה- PDF الحقيقية الخاصة بك.</p>
+                        <input type="password" id="dashboard-gemini-key" placeholder="AIzaSy..." class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono text-xs outline-none focus:border-[#c5a059]" dir="ltr">
+                        <div class="flex justify-end pt-2">
+                            <button type="button" onclick="saveDashboardApiKey()" class="bg-[#121216] hover:bg-black text-[#f5d78e] px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">
+                                <i class="fa-solid fa-floppy-disk ml-1"></i> حفظ المفتاح
+                            </button>
                         </div>
                     </div>
                 </div>
+
+                <!-- Live Rates -->
                 <div class="bg-white rounded-2xl p-6 border shadow-sm space-y-4">
-                    <div class="border-b pb-3"><h3 class="font-black text-slate-900 text-base"><i class="fa-solid fa-envelope text-amber-600"></i> إعدادات البريد</h3></div>
+                    <div class="flex justify-between items-center border-b pb-3">
+                        <div class="flex items-center gap-2"><i class="fa-solid fa-globe text-blue-600 text-lg"></i><h3 class="font-black text-slate-900 text-base">أسعار الصرف المباشرة</h3></div>
+                        <span id="rate-last-update-time" class="text-[10px] text-slate-400 font-mono">تحديث حي</span>
+                    </div>
+                    <div class="space-y-2.5 text-xs">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div><label class="block font-bold mb-1">1 دولار كم رنمينبي:</label><input type="number" step="0.0001" id="rate-usd-cny" class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono font-bold" placeholder="7.23"></div>
+                            <div><label class="block font-bold mb-1">1 يورو كم دولار:</label><input type="number" step="0.0001" id="rate-eur-usd" class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono font-bold" placeholder="1.08"></div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2 pt-1">
+                            <button type="button" onclick="fetchLiveExchangeRates()" class="bg-blue-50 hover:bg-blue-100 text-blue-700 font-bold py-2.5 rounded-xl transition shadow-sm"><i class="fa-solid fa-rotate"></i> تحديث حي</button>
+                            <button type="button" onclick="saveExchangeRates()" class="bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-2.5 rounded-xl transition shadow-sm"><i class="fa-solid fa-check"></i> حفظ</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Company Email -->
+                <div class="bg-white rounded-2xl p-6 border shadow-sm space-y-4">
+                    <div class="border-b pb-3 flex items-center gap-2"><i class="fa-solid fa-envelope text-emerald-600 text-lg"></i><h3 class="font-black text-slate-900 text-base">إعدادات البريد الرسمي</h3></div>
                     <form onsubmit="saveCompanyEmailSettings(event)" class="space-y-3">
-                        <label class="block text-xs font-bold mb-1">البريد الرسمي للشركة:</label>
+                        <label class="block text-xs font-bold mb-1">البريد الإلكتروني للشركة:</label>
                         <input type="email" id="setting-company-email" required class="w-full p-2.5 bg-slate-50 border rounded-xl text-sm font-medium">
-                        <div class="flex justify-end pt-2"><button type="submit" class="bg-slate-900 text-[#f5d78e] px-4 py-2 rounded-xl text-xs font-bold">حفظ الإعدادات</button></div>
+                        <div class="flex justify-end pt-2"><button type="submit" class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2.5 rounded-xl text-xs font-bold transition shadow-sm">حفظ الإعدادات</button></div>
                     </form>
                 </div>
+
+                <!-- Staff Management -->
                 <div class="bg-white rounded-2xl p-6 border shadow-sm space-y-4">
-                    <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-slate-900 text-base"><i class="fa-solid fa-user-shield text-blue-600"></i> حسابات الموظفين</h3><button type="button" onclick="openStaffModal()" class="bg-[#c5a059] text-black px-3 py-1.5 rounded-xl text-xs font-bold"><i class="fa-solid fa-plus"></i> إضافة</button></div>
-                    <div id="staff-list-container" class="space-y-2 max-h-48 overflow-y-auto custom-scrollbar"></div>
+                    <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-slate-900 text-base"><i class="fa-solid fa-user-shield text-indigo-600 ml-1"></i> حسابات الموظفين</h3><button type="button" onclick="openStaffModal()" class="bg-slate-100 text-slate-800 px-3 py-1.5 rounded-xl text-xs font-bold shadow-sm hover:bg-slate-200"><i class="fa-solid fa-plus"></i> إضافة</button></div>
+                    <div id="staff-list-container" class="space-y-2 max-h-32 overflow-y-auto custom-scrollbar"></div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. COMPARATOR -->
+        <!-- 2. COMPARATOR (مقارنة العروض الذكية) -->
         <section id="view-comparator" class="space-y-6 hidden animate-fade-in">
             <div class="flex justify-between items-center bg-white p-5 rounded-2xl border shadow-sm">
-                <div><h2 class="text-xl font-black text-slate-900"><i class="fa-solid fa-scale-balanced text-[#c5a059]"></i> مُقارِن العروض الذكي (مباشر من PDF)</h2><p class="text-xs text-slate-500 mt-1">يقرأ ملفات PDF ويستخرج المواصفات الحقيقية في الذاكرة المؤقتة بشريط زمني.</p></div>
-                <button type="button" onclick="openApiKeyModal()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl"><i class="fa-solid fa-key text-amber-600"></i> ضبط مفتاح Gemini API</button>
+                <div>
+                    <h2 class="text-xl font-black text-slate-900"><i class="fa-solid fa-scale-balanced text-[#c5a059]"></i> مُقارِن العروض الذكي (مباشر من PDF)</h2>
+                    <p class="text-xs text-slate-500 mt-1">يقرأ ملفات PDF ويستخرج المواصفات الحقيقية في الذاكرة المؤقتة بشريط زمني للتحميل.</p>
+                </div>
+                <button type="button" onclick="focusApiKeyInput()" class="px-3 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl border transition"><i class="fa-solid fa-key text-amber-600"></i> ضبط المفتاح للتحليل</button>
             </div>
+
             <div>
-                <div class="flex justify-between items-center mb-4"><h2 class="text-lg font-black text-slate-900">المصانع المراد مقارنتها <span id="slotCountBadge" class="bg-slate-200 text-xs px-2 py-0.5 rounded-md font-bold ml-2">2 عروض</span></h2><button type="button" onclick="addComparatorSlot()" class="px-4 py-2 rounded-xl bg-amber-50 text-amber-800 border font-bold text-sm"><i class="fa-solid fa-plus"></i> إضافة عرض جديد</button></div>
+                <div class="flex justify-between items-center mb-4"><h2 class="text-lg font-black text-slate-900">المصانع المراد مقارنتها <span id="slotCountBadge" class="bg-slate-200 text-xs px-2 py-0.5 rounded-md font-bold ml-2">2 عروض</span></h2><button type="button" onclick="addComparatorSlot()" class="px-4 py-2 rounded-xl bg-amber-50 text-amber-800 border font-bold text-sm shadow-sm"><i class="fa-solid fa-plus"></i> إضافة عرض جديد</button></div>
                 <div id="slotsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
             </div>
+
             <div class="bg-white border rounded-2xl p-6 shadow-sm flex flex-col md:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-slate-100 text-[#c5a059] flex items-center justify-center font-bold text-lg"><i class="fa-solid fa-sliders"></i></div><div><h3 class="font-bold text-slate-900">جاهز للتحليل الفوري من المستندات</h3><p class="text-xs text-slate-500">من المستندات محلياً بدون خوادم</p></div></div>
-                <div class="flex gap-3"><button type="button" onclick="resetComparatorAll()" class="px-4 py-3 rounded-xl border bg-slate-50 hover:bg-slate-100 font-bold text-sm">إعادة تعيين</button><button type="button" onclick="runRealComparator()" class="btn-gold px-7 py-3 rounded-xl font-extrabold text-sm shadow-md">بدء المقارنة الذكية الحقيقية</button></div>
+                <div class="flex gap-3"><button type="button" onclick="resetComparatorAll()" class="px-4 py-3 rounded-xl border bg-slate-50 hover:bg-slate-100 font-bold text-sm">إعادة تعيين</button><button type="button" onclick="runRealComparator()" class="btn-gold px-7 py-3 rounded-xl font-extrabold text-sm shadow-md">بدء المقارنة الذكية</button></div>
             </div>
-            <div id="compLoadingIndicator" class="hidden text-center space-y-3 p-6 bg-white rounded-2xl border"><div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-50 text-amber-600 text-xl animate-spin"><i class="fa-solid fa-circle-notch"></i></div><p class="text-sm font-bold text-slate-700">جاري الاتصال بالذكاء الاصطناعي وبناء المقارنة الحقيقية من ملفاتك...</p></div>
+
+            <div id="compLoadingIndicator" class="hidden text-center space-y-3 p-6 bg-white rounded-2xl border shadow-sm">
+                <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-amber-50 text-amber-600 text-xl animate-spin"><i class="fa-solid fa-circle-notch"></i></div>
+                <p class="text-sm font-bold text-slate-700">جاري قراءة البيانات وإرسالها للذكاء الاصطناعي (Gemini) لاستخراج الجدول الحقيقي...</p>
+            </div>
             
             <div id="compResultsSection" class="hidden space-y-6 animate-fade-in">
-                <div class="bg-white border rounded-2xl p-4 shadow-sm flex justify-between items-center"><h2 class="text-lg font-black text-slate-900"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block ml-2 animate-pulse"></span>جدول المقارنة الحقيقي</h2><div class="flex gap-2"><button type="button" onclick="downloadTableAsImage()" class="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs"><i class="fa-solid fa-camera"></i> تنزيل صورة</button><button type="button" onclick="exportTableToCsv()" class="px-3 py-2 rounded-xl border text-slate-700 font-bold text-xs"><i class="fa-solid fa-file-csv text-emerald-600"></i> تصدير CSV</button></div></div>
-                <div class="luxury-gradient text-white rounded-2xl p-6 shadow-lg border border-[#c5a059]/30"><h3 class="font-black text-[#f5d78e]"><i class="fa-solid fa-sparkles"></i> التقرير والتقييم المستخرج فعلياً (AI Verdict)</h3><p id="compAiSummaryText" class="text-sm text-slate-200 mt-2 leading-relaxed"></p></div>
-                <div id="compExportableContainer" class="bg-white rounded-2xl border overflow-hidden p-1">
-                    <div id="compExportHeader" class="p-6 bg-slate-900 text-white hidden justify-between border-b border-slate-800"><div><h2 class="text-2xl font-black">مقارنة عروض المصانع المعتمدة</h2><p class="text-xs text-slate-400">توليد آلي</p></div><div class="text-xs font-mono"><span id="compExportDateSpan"></span></div></div>
-                    <div class="overflow-x-auto custom-scrollbar"><table class="w-full text-right text-sm border-collapse"><thead class="bg-slate-100 font-black border-b table-fixed-header"><tr id="compTableHeaderRow"><th class="py-4 px-6 min-w-[220px] criteria-col-sticky border-x">المعيار المستخرج</th></tr></thead><tbody id="compTableBody" class="divide-y divide-slate-100"></tbody></table></div>
+                <div class="bg-white border rounded-2xl p-4 shadow-sm flex justify-between items-center"><h2 class="text-lg font-black text-slate-900"><span class="w-3 h-3 rounded-full bg-emerald-500 inline-block ml-2 animate-pulse"></span>جدول المقارنة الحقيقي (المستخرج)</h2><div class="flex gap-2"><button type="button" onclick="downloadTableAsImage()" class="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs shadow-sm"><i class="fa-solid fa-camera"></i> تنزيل صورة</button></div></div>
+                
+                <div class="luxury-gradient text-white rounded-2xl p-6 shadow-lg border border-[#c5a059]/30">
+                    <h3 class="font-black text-[#f5d78e]"><i class="fa-solid fa-sparkles"></i> التقرير والتقييم المستخرج (AI Verdict)</h3>
+                    <p id="compAiSummaryText" class="text-sm text-slate-200 mt-2 leading-relaxed"></p>
+                </div>
+
+                <div id="compExportableContainer" class="bg-white rounded-2xl border overflow-hidden p-1 shadow-sm">
+                    <div id="compExportHeader" class="p-6 bg-slate-900 text-white hidden justify-between border-b border-slate-800"><div><h2 class="text-2xl font-black">مقارنة عروض المصانع المعتمدة</h2><p class="text-xs text-slate-400">Echo Bridges AI Comparator</p></div><div class="text-xs font-mono"><span id="compExportDateSpan"></span></div></div>
+                    <div class="overflow-x-auto custom-scrollbar">
+                        <table class="w-full text-right text-sm border-collapse">
+                            <thead class="bg-slate-100 font-black border-b table-fixed-header">
+                                <tr id="compTableHeaderRow"><th class="py-4 px-6 min-w-[220px] criteria-col-sticky border-x">المعيار المستخرج</th></tr>
+                            </thead>
+                            <tbody id="compTableBody" class="divide-y divide-slate-100"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- 3. CLIENTS -->
         <section id="view-clients" class="space-y-6 hidden animate-fade-in">
-            <div class="flex justify-between items-center bg-white p-5 rounded-2xl border shadow-sm">
-                <div><h2 class="text-xl font-black text-slate-900">إدارة العملاء</h2><p class="text-xs text-slate-500">ملفات العملاء والأرصدة المالية.</p></div>
-                <button type="button" onclick="openClientModal()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-black shadow-md"><i class="fa-solid fa-user-plus"></i> إضافة عميل جديد</button>
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm">
+                <div><h2 class="text-xl font-black text-slate-900">إدارة العملاء</h2><p class="text-xs text-slate-500">ملفات العملاء وتتبع الأرصدة والديون.</p></div>
+                <button type="button" onclick="openClientModal()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-black shadow-md"><i class="fa-solid fa-user-plus"></i> إضافة عميل</button>
             </div>
             <div class="bg-white rounded-2xl border shadow-sm p-4">
-                <div class="flex justify-between items-center border-b pb-4 mb-4"><div class="relative w-full max-w-md"><i class="fa-solid fa-magnifying-glass absolute top-3.5 right-3.5 text-slate-400 text-xs"></i><input type="text" id="client-search-input" onkeyup="renderClientsTable()" placeholder="ابحث..." class="w-full pl-3 pr-9 py-2 bg-slate-50 border rounded-xl text-xs font-medium"></div><span class="text-xs font-bold" id="clients-count-badge">0 عميل</span></div>
+                <div class="flex justify-between items-center border-b pb-4 mb-4"><div class="relative w-full max-w-md"><i class="fa-solid fa-magnifying-glass absolute top-3.5 right-3.5 text-slate-400 text-xs"></i><input type="text" id="client-search-input" onkeyup="renderClientsTable()" placeholder="ابحث باسم العميل أو الشركة..." class="w-full pl-3 pr-9 py-2 bg-slate-50 border rounded-xl text-xs font-medium"></div><span class="text-xs font-bold" id="clients-count-badge">0 عميل</span></div>
                 <div class="overflow-x-auto custom-scrollbar">
                     <table class="w-full text-right text-xs">
                         <thead class="bg-slate-50 font-bold border-b"><tr><th class="p-3.5">الرقم</th><th class="p-3.5">الشركة والمسؤول</th><th class="p-3.5">السجل والميناء</th><th class="p-3.5">التواصل</th><th class="p-3.5">حالة الديون والأرصدة</th><th class="p-3.5 text-center">إجراءات</th></tr></thead>
@@ -182,7 +257,7 @@
         <!-- 6. SHIPPING -->
         <section id="view-shipping" class="space-y-6 hidden animate-fade-in">
             <div class="flex justify-between items-center bg-white p-5 rounded-2xl border shadow-sm">
-                <div><h2 class="text-xl font-black text-slate-900">الشحن والحاويات</h2><p class="text-xs text-slate-500">حساب أجور الشحن على العملاء وتتبع الحاويات.</p></div>
+                <div><h2 class="text-xl font-black text-slate-900">الشحن والحاويات</h2><p class="text-xs text-slate-500">حساب أجور الشحن وتتبع الحاويات.</p></div>
                 <button type="button" onclick="openShippingModal()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-black shadow-md"><i class="fa-solid fa-ship"></i> تسجيل شحنة جديدة</button>
             </div>
             <div id="shipping-list-container" class="space-y-4"></div>
@@ -191,18 +266,18 @@
         <!-- 7. SUPPLIERS -->
         <section id="view-suppliers" class="space-y-6 hidden animate-fade-in">
             <div class="flex justify-between items-center bg-white p-5 rounded-2xl border shadow-sm">
-                <div><h2 class="text-xl font-black text-slate-900">دليل الموردين والمصانع</h2><p class="text-xs text-slate-500">حسابات وتحويلات الموردين البنكية.</p></div>
-                <button type="button" onclick="openSupplierModal()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-black shadow-md"><i class="fa-solid fa-industry"></i> تسجيل مورد جديد</button>
+                <div><h2 class="text-xl font-black text-slate-900">دليل الموردين والمصانع</h2><p class="text-xs text-slate-500">قاعدة بيانات المصانع وحوالات الموردين البنكية.</p></div>
+                <button type="button" onclick="openSupplierModal()" class="btn-gold px-5 py-2.5 rounded-xl text-xs font-black shadow-md"><i class="fa-solid fa-industry"></i> تسجيل مورد</button>
             </div>
             <div class="bg-white p-4 rounded-2xl border shadow-sm mb-4"><div class="relative"><i class="fa-solid fa-magnifying-glass absolute top-3.5 right-3.5 text-slate-400 text-xs"></i><input type="text" id="supplier-search-input" onkeyup="renderSuppliersDirectory()" placeholder="ابحث باسم المورد أو التخصص..." class="w-full pl-3 pr-9 py-2.5 bg-slate-50 border rounded-xl text-xs font-medium"></div></div>
             <div id="suppliers-list-container" class="space-y-4"></div>
         </section>
 
-        <!-- 8. ACCOUNTING -->
+        <!-- 8. ACCOUNTING & DEBTS -->
         <section id="view-accounting" class="space-y-6 hidden animate-fade-in">
             <div class="bg-white p-5 rounded-2xl border shadow-sm">
                 <h2 class="text-xl font-black text-slate-900">التحليل المالي وكشوفات الديون</h2>
-                <p class="text-xs text-slate-500">نظام تتبع مباشر للأرصدة يوضح المبالغ المتبقية أو الفائضة لكل عميل بدقة بالغة.</p>
+                <p class="text-xs text-slate-500">نظام تتبع مباشر للأرصدة يوضح المبالغ المتبقية لكل عميل بدقة بالغة.</p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="bg-blue-50/70 border border-blue-200 p-5 rounded-2xl"><span class="text-xs font-bold text-blue-700 block mb-1">إجمالي المقبوضات النقدية</span><h3 class="text-3xl font-black text-blue-900 font-mono" id="acc-total-client-paid">$0</h3></div>
@@ -216,22 +291,18 @@
     </main>
 
     <!-- ==================================================== -->
-    <!-- ALL MODALS (100% COMPLETE NO SHORTCUTS) -->
+    <!-- ALL MODALS (COMPLETE NO OMISSIONS) -->
     <!-- ==================================================== -->
 
     <!-- LOGIN MODAL -->
     <div id="modal-login" class="fixed inset-0 modal-backdrop z-[200] flex items-center justify-center p-4">
         <div class="luxury-gradient border border-[#c5a059]/40 rounded-3xl max-w-md w-full p-8 shadow-2xl text-white space-y-6">
-            <div class="text-center space-y-2">
-                <div class="mx-auto w-16 h-16 rounded-2xl bg-black/60 border border-[#c5a059]/40 text-[#f5d78e] flex items-center justify-center text-3xl shadow-lg"><i class="fa-solid fa-bridge"></i></div>
-                <h2 class="text-2xl font-black text-[#f5d78e] font-serif">Echo Bridges</h2>
-                <p class="text-xs text-slate-400 font-medium">تسجيل الدخول إلى لوحة الإدارة</p>
-            </div>
+            <div class="text-center space-y-2"><div class="mx-auto w-16 h-16 rounded-2xl bg-black/60 border border-[#c5a059]/40 text-[#f5d78e] flex items-center justify-center text-3xl shadow-lg"><i class="fa-solid fa-bridge"></i></div><h2 class="text-2xl font-black text-[#f5d78e] font-serif">Echo Bridges</h2><p class="text-xs text-slate-400 font-medium">تسجيل الدخول للنظام</p></div>
             <form onsubmit="handleAdminLogin(event)" class="space-y-4">
-                <div><label class="block text-xs font-bold text-slate-300 mb-1">اسم المستخدم:</label><input type="text" id="login-username" required class="w-full p-3 bg-black/50 border border-slate-700 rounded-xl text-sm text-white outline-none" dir="ltr" value="admin"></div>
+                <div><label class="block text-xs font-bold text-slate-300 mb-1">المستخدم:</label><input type="text" id="login-username" required class="w-full p-3 bg-black/50 border border-slate-700 rounded-xl text-sm text-white outline-none" dir="ltr" value="admin"></div>
                 <div><label class="block text-xs font-bold text-slate-300 mb-1">كلمة المرور:</label><input type="password" id="login-password" required class="w-full p-3 bg-black/50 border border-slate-700 rounded-xl text-sm text-white outline-none" dir="ltr" placeholder="123456"></div>
-                <div class="flex items-center justify-between text-xs pt-1"><label class="flex items-center gap-2 cursor-pointer text-slate-300"><input type="checkbox" id="remember-admin-checkbox" checked class="w-4 h-4 rounded text-[#c5a059]"><span>تذكرني على هذا الجهاز</span></label></div>
-                <button type="submit" class="w-full btn-gold py-3.5 rounded-xl text-sm font-black shadow-xl">تسجيل الدخول</button>
+                <div class="flex items-center justify-between text-xs pt-1"><label class="flex items-center gap-2 cursor-pointer text-slate-300"><input type="checkbox" id="remember-admin-checkbox" checked class="w-4 h-4 rounded text-[#c5a059]"><span>تذكرني</span></label></div>
+                <button type="submit" class="w-full btn-gold py-3.5 rounded-xl text-sm font-black shadow-xl">دخول</button>
             </form>
         </div>
     </div>
@@ -239,11 +310,11 @@
     <!-- ADMIN SETTINGS -->
     <div id="modal-admin-settings" class="fixed inset-0 modal-backdrop z-[200] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">تعديل بيانات الدخول للمدير</h3><button type="button" onclick="closeAdminSettingsModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
+            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">تعديل حساب المدير</h3><button type="button" onclick="closeAdminSettingsModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
             <form onsubmit="saveAdminCredentials(event)" class="space-y-3 text-xs">
-                <div><label class="block font-bold mb-1">اسم المستخدم الجديد:</label><input type="text" id="admin-new-user" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
-                <div><label class="block font-bold mb-1">كلمة المرور الجديدة:</label><input type="text" id="admin-new-pass" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
-                <div class="flex justify-end gap-2 pt-2 border-t"><button type="button" onclick="closeAdminSettingsModal()" class="px-4 py-2 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-5 py-2 rounded-xl font-black">حفظ التعديلات</button></div>
+                <div><label class="block font-bold mb-1">المستخدم الجديد:</label><input type="text" id="admin-new-user" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
+                <div><label class="block font-bold mb-1">الرقم السري الجديد:</label><input type="text" id="admin-new-pass" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
+                <div class="flex justify-end gap-2 pt-2 border-t"><button type="button" onclick="closeAdminSettingsModal()" class="px-4 py-2 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-5 py-2 rounded-xl font-black">حفظ</button></div>
             </form>
         </div>
     </div>
@@ -255,27 +326,17 @@
             <form onsubmit="saveStaffAccount(event)" class="space-y-3 text-xs">
                 <input type="hidden" id="staff-edit-id">
                 <div><label class="block font-bold mb-1">الاسم الكامل:</label><input type="text" id="staff-fullname" required class="w-full p-2.5 bg-slate-50 border rounded-xl"></div>
-                <div><label class="block font-bold mb-1">اسم المستخدم:</label><input type="text" id="staff-username" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
+                <div><label class="block font-bold mb-1">المستخدم:</label><input type="text" id="staff-username" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
                 <div><label class="block font-bold mb-1">كلمة المرور:</label><input type="text" id="staff-password" required class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
-                <div class="flex justify-end gap-2 pt-2 border-t"><button type="button" onclick="closeStaffModal()" class="px-4 py-2 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-5 py-2 rounded-xl font-black">حفظ الموظف</button></div>
+                <div class="flex justify-end gap-2 pt-2 border-t"><button type="button" onclick="closeStaffModal()" class="px-4 py-2 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-5 py-2 rounded-xl font-black">حفظ</button></div>
             </form>
-        </div>
-    </div>
-
-    <!-- API KEY MODAL -->
-    <div id="modal-api-key" class="fixed inset-0 modal-backdrop z-[200] hidden items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-4">
-            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">مفتاح الذكاء الاصطناعي (Gemini API)</h3><button type="button" onclick="closeApiKeyModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
-            <p class="text-xs text-slate-500">ضع مفتاحك الخاص لتمكين قراءة ملفات الـ PDF والمقارنة الحقيقية.</p>
-            <input type="password" id="gemini-user-key" class="w-full p-2.5 bg-slate-50 border rounded-xl font-mono text-xs" dir="ltr" placeholder="AIzaSy...">
-            <div class="flex justify-end gap-2 pt-2 border-t"><button type="button" onclick="closeApiKeyModal()" class="px-4 py-2 bg-slate-100 font-bold rounded-xl text-xs">إلغاء</button><button type="button" onclick="saveUserApiKey()" class="btn-gold px-5 py-2 rounded-xl font-black text-xs">حفظ المفتاح</button></div>
         </div>
     </div>
 
     <!-- CLIENT MODAL -->
     <div id="modal-client" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
-            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base" id="client-modal-title">إضافة عميل جديد</h3><button type="button" onclick="closeClientModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
+            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base" id="client-modal-title">بيانات العميل</h3><button type="button" onclick="closeClientModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
             <form onsubmit="saveClientForm(event)" class="space-y-4 overflow-y-auto custom-scrollbar p-1 text-xs flex-grow">
                 <input type="hidden" id="client-id">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-amber-50/50 p-3.5 rounded-2xl border border-amber-100">
@@ -283,12 +344,12 @@
                     <div><label class="block font-bold mb-1">السجل التجاري (CR):</label><input type="text" id="client-cr" class="w-full p-2 bg-white border border-amber-200 rounded-xl"></div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div><label class="block font-bold mb-1">اسم الشركة:</label><input type="text" id="client-company-ar" required class="w-full p-2.5 bg-slate-50 border rounded-xl"></div>
-                    <div><label class="block font-bold mb-1">اسم المسؤول:</label><input type="text" id="client-manager-ar" required class="w-full p-2.5 bg-slate-50 border rounded-xl"></div>
+                    <div><label class="block font-bold mb-1">اسم الشركة (عربي):</label><input type="text" id="client-company-ar" required class="w-full p-2.5 bg-slate-50 border rounded-xl"></div>
+                    <div><label class="block font-bold mb-1">اسم المسؤول (عربي):</label><input type="text" id="client-manager-ar" required class="w-full p-2.5 bg-slate-50 border rounded-xl"></div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div><label class="block font-bold mb-1">رقم الهاتف / واتساب:</label><input type="text" id="client-phone" class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
-                    <div><label class="block font-bold mb-1">ميناء الشحن المطلوب:</label><input type="text" id="client-port" class="w-full p-2.5 bg-slate-50 border rounded-xl"></div>
+                    <div><label class="block font-bold mb-1">رقم الهاتف:</label><input type="text" id="client-phone" class="w-full p-2.5 bg-slate-50 border rounded-xl" dir="ltr"></div>
+                    <div><label class="block font-bold mb-1">الميناء المطلوب:</label><input type="text" id="client-port" class="w-full p-2.5 bg-slate-50 border rounded-xl"></div>
                 </div>
                 <div class="flex justify-end gap-2.5 pt-3 border-t"><button type="button" onclick="closeClientModal()" class="px-5 py-2.5 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-6 py-2.5 rounded-xl font-black">حفظ العميل</button></div>
             </form>
@@ -298,19 +359,19 @@
     <!-- REQUEST (RFQ) MODAL -->
     <div id="modal-request" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
-            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">إنشاء طلب تسعير (وتسجيل مطالبة)</h3><button type="button" onclick="closeRequestModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
+            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">إنشاء طلب وتسجيل مطالبة مالية</h3><button type="button" onclick="closeRequestModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
             <form onsubmit="saveRequestForm(event)" class="space-y-4 overflow-y-auto custom-scrollbar p-1 flex-grow text-xs">
                 <input type="hidden" id="request-id">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div><label class="block font-bold mb-1">العميل:</label><select id="request-client-id" required class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"></select></div>
                     <div><label class="block font-bold mb-1">التاريخ:</label><input type="date" id="request-date" required class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"></div>
                 </div>
-                <div><label class="block font-bold mb-1">عنوان الطلب / المنتج:</label><input type="text" id="request-title" required class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"></div>
+                <div><label class="block font-bold mb-1">اسم المنتج:</label><input type="text" id="request-title" required class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"></div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div><label class="block font-bold text-amber-900 mb-1">تكلفة الصفقة المطلوبة من العميل ($):</label><input type="number" step="any" id="request-total-cost" class="w-full p-2.5 bg-amber-50 border border-amber-300 rounded-xl font-bold font-mono text-amber-950" placeholder="0"></div>
-                    <div><label class="block font-bold mb-1">الحالة:</label><select id="request-status-select" class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"><option value="قيد البحث">قيد البحث</option><option value="تم الاتفاق">تم الاتفاق</option><option value="مكتمل">مكتمل</option></select></div>
+                    <div><label class="block font-bold text-amber-900 mb-1">قيمة الصفقة المحملة على العميل ($):</label><input type="number" step="any" id="request-total-cost" class="w-full p-2.5 bg-amber-50 border border-amber-300 rounded-xl font-bold font-mono text-amber-950" placeholder="0"></div>
+                    <div><label class="block font-bold mb-1">حالة الطلب:</label><select id="request-status-select" class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"><option value="قيد البحث">قيد البحث</option><option value="تم الاتفاق">تم الاتفاق</option><option value="مكتمل">مكتمل</option></select></div>
                 </div>
-                <div class="flex justify-end gap-2.5 pt-3 border-t"><button type="button" onclick="closeRequestModal()" class="px-5 py-2.5 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-6 py-2.5 rounded-xl font-black">حفظ وتحميل على العميل</button></div>
+                <div class="flex justify-end gap-2.5 pt-3 border-t"><button type="button" onclick="closeRequestModal()" class="px-5 py-2.5 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-6 py-2.5 rounded-xl font-black">حفظ وإدراج بالمطالبات</button></div>
             </form>
         </div>
     </div>
@@ -327,10 +388,10 @@
                 </div>
                 <div><label class="block font-bold mb-1">اسم المنتج:</label><input type="text" id="inspection-title" required class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"></div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div><label class="block font-bold mb-1">حالة الفحص:</label><select id="inspection-status" class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"><option value="جودة ممتازة">جودة ممتازة</option><option value="مرفوض">مرفوض</option><option value="تم ارسال عينة">تم ارسال عينة</option></select></div>
-                    <div><label class="block font-bold text-rose-800 mb-1">تكلفة شحن العينة على العميل ($):</label><input type="number" step="any" id="insp-sample-cost" class="w-full p-2.5 bg-rose-50 border border-rose-200 rounded-xl font-mono font-bold text-rose-900" placeholder="0"></div>
+                    <div><label class="block font-bold mb-1">الحالة:</label><select id="inspection-status" class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"><option value="جودة ممتازة">جودة ممتازة</option><option value="مرفوض">مرفوض</option><option value="تم ارسال عينة">تم ارسال عينة</option></select></div>
+                    <div><label class="block font-bold text-rose-800 mb-1">أجور العينة المحملة للعميل ($):</label><input type="number" step="any" id="insp-sample-cost" class="w-full p-2.5 bg-rose-50 border border-rose-200 rounded-xl font-mono font-bold text-rose-900" placeholder="0"></div>
                 </div>
-                <div class="flex justify-end gap-2.5 pt-3 border-t"><button type="button" onclick="closeInspectionModal()" class="px-5 py-2.5 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-6 py-2.5 rounded-xl font-black">حفظ تقرير الفحص</button></div>
+                <div class="flex justify-end gap-2.5 pt-3 border-t"><button type="button" onclick="closeInspectionModal()" class="px-5 py-2.5 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-6 py-2.5 rounded-xl font-black">حفظ الفحص</button></div>
             </form>
         </div>
     </div>
@@ -338,7 +399,7 @@
     <!-- SHIPPING MODAL -->
     <div id="modal-shipping" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
-            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">تسجيل شحنة وربط تكاليفها</h3><button type="button" onclick="closeShippingModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
+            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">تسجيل شحنة</h3><button type="button" onclick="closeShippingModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
             <form onsubmit="saveShippingForm(event)" class="space-y-4 overflow-y-auto custom-scrollbar p-1 flex-grow text-xs">
                 <input type="hidden" id="shipping-id">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -347,10 +408,10 @@
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div><label class="block font-bold mb-1">وصف الشحنة:</label><input type="text" id="shipping-title" required class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"></div>
-                    <div><label class="block font-bold mb-1">رقم الحاوية / بوليصة الشحن:</label><input type="text" id="shipping-tracking-no" class="w-full p-2.5 bg-white border rounded-xl font-mono font-bold"></div>
+                    <div><label class="block font-bold mb-1">رقم التتبع (B/L):</label><input type="text" id="shipping-tracking-no" class="w-full p-2.5 bg-white border rounded-xl font-mono font-bold"></div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div><label class="block font-bold text-amber-900 mb-1">أجور الشحن المطلوبة من العميل ($):</label><input type="number" step="any" id="shipping-client-price" class="w-full p-2.5 bg-amber-50 border border-amber-300 rounded-xl font-mono font-bold text-amber-900" placeholder="0"></div>
+                    <div><label class="block font-bold text-amber-900 mb-1">أجور الشحن المحملة على العميل ($):</label><input type="number" step="any" id="shipping-client-price" class="w-full p-2.5 bg-amber-50 border border-amber-300 rounded-xl font-mono font-bold text-amber-900" placeholder="0"></div>
                 </div>
                 <div class="flex justify-end gap-2.5 pt-3 border-t"><button type="button" onclick="closeShippingModal()" class="px-5 py-2.5 bg-slate-100 font-bold rounded-xl">إلغاء</button><button type="submit" class="btn-gold px-6 py-2.5 rounded-xl font-black">حفظ وإدراج كدين</button></div>
             </form>
@@ -360,11 +421,11 @@
     <!-- SUPPLIER MODAL -->
     <div id="modal-supplier" class="fixed inset-0 modal-backdrop z-[150] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-2xl w-full p-6 shadow-2xl space-y-4 max-h-[92vh] flex flex-col">
-            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">تسجيل مورد / مصنع</h3><button type="button" onclick="closeSupplierModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
+            <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-base">تسجيل مورد</h3><button type="button" onclick="closeSupplierModal()" class="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center"><i class="fa-solid fa-xmark"></i></button></div>
             <form onsubmit="saveSupplierForm(event)" class="space-y-4 overflow-y-auto custom-scrollbar p-1 flex-grow text-xs">
                 <input type="hidden" id="supplier-id">
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div><label class="block font-bold mb-1">اسم المورد (English):</label><input type="text" id="supplier-name" required class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"></div>
+                    <div><label class="block font-bold mb-1">اسم المورد:</label><input type="text" id="supplier-name" required class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"></div>
                     <div><label class="block font-bold mb-1">المسؤول بالمصنع:</label><input type="text" id="supplier-manager" required class="w-full p-2.5 bg-slate-50 border rounded-xl font-bold"></div>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -389,16 +450,15 @@
             <form onsubmit="addClientPayment(event)" class="bg-blue-50/70 p-4 rounded-2xl border border-blue-200 space-y-3 text-xs">
                 <input type="hidden" id="account-client-id">
                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-3">
-                    <div><label class="block font-bold mb-1">المبلغ المقبوض من العميل:</label><div class="flex gap-1"><input type="number" step="any" id="pay-amount" required class="w-full p-2 bg-white border border-blue-300 rounded-xl font-bold font-mono text-blue-900"><select id="pay-currency" class="p-2 bg-white border border-blue-300 rounded-xl font-bold"><option value="USD">$ USD</option><option value="CNY">¥ RMB</option></select></div></div>
-                    <div><label class="block font-bold text-amber-900 mb-1">سعر الصرف (ريت التحويل):</label><input type="number" step="0.0001" id="pay-rate" class="w-full p-2 bg-amber-50 border border-amber-300 rounded-xl font-bold font-mono" placeholder="7.23" value="1"></div>
-                    <div><label class="block font-bold mb-1">رقم الحوالة / المرجع:</label><input type="text" id="pay-ref" required class="w-full p-2 bg-white border rounded-xl font-mono"></div>
+                    <div><label class="block font-bold mb-1">المبلغ المقبوض:</label><div class="flex gap-1"><input type="number" step="any" id="pay-amount" required class="w-full p-2 bg-white border border-blue-300 rounded-xl font-bold font-mono text-blue-900"><select id="pay-currency" class="p-2 bg-white border border-blue-300 rounded-xl font-bold"><option value="USD">$ USD</option><option value="CNY">¥ RMB</option></select></div></div>
+                    <div><label class="block font-bold text-amber-900 mb-1">ريت التحويل لمطابقة الدولار:</label><input type="number" step="0.0001" id="pay-rate" class="w-full p-2 bg-amber-50 border border-amber-300 rounded-xl font-bold font-mono" value="1"></div>
+                    <div><label class="block font-bold mb-1">رقم الحوالة:</label><input type="text" id="pay-ref" required class="w-full p-2 bg-white border rounded-xl font-mono"></div>
                     <div><label class="block font-bold mb-1">التاريخ:</label><input type="date" id="pay-date" required class="w-full p-2 bg-white border rounded-xl font-bold"></div>
                 </div>
-                <div class="flex justify-end pt-1"><button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-6 py-2.5 rounded-xl shadow-sm">تسجيل الدفعة وخصمها من ذمة العميل</button></div>
+                <div class="flex justify-end pt-1"><button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-black px-6 py-2.5 rounded-xl shadow-sm"><i class="fa-solid fa-plus-circle ml-1"></i> تسجيل الدفعة (خصم الدين)</button></div>
             </form>
-
             <div class="flex-grow overflow-y-auto custom-scrollbar border rounded-2xl">
-                <table class="w-full text-right text-xs"><thead class="bg-slate-50 font-bold border-b"><tr><th class="p-3">التاريخ</th><th class="p-3">المبلغ المقبوض</th><th class="p-3">المرجع</th><th class="p-3 text-center">إجراء</th></tr></thead><tbody id="client-payments-list" class="divide-y"></tbody></table>
+                <table class="w-full text-right text-xs"><thead class="bg-slate-50 font-bold border-b"><tr><th class="p-3">التاريخ</th><th class="p-3">المبلغ المقبوض</th><th class="p-3">المرجع</th><th class="p-3 text-center">حذف</th></tr></thead><tbody id="client-payments-list" class="divide-y"></tbody></table>
             </div>
         </div>
     </div>
@@ -410,26 +470,26 @@
             <form onsubmit="addSupplierPayment(event)" class="bg-rose-50/70 p-4 rounded-2xl border border-rose-200 space-y-3 text-xs">
                 <input type="hidden" id="account-supplier-id">
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div><label class="block font-bold mb-1">المبلغ المحول للمصنع:</label><div class="flex gap-1"><input type="number" step="any" id="sup-pay-amount" required class="w-full p-2 bg-white border border-rose-300 rounded-xl font-bold font-mono text-rose-900"><select id="sup-pay-currency" class="p-2 bg-white border border-rose-300 rounded-xl font-bold"><option value="CNY">¥ RMB</option><option value="USD">$ USD</option></select></div></div>
+                    <div><label class="block font-bold mb-1">المبلغ المحول:</label><div class="flex gap-1"><input type="number" step="any" id="sup-pay-amount" required class="w-full p-2 bg-white border border-rose-300 rounded-xl font-bold font-mono text-rose-900"><select id="sup-pay-currency" class="p-2 bg-white border border-rose-300 rounded-xl font-bold"><option value="CNY">¥ RMB</option><option value="USD">$ USD</option></select></div></div>
                     <div><label class="block font-bold mb-1">رقم الحوالة (TT No):</label><input type="text" id="sup-pay-ref" required class="w-full p-2 bg-white border rounded-xl font-mono text-rose-900 font-bold"></div>
                     <div><label class="block font-bold mb-1">التاريخ:</label><input type="date" id="sup-pay-date" required class="w-full p-2 bg-white border rounded-xl font-bold"></div>
                 </div>
                 <div class="flex justify-end pt-1"><button type="submit" class="bg-rose-600 hover:bg-rose-700 text-white font-black px-6 py-2.5 rounded-xl shadow-sm">توثيق الحوالة</button></div>
             </form>
-            <div class="flex-grow overflow-y-auto custom-scrollbar border rounded-2xl"><table class="w-full text-right text-xs"><thead class="bg-slate-50 font-bold border-b"><tr><th class="p-3">التاريخ</th><th class="p-3">المبلغ المحول</th><th class="p-3">رقم الحوالة TT</th><th class="p-3 text-center">إجراء</th></tr></thead><tbody id="supplier-payments-list" class="divide-y"></tbody></table></div>
+            <div class="flex-grow overflow-y-auto custom-scrollbar border rounded-2xl"><table class="w-full text-right text-xs"><thead class="bg-slate-50 font-bold border-b"><tr><th class="p-3">التاريخ</th><th class="p-3">المبلغ المحول</th><th class="p-3">رقم الحوالة TT</th><th class="p-3 text-center">حذف</th></tr></thead><tbody id="supplier-payments-list" class="divide-y"></tbody></table></div>
         </div>
     </div>
 
     <!-- ==================================================== -->
-    <!-- JAVASCRIPT MASTER SYSTEM (100% COMPLETE NO OMISSIONS) -->
+    <!-- JAVASCRIPT MASTER SYSTEM                             -->
     <!-- ==================================================== -->
     <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = '[https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js](https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js)';
+        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        const STORAGE_KEY = 'EB_MASTER_FINAL_PRO_MAX';
-        const LOGIN_KEY = 'EB_ADMIN_LOGIN';
-        const API_KEY_STORAGE = 'EB_GEMINI_KEY_REAL';
-        const SUPABASE_URL = '[https://zkzpxaqffrctjhfgkpnm.supabase.co](https://zkzpxaqffrctjhfgkpnm.supabase.co)';
+        const STORAGE_KEY = 'EB_MASTER_FINAL_VERSION_2026';
+        const LOGIN_KEY = 'EB_ADMIN_LOGIN_SECURE';
+        const API_KEY_STORAGE = 'EB_GEMINI_API_KEY_LIVE';
+        const SUPABASE_URL = 'https://zkzpxaqffrctjhfgkpnm.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_Xi7Owac1858P4KUmIt-YCw_wWcy2XyC';
         const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
@@ -438,7 +498,6 @@
         let activeTab = 'dashboard';
         let selectedClientProfileId = null;
         let appDb = null;
-
         let compState = { slots: [], analysisResult: null };
 
         const defaultDatabase = {
@@ -448,7 +507,6 @@
             staff: [], clients: [], suppliers: [], requests: [], inspections: [], shipping: []
         };
 
-        // --- Core ---
         function loadLocalDb() { try { const stored = localStorage.getItem(STORAGE_KEY); if (stored) appDb = JSON.parse(stored); } catch(e) {} if (!appDb) appDb = JSON.parse(JSON.stringify(defaultDatabase)); if (!appDb.adminUsername) appDb.adminUsername = 'admin'; if (!appDb.adminPassword) appDb.adminPassword = '123456'; }
         async function syncCloudDb() { try { const { data } = await sbClient.from('app_storage').select('value').eq('key', STORAGE_KEY).single(); if (data && data.value) { appDb = data.value; localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); renderCurrentView(); } } catch (err) {} }
         async function persistDb() { try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); } catch (err) {} try { await sbClient.from('app_storage').upsert({ key: STORAGE_KEY, value: appDb }); } catch(err) {} }
@@ -466,39 +524,29 @@
         }
 
         // --- Auth ---
-        function checkAdminAccess() {
-            if (localStorage.getItem(LOGIN_KEY) === 'true') { currentUser = 'admin'; document.getElementById('modal-login').classList.add('hidden'); document.getElementById('modal-login').classList.remove('flex'); applyUserSession(); } 
-            else { currentUser = null; document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex'); }
-        }
-        function handleAdminLogin(e) {
-            e.preventDefault(); const u = document.getElementById('login-username').value.trim(); const p = document.getElementById('login-password').value.trim(); const rem = document.getElementById('remember-admin-checkbox').checked;
-            if (u === (appDb.adminUsername || 'admin') && p === (appDb.adminPassword || '123456')) { currentUser = 'admin'; if(rem) localStorage.setItem(LOGIN_KEY, 'true'); else localStorage.removeItem(LOGIN_KEY); document.getElementById('modal-login').classList.add('hidden'); showToast('تم تسجيل الدخول بنجاح'); applyUserSession(); } 
-            else { showToast('البيانات غير صحيحة!', 'error'); }
-        }
-        function handleLogout() { currentUser = null; localStorage.removeItem(LOGIN_KEY); document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex'); showToast('تم تسجيل الخروج'); }
+        function checkAdminAccess() { if (localStorage.getItem(LOGIN_KEY) === 'true') { currentUser = 'admin'; document.getElementById('modal-login').classList.add('hidden'); document.getElementById('modal-login').classList.remove('flex'); applyUserSession(); } else { currentUser = null; document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex'); } }
+        function handleAdminLogin(e) { e.preventDefault(); const u = document.getElementById('login-username').value.trim(); const p = document.getElementById('login-password').value.trim(); const rem = document.getElementById('remember-admin-checkbox').checked; const vU = appDb.adminUsername || 'admin'; const vP = appDb.adminPassword || '123456'; if (u === vU && p === vP) { currentUser = 'admin'; if(rem) localStorage.setItem(LOGIN_KEY, 'true'); else localStorage.removeItem(LOGIN_KEY); document.getElementById('modal-login').classList.add('hidden'); showToast('تم الدخول بنجاح'); applyUserSession(); } else { showToast('بيانات غير صحيحة', 'error'); } }
+        function handleLogout() { currentUser = null; localStorage.removeItem(LOGIN_KEY); document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex'); showToast('تم الخروج'); }
         function applyUserSession() { const isAdm = currentUser === 'admin'; document.querySelectorAll('.admin-only-col').forEach(el => isAdm ? el.classList.remove('hidden') : el.classList.add('hidden')); navigateTo('dashboard'); }
 
-        // --- Settings & Staff ---
+        // --- Settings & Staff & API Key ---
         function openAdminSettingsModal() { document.getElementById('modal-admin-settings').classList.remove('hidden'); document.getElementById('modal-admin-settings').classList.add('flex'); document.getElementById('admin-new-user').value = appDb.adminUsername; document.getElementById('admin-new-pass').value = appDb.adminPassword; }
         function closeAdminSettingsModal() { document.getElementById('modal-admin-settings').classList.add('hidden'); document.getElementById('modal-admin-settings').classList.remove('flex'); }
-        async function saveAdminCredentials(e) { e.preventDefault(); appDb.adminUsername = document.getElementById('admin-new-user').value; appDb.adminPassword = document.getElementById('admin-new-pass').value; await persistDb(); closeAdminSettingsModal(); showToast('تم تحديث البيانات'); }
+        async function saveAdminCredentials(e) { e.preventDefault(); appDb.adminUsername = document.getElementById('admin-new-user').value; appDb.adminPassword = document.getElementById('admin-new-pass').value; await persistDb(); closeAdminSettingsModal(); showToast('تم الحفظ'); }
+
+        function focusApiKeyInput() { navigateTo('dashboard'); setTimeout(() => { document.getElementById('dashboard-gemini-key').focus(); showToast('يرجى وضع المفتاح هنا'); }, 300); }
+        function saveDashboardApiKey() { const k = document.getElementById('dashboard-gemini-key').value.trim(); if(k) localStorage.setItem(API_KEY_STORAGE, k); else localStorage.removeItem(API_KEY_STORAGE); showToast('تم حفظ مفتاح API بنجاح'); }
 
         function openStaffModal(id=null) { document.getElementById('modal-staff').classList.remove('hidden'); document.getElementById('modal-staff').classList.add('flex'); if(id){ const s = appDb.staff.find(x=>x.id===id); document.getElementById('staff-edit-id').value = s.id; document.getElementById('staff-fullname').value = s.name; document.getElementById('staff-username').value = s.username; document.getElementById('staff-password').value = s.password; } else { document.getElementById('staff-edit-id').value=''; document.getElementById('staff-fullname').value=''; document.getElementById('staff-username').value=''; document.getElementById('staff-password').value=''; } }
         function closeStaffModal() { document.getElementById('modal-staff').classList.add('hidden'); document.getElementById('modal-staff').classList.remove('flex'); }
         async function saveStaffAccount(e) { e.preventDefault(); const id = document.getElementById('staff-edit-id').value; const nm = document.getElementById('staff-fullname').value; const us = document.getElementById('staff-username').value; const pw = document.getElementById('staff-password').value; if(!appDb.staff) appDb.staff = []; if(id){ const s=appDb.staff.find(x=>x.id===id); s.name=nm; s.username=us; s.password=pw; } else { appDb.staff.push({id:'st_'+Date.now(), name:nm, username:us, password:pw}); } await persistDb(); closeStaffModal(); renderCurrentView(); showToast('تم الحفظ'); }
         async function deleteStaff(id){ appDb.staff = appDb.staff.filter(x=>x.id!==id); await persistDb(); renderCurrentView(); showToast('تم الحذف'); }
 
-        async function fetchLiveExchangeRates() {
-            try { showToast('جاري تحديث أسعار الصرف...'); const res = await fetch('[https://open.er-api.com/v6/latest/USD](https://open.er-api.com/v6/latest/USD)'); const data = await res.json(); if(data && data.rates && data.rates.CNY) { appDb.exchangeRates.usdToCny = parseFloat(data.rates.CNY.toFixed(4)); appDb.exchangeRates.eurToUsd = parseFloat((1/data.rates.EUR).toFixed(4)); appDb.exchangeRates.lastUpdate = new Date().toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'}); await persistDb(); renderCurrentView(); showToast('تم التحديث الحي'); } } catch(err) { showToast('تعذر التحديث الحي', 'error'); }
-        }
+        async function fetchLiveExchangeRates() { try { showToast('جاري تحديث الصرف...'); const res = await fetch('https://open.er-api.com/v6/latest/USD'); const data = await res.json(); if(data && data.rates && data.rates.CNY) { appDb.exchangeRates.usdToCny = parseFloat(data.rates.CNY.toFixed(4)); appDb.exchangeRates.eurToUsd = parseFloat((1/data.rates.EUR).toFixed(4)); appDb.exchangeRates.lastUpdate = new Date().toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'}); await persistDb(); renderCurrentView(); showToast('تم التحديث الحي'); } } catch(err) { showToast('تعذر التحديث', 'error'); } }
         async function saveExchangeRates() { appDb.exchangeRates.usdToCny=parseFloat(document.getElementById('rate-usd-cny').value); appDb.exchangeRates.eurToUsd=parseFloat(document.getElementById('rate-eur-usd').value); await persistDb(); showToast('تم الحفظ'); }
         async function saveCompanyEmailSettings(e) { e.preventDefault(); appDb.companyEmail = document.getElementById('setting-company-email').value; await persistDb(); showToast('تم حفظ الإعدادات'); }
 
-        function openApiKeyModal() { document.getElementById('modal-api-key').classList.remove('hidden'); document.getElementById('modal-api-key').classList.add('flex'); document.getElementById('gemini-user-key').value = localStorage.getItem(API_KEY_STORAGE)||''; }
-        function closeApiKeyModal() { document.getElementById('modal-api-key').classList.add('hidden'); document.getElementById('modal-api-key').classList.remove('flex'); }
-        function saveUserApiKey() { const k = document.getElementById('gemini-user-key').value.trim(); if(k) localStorage.setItem(API_KEY_STORAGE, k); else localStorage.removeItem(API_KEY_STORAGE); closeApiKeyModal(); showToast('تم حفظ المفتاح'); }
-
-        // --- Navigation & Renders ---
+        // --- Nav ---
         function navigateTo(tab) {
             activeTab = tab;
             ['dashboard', 'comparator', 'clients', 'requests', 'inspections', 'shipping', 'suppliers', 'accounting'].forEach(id => {
@@ -511,7 +559,7 @@
             renderCurrentView();
         }
 
-        // ACCOUNTING DEBT ENGINE
+        // --- ACCOUNTING ENGINE (الديون) ---
         function calculateClientBalance(clientId) {
             const reqs = (appDb.requests || []).filter(r => r.clientId === clientId).reduce((s, r) => s + (Number(r.totalCost)||0), 0);
             const ships = (appDb.shipping || []).filter(s => s.clientId === clientId).reduce((s, x) => s + (Number(x.clientPrice)||0), 0);
@@ -530,14 +578,13 @@
             document.getElementById('dash-clients-count').textContent = (appDb.clients||[]).length;
             document.getElementById('dash-active-reqs-count').textContent = (appDb.requests||[]).length;
             document.getElementById('dash-suppliers-count').textContent = (appDb.suppliers||[]).length;
-            
-            let globalDebt = 0;
-            (appDb.clients||[]).forEach(c => { const b=calculateClientBalance(c.id); if(b.balance>0) globalDebt += b.balance; });
+            let globalDebt = 0; (appDb.clients||[]).forEach(c => { const b=calculateClientBalance(c.id); if(b.balance>0) globalDebt += b.balance; });
             document.getElementById('dash-total-debts').textContent = '$'+Math.round(globalDebt).toLocaleString();
 
             if(document.getElementById('rate-usd-cny')) document.getElementById('rate-usd-cny').value = appDb.exchangeRates.usdToCny;
             if(document.getElementById('rate-eur-usd')) document.getElementById('rate-eur-usd').value = appDb.exchangeRates.eurToUsd;
             if(document.getElementById('setting-company-email')) document.getElementById('setting-company-email').value = appDb.companyEmail;
+            if(document.getElementById('dashboard-gemini-key')) document.getElementById('dashboard-gemini-key').value = localStorage.getItem(API_KEY_STORAGE) || '';
             
             const stC = document.getElementById('staff-list-container');
             if(stC) stC.innerHTML = (appDb.staff||[]).map(s=>`<div class="flex justify-between items-center bg-slate-50 p-2 border rounded-lg text-xs"><span><strong>${s.name}</strong> (${s.username})</span><div class="flex gap-1"><button onclick="openStaffModal('${s.id}')" class="text-amber-600"><i class="fa-solid fa-pen"></i></button><button onclick="deleteStaff('${s.id}')" class="text-rose-600 ml-2"><i class="fa-solid fa-trash"></i></button></div></div>`).join('') || '<p class="text-xs text-slate-400">لا يوجد موظفون.</p>';
@@ -550,7 +597,6 @@
             if (activeTab === 'accounting') renderAccountingView();
         }
 
-        // --- Clients & Records ---
         function renderClientsTable() {
             const tb = document.getElementById('clients-table-body'); if(!tb) return;
             const search = (document.getElementById('client-search-input')?.value || '').toLowerCase();
@@ -560,8 +606,8 @@
             tb.innerHTML = list.map(c => {
                 const b = calculateClientBalance(c.id);
                 let bb = '';
-                if(b.balance>0) bb=`<span class="bg-rose-100 text-rose-800 px-2 py-1 rounded font-black font-mono">دين: $${Math.round(b.balance).toLocaleString()}</span>`;
-                else if(b.balance<0) bb=`<span class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded font-black font-mono">أمانة: $${Math.round(Math.abs(b.balance)).toLocaleString()}</span>`;
+                if(b.balance>0) bb=`<span class="bg-rose-100 text-rose-800 px-2 py-1 rounded font-black font-mono">دين عليه: $${Math.round(b.balance).toLocaleString()}</span>`;
+                else if(b.balance<0) bb=`<span class="bg-emerald-100 text-emerald-800 px-2 py-1 rounded font-black font-mono">فائض له: $${Math.round(Math.abs(b.balance)).toLocaleString()}</span>`;
                 else bb=`<span class="bg-slate-100 text-slate-600 px-2 py-1 rounded font-bold">متوازن $0</span>`;
 
                 return `<tr class="hover:bg-amber-50/40 cursor-pointer" onclick="openClientProfile('${c.id}')"><td class="p-3.5 font-bold font-mono text-amber-900">${c.serial}</td><td class="p-3.5 font-bold">${c.companyAr}</td><td class="p-3.5 text-xs text-slate-500">${c.cr||'-'}</td><td class="p-3.5" dir="ltr">${c.phone||'-'}</td><td class="p-3.5">${bb}</td><td class="p-3.5 text-center"><button onclick="openClientAccountModal('${c.id}'); event.stopPropagation();" class="p-1.5 bg-blue-50 text-blue-700 rounded-lg"><i class="fa-solid fa-money-bill-transfer"></i></button> <button onclick="openClientModal('${c.id}'); event.stopPropagation();" class="p-1.5 bg-amber-50 text-amber-800 rounded-lg"><i class="fa-solid fa-pen"></i></button> <button onclick="deleteRecord('clients','${c.id}'); event.stopPropagation();" class="p-1.5 bg-rose-50 text-rose-600 rounded-lg"><i class="fa-solid fa-trash"></i></button></td></tr>`;
@@ -578,7 +624,7 @@
             document.getElementById('acc-total-supplier-paid').textContent = '$'+Math.round(ts).toLocaleString();
 
             const c = document.getElementById('accounting-clients-table-container');
-            c.innerHTML = `<table class="w-full text-right text-xs"><thead class="bg-slate-50 font-bold border-b"><tr><th class="p-3">العميل</th><th class="p-3">إجمالي المطالبات</th><th class="p-3">المسدد</th><th class="p-3">حالة الرصيد</th><th class="p-3 text-center">التفاصيل</th></tr></thead><tbody class="divide-y">${(appDb.clients||[]).map(cl=>{ const b=calculateClientBalance(cl.id); let bb=''; if(b.balance>0) bb=`<span class="text-rose-600 font-bold">متبقي: $${Math.round(b.balance).toLocaleString()}</span>`; else if(b.balance<0) bb=`<span class="text-emerald-600 font-bold">فائض: $${Math.round(Math.abs(b.balance)).toLocaleString()}</span>`; else bb=`<span class="text-slate-500">متوازن</span>`; return `<tr><td class="p-3 font-bold">${cl.companyAr}</td><td class="p-3 font-mono">$${Math.round(b.totalCharges).toLocaleString()}</td><td class="p-3 font-mono text-blue-600">$${Math.round(b.totalPaid).toLocaleString()}</td><td class="p-3">${bb}</td><td class="p-3 text-center"><button onclick="openClientAccountModal('${cl.id}')" class="px-3 py-1.5 bg-blue-50 text-blue-700 font-bold rounded-xl">دفتر الحساب</button></td></tr>`; }).join('')}</tbody></table>`;
+            c.innerHTML = `<table class="w-full text-right text-xs"><thead class="bg-slate-50 font-bold border-b"><tr><th class="p-3">الرقم</th><th class="p-3">العميل</th><th class="p-3">المطالبات</th><th class="p-3">المسدد</th><th class="p-3">حالة الحساب (دين/أمانة)</th><th class="p-3 text-center">التفاصيل</th></tr></thead><tbody class="divide-y">${(appDb.clients||[]).map(cl=>{ const b=calculateClientBalance(cl.id); let bb=''; if(b.balance>0) bb=`<span class="text-rose-600 font-bold">دين: $${Math.round(b.balance).toLocaleString()}</span>`; else if(b.balance<0) bb=`<span class="text-emerald-600 font-bold">فائض: $${Math.round(Math.abs(b.balance)).toLocaleString()}</span>`; else bb=`<span class="text-slate-500">متوازن</span>`; return `<tr><td class="p-3 font-mono font-bold">${cl.serial}</td><td class="p-3 font-bold">${cl.companyAr}</td><td class="p-3 font-mono">$${Math.round(b.totalCharges).toLocaleString()}</td><td class="p-3 font-mono text-blue-600">$${Math.round(b.totalPaid).toLocaleString()}</td><td class="p-3">${bb}</td><td class="p-3 text-center"><button onclick="openClientAccountModal('${cl.id}')" class="px-3 py-1.5 bg-blue-50 text-blue-700 font-bold rounded-xl">دفتر الحساب</button></td></tr>`; }).join('')}</tbody></table>`;
         }
 
         function openClientProfile(id) {
@@ -587,28 +633,26 @@
             const b = calculateClientBalance(id);
             document.getElementById('client-profile-header').innerHTML = `<div class="flex justify-between items-center"><div class="flex items-center gap-3"><button onclick="closeClientProfile()" class="px-3 py-1.5 bg-slate-100 rounded-lg text-xs font-bold"><i class="fa-solid fa-arrow-right"></i> عودة</button><div><span class="bg-amber-100 text-amber-900 px-2 rounded text-xs font-mono font-bold">${client.serial}</span><h2 class="text-xl font-black">${client.companyAr}</h2></div></div></div><div class="mt-4 p-4 rounded-xl ${b.balance>0?'bg-rose-50 text-rose-900':'bg-emerald-50 text-emerald-900'} flex justify-between font-bold text-xs"><span>المطالبات: $${Math.round(b.totalCharges).toLocaleString()} | المسدد: $${Math.round(b.totalPaid).toLocaleString()}</span><span class="text-sm font-black">${b.balance>0?'دين عليه: $'+Math.round(b.balance).toLocaleString():'فائض لصالحه: $'+Math.round(Math.abs(b.balance)).toLocaleString()}</span></div>`;
             const rC = document.getElementById('client-profile-requests-container');
-            rC.innerHTML = (appDb.requests||[]).filter(r=>r.clientId===id).map(r=>`<div class="bg-slate-50 p-4 rounded-xl border flex justify-between items-center text-xs font-bold"><span>${r.title}</span><span class="font-mono text-amber-900">المطالبة المحملة: $${(Number(r.totalCost)||0).toLocaleString()}</span></div>`).join('') || '<div class="text-center text-slate-400">لا توجد طلبات</div>';
+            rC.innerHTML = (appDb.requests||[]).filter(r=>r.clientId===id).map(r=>`<div class="bg-slate-50 p-4 rounded-xl border flex justify-between items-center text-xs font-bold"><span>${r.title}</span><span class="font-mono text-amber-900">المطالبة: $${(Number(r.totalCost)||0).toLocaleString()}</span></div>`).join('') || '<div class="text-center text-slate-400">لا توجد طلبات</div>';
         }
         function closeClientProfile() { selectedClientProfileId=null; document.getElementById('view-client-profile').classList.add('hidden'); document.getElementById('view-clients').classList.remove('hidden'); renderClientsTable(); }
 
         function openClientAccountModal(id) {
             document.getElementById('modal-client-account').classList.remove('hidden'); document.getElementById('modal-client-account').classList.add('flex');
-            document.getElementById('account-client-id').value = id;
-            document.getElementById('pay-date').value = new Date().toISOString().split('T')[0];
+            document.getElementById('account-client-id').value = id; document.getElementById('pay-date').value = new Date().toISOString().split('T')[0];
             const c = appDb.clients.find(x=>x.id===id);
             if(c) {
-                const b = calculateClientBalance(id);
-                const rib = document.getElementById('client-balance-ribbon');
-                if(b.balance>0) { rib.className="p-4 rounded-xl bg-rose-50 text-rose-900 text-xs flex justify-between font-bold"; rib.innerHTML=`<span>المطالبات: $${Math.round(b.totalCharges).toLocaleString()} | المسدد: $${Math.round(b.totalPaid).toLocaleString()}</span> <span class="text-sm font-black">دين بذمته: $${Math.round(b.balance).toLocaleString()}</span>`; }
-                else if(b.balance<0) { rib.className="p-4 rounded-xl bg-emerald-50 text-emerald-900 text-xs flex justify-between font-bold"; rib.innerHTML=`<span>المطالبات: $${Math.round(b.totalCharges).toLocaleString()} | المسدد: $${Math.round(b.totalPaid).toLocaleString()}</span> <span class="text-sm font-black">أمانة لصالحه: $${Math.round(Math.abs(b.balance)).toLocaleString()}</span>`; }
-                else { rib.className="p-4 rounded-xl bg-slate-50 text-slate-700 text-xs flex justify-between font-bold"; rib.innerHTML=`<span>متوازن ($0)</span>`; }
+                const b = calculateClientBalance(id); const rib = document.getElementById('client-balance-ribbon');
+                if(b.balance>0) { rib.className="p-4 rounded-xl bg-rose-50 text-rose-900 text-xs flex justify-between font-bold"; rib.innerHTML=`<span>إجمالي المطالبات: $${Math.round(b.totalCharges).toLocaleString()} | المسدد: $${Math.round(b.totalPaid).toLocaleString()}</span> <span class="text-sm font-black">الرصيد المتبقي بذمته (دين): $${Math.round(b.balance).toLocaleString()}</span>`; }
+                else if(b.balance<0) { rib.className="p-4 rounded-xl bg-emerald-50 text-emerald-900 text-xs flex justify-between font-bold"; rib.innerHTML=`<span>إجمالي المطالبات: $${Math.round(b.totalCharges).toLocaleString()} | المسدد: $${Math.round(b.totalPaid).toLocaleString()}</span> <span class="text-sm font-black">فائض للعميل (أمانة له): $${Math.round(Math.abs(b.balance)).toLocaleString()}</span>`; }
+                else { rib.className="p-4 rounded-xl bg-slate-50 text-slate-700 text-xs flex justify-between font-bold"; rib.innerHTML=`<span>إجمالي المطالبات: $${Math.round(b.totalCharges).toLocaleString()} | المسدد: $${Math.round(b.totalPaid).toLocaleString()}</span> <span class="text-sm font-black">الحساب متوازن ($0)</span>`; }
                 
                 const l = document.getElementById('client-payments-list');
                 l.innerHTML = (c.payments||[]).map(p=>`<tr class="hover:bg-slate-50"><td class="p-3">${p.date}</td><td class="p-3 font-bold text-blue-700 font-mono">${p.amount} ${p.currency}</td><td class="p-3 font-mono">${p.ref}</td><td class="p-3 text-center"><button type="button" onclick="deletePayment('clients','${c.id}','${p.id}')" class="text-rose-600"><i class="fa-solid fa-trash"></i></button></td></tr>`).join('') || `<tr><td colspan="4" class="text-center p-4 text-slate-400">لا توجد مقبوضات</td></tr>`;
             }
         }
         function closeClientAccountModal() { document.getElementById('modal-client-account').classList.add('hidden'); document.getElementById('modal-client-account').classList.remove('flex'); }
-        async function addClientPayment(e) { e.preventDefault(); const id = document.getElementById('account-client-id').value; const c = appDb.clients.find(x=>x.id===id); if(!c) return; if(!c.payments) c.payments=[]; c.payments.unshift({ id: 'p_'+Date.now(), amount: Number(document.getElementById('pay-amount').value), currency: document.getElementById('pay-currency').value, rate: document.getElementById('pay-rate').value, ref: document.getElementById('pay-ref').value, date: document.getElementById('pay-date').value }); await persistDb(); openClientAccountModal(id); renderCurrentView(); showToast('تم تسجيل الدفعة وخصمها من رصيد العميل'); }
+        async function addClientPayment(e) { e.preventDefault(); const id = document.getElementById('account-client-id').value; const c = appDb.clients.find(x=>x.id===id); if(!c) return; if(!c.payments) c.payments=[]; c.payments.unshift({ id: 'p_'+Date.now(), amount: Number(document.getElementById('pay-amount').value), currency: document.getElementById('pay-currency').value, rate: document.getElementById('pay-rate').value, ref: document.getElementById('pay-ref').value, date: document.getElementById('pay-date').value }); await persistDb(); openClientAccountModal(id); renderCurrentView(); showToast('تم تسجيل الدفعة بنجاح'); }
 
         function openSupplierAccountModal(id) {
             document.getElementById('modal-supplier-account').classList.remove('hidden'); document.getElementById('modal-supplier-account').classList.add('flex'); document.getElementById('account-supplier-id').value = id; document.getElementById('sup-pay-date').value = new Date().toISOString().split('T')[0];
@@ -623,7 +667,7 @@
         function closeClientModal() { document.getElementById('modal-client').classList.add('hidden'); document.getElementById('modal-client').classList.remove('flex'); }
         async function saveClientForm(e) { e.preventDefault(); const id=document.getElementById('client-id').value; const isNew=!id; const d={id:isNew?'c_'+Date.now():id, serial:document.getElementById('client-serial').value, companyAr:document.getElementById('client-company-ar').value, companyEn:document.getElementById('client-company-en').value, managerAr:document.getElementById('client-manager-ar').value, managerEn:document.getElementById('client-manager-en').value, cr:document.getElementById('client-cr').value, port:document.getElementById('client-port').value, phone:document.getElementById('client-phone').value, payments:isNew?[]:(appDb.clients.find(c=>c.id===id)?.payments||[])}; if(isNew) appDb.clients.push(d); else { const i=appDb.clients.findIndex(x=>x.id===id); appDb.clients[i]=d; } await persistDb(); closeClientModal(); renderCurrentView(); showToast('تم الحفظ'); }
 
-        function renderRequestsList() { const c = document.getElementById('requests-list-container'); c.innerHTML = (appDb.requests||[]).map(r=>{ const cl=appDb.clients.find(x=>x.id===r.clientId)||{}; return `<div class="bg-white p-5 rounded-3xl border shadow-sm flex justify-between items-center"><div><h4 class="font-black text-lg">${r.title} <span class="text-xs font-normal text-slate-500">(${cl.companyAr||''})</span></h4><div class="text-xs mt-1"><span class="bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-lg">${r.status}</span> <span class="font-mono text-slate-600 font-bold ml-2">تكلفة محملة: $${(Number(r.totalCost)||0).toLocaleString()}</span></div></div><div class="flex gap-2"><button onclick="openRequestModal('${r.id}')" class="p-2 bg-slate-100 rounded-xl"><i class="fa-solid fa-pen"></i></button><button onclick="deleteRecord('requests','${r.id}')" class="p-2 bg-rose-50 text-rose-600 rounded-xl"><i class="fa-solid fa-trash"></i></button></div></div>`;}).join('')||'<div class="text-center p-8 text-slate-400">لا توجد طلبات</div>'; }
+        function renderRequestsList() { const c = document.getElementById('requests-list-container'); c.innerHTML = (appDb.requests||[]).map(r=>{ const cl=appDb.clients.find(x=>x.id===r.clientId)||{}; return `<div class="bg-white p-5 rounded-3xl border shadow-sm flex justify-between items-center"><div><h4 class="font-black text-lg">${r.title} <span class="text-xs font-normal text-slate-500">(${cl.companyAr||'غير محدد'})</span></h4><div class="text-xs mt-1"><span class="bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-lg">${r.status}</span> <span class="font-mono text-slate-600 font-bold ml-2">تكلفة محملة: $${(Number(r.totalCost)||0).toLocaleString()}</span></div></div><div class="flex gap-2"><button onclick="openRequestModal('${r.id}')" class="p-2 bg-slate-100 rounded-xl"><i class="fa-solid fa-pen"></i></button><button onclick="deleteRecord('requests','${r.id}')" class="p-2 bg-rose-50 text-rose-600 rounded-xl"><i class="fa-solid fa-trash"></i></button></div></div>`;}).join('')||'<div class="text-center p-8 text-slate-400">لا توجد طلبات</div>'; }
         function openRequestModal(id=null) { document.getElementById('modal-request').classList.remove('hidden'); document.getElementById('modal-request').classList.add('flex'); document.getElementById('request-client-id').innerHTML = (appDb.clients||[]).map(c=>`<option value="${c.id}">${c.companyAr}</option>`).join(''); if(id) { const r=appDb.requests.find(x=>x.id===id); document.getElementById('request-id').value=r.id; document.getElementById('request-client-id').value=r.clientId; document.getElementById('request-title').value=r.title; document.getElementById('request-total-cost').value=r.totalCost||0; document.getElementById('request-date').value=r.date; document.getElementById('request-status-select').value=r.status; } else { document.getElementById('request-id').value=''; document.getElementById('request-title').value=''; document.getElementById('request-total-cost').value=''; document.getElementById('request-date').value=new Date().toISOString().split('T')[0]; } }
         function closeRequestModal() { document.getElementById('modal-request').classList.add('hidden'); document.getElementById('modal-request').classList.remove('flex'); }
         async function saveRequestForm(e) { e.preventDefault(); const id=document.getElementById('request-id').value; const isNew=!id; const d={id:isNew?'r_'+Date.now():id, clientId:document.getElementById('request-client-id').value, title:document.getElementById('request-title').value, totalCost:Number(document.getElementById('request-total-cost').value)||0, date:document.getElementById('request-date').value, status:document.getElementById('request-status-select').value}; if(isNew) appDb.requests.push(d); else { const i=appDb.requests.findIndex(x=>x.id===id); appDb.requests[i]=d; } await persistDb(); closeRequestModal(); renderCurrentView(); showToast('تم الحفظ بالذمة المالية'); }
@@ -646,7 +690,7 @@
         async function deleteRecord(type, id) { if(appDb[type]) { appDb[type] = appDb[type].filter(x => x.id !== id); await persistDb(); renderCurrentView(); showToast('تم الحذف بنجاح'); } }
 
         // ==========================================
-        // REAL PDF COMPARATOR ENGINE (مكتمل بشريط القراءة الزمني)
+        // REAL PDF COMPARATOR ENGINE (مكتمل بشريط القراءة الزمني الحقيقي)
         // ==========================================
         function initComparatorSlots() { compState.slots = [{ id: 'slot_a', letter: 'A', extractedText: '', fileName: null }, { id: 'slot_b', letter: 'B', extractedText: '', fileName: null }]; renderComparatorSlots(); }
         
@@ -669,7 +713,7 @@
                     <div class="mb-4">
                         <input type="text" value="${slot.factoryName || ''}" placeholder="اسم المصنع / المورد (اختياري)" oninput="updateComparatorSlotName('${slot.id}', this.value)" class="w-full text-xs font-semibold px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-[#c5a059]">
                     </div>
-                    <div class="relative border-2 border-dashed ${slot.extractedText?'border-emerald-300 bg-emerald-50/20':'border-slate-200 bg-slate-50/50 hover:bg-slate-50'} rounded-2xl p-4 text-center cursor-pointer transition" onclick="document.getElementById('comp_input_${slot.id}').click()">
+                    <div class="relative border-2 border-dashed ${slot.extractedText?'border-emerald-300 bg-emerald-50/20':'border-slate-200 bg-slate-50/50 hover:bg-slate-50'} rounded-2xl p-4 text-center cursor-pointer transition group" onclick="document.getElementById('comp_input_${slot.id}').click()">
                         <input type="file" id="comp_input_${slot.id}" class="hidden" accept=".pdf,image/*" onchange="handleRealPdfUpload('${slot.id}', event)">
                         <div id="progress_box_${slot.id}" class="hidden mb-3"><div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden"><div id="progress_bar_${slot.id}" class="bg-[#c5a059] h-2 rounded-full transition-all" style="width:0%"></div></div><span id="progress_text_${slot.id}" class="text-[10px] text-slate-500 font-mono mt-1 block">جاري القراءة...</span></div>
                         ${slot.extractedText ? `
@@ -717,12 +761,11 @@
 
         async function runRealComparator() {
             const valid = compState.slots.filter(s => s.extractedText);
-            if (valid.length < 2) { showToast('يرجى رفع ملفين على الأقل للبدء', 'error'); return; }
+            if (valid.length < 2 && !compState.isDemoActive) { showToast('يرجى رفع ملفين على الأقل للبدء', 'error'); return; }
             
             const apiKey = localStorage.getItem(API_KEY_STORAGE);
             if (!apiKey) {
-                showToast('تنبيه: يجب إدخال مفتاح Gemini API من زر الإعدادات لإجراء المقارنة الحقيقية بدقة من ملفاتك!', 'error');
-                openApiKeyModal();
+                showToast('تنبيه: يجب إدخال مفتاح Gemini API من لوحة التحكم لإجراء المقارنة الحقيقية بدقة من ملفاتك!', 'error');
                 return;
             }
 
@@ -734,7 +777,7 @@
             CRITICAL RULES:
             1. Create a detailed side-by-side comparison matrix.
             2. If any criterion exists in one quotation but is missing/not mentioned in another, explicitly write "غير متوفر / غير مذكور" for the missing one. Do not invent data.
-            3. Return strictly valid JSON format exactly like this:
+            3. Return strictly valid JSON format exactly like this WITHOUT markdown formatting (\`\`\`json):
             {
               "summary": "Executive summary in Arabic explaining the best deal based on actual prices and terms found in the text.",
               "categories": [
@@ -748,7 +791,7 @@
             }`;
 
             try {
-                const res = await fetch(`[https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$](https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$){apiKey}`, {
+                const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
                     method: 'POST', headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: [{ parts: [{ text: payloadText }] }] })
                 });
@@ -806,7 +849,7 @@
                 { id: 'd1', letter: 'A', extractedText: 'Demo', fileName: 'Demo.pdf' }, { id: 'd2', letter: 'B', extractedText: 'Demo', fileName: 'Demo.pdf' }
             ];
             renderComparatorSlots();
-            showToast('الرجاء إدخال ملفات حقيقية للمقارنة');
+            showToast('الرجاء إدخال ملفات حقيقية أو وضع مفتاح API للمقارنة');
         }
 
         function populateTargetFactorySelect() {
@@ -836,9 +879,22 @@
         function exportTableToCsv() { showToast('تم التصدير كملف CSV'); }
         function resetComparatorAll() { compState.isDemoActive = false; initComparatorSlots(); document.getElementById('compResultsSection').classList.add('hidden'); showToast('تم مسح الملفات والذاكرة'); }
 
+        // Set Languages for Chinese/English UI
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+            ['ar', 'en', 'zh'].forEach(l => {
+                const btn = document.getElementById(`lang-btn-${l}`);
+                if (btn) btn.className = (l === lang) ? 'px-2.5 py-1 rounded-lg transition bg-[#c5a059] text-black font-black shadow-sm' : 'px-2.5 py-1 rounded-lg transition text-slate-300 hover:text-white';
+            });
+            renderCurrentView();
+        }
+
         // Boot
         window.addEventListener('DOMContentLoaded', () => {
             loadLocalDb();
+            setLanguage('ar');
             checkAdminAccess();
             syncCloudDb();
             fetchLiveExchangeRates();
