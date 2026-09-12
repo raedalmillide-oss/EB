@@ -132,7 +132,7 @@
                     <div class="flex justify-between items-start"><span class="text-xs font-bold text-slate-500" data-i18n="dashSups">دليل الموردين</span><div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-industry"></i></div></div>
                     <h3 class="text-3xl font-black text-emerald-600 mt-2" id="dash-suppliers-count">0</h3>
                 </div>
-                <div class="bg-white p-5 rounded-2xl border shadow-sm admin-only flex flex-col justify-between">
+                <div class="bg-white p-5 rounded-2xl border shadow-sm admin-only-block admin-only flex flex-col justify-between">
                     <div class="flex justify-between items-start"><span class="text-xs font-bold text-rose-500" data-i18n="dashDebts">إجمالي ديون العملاء</span><div class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center"><i class="fa-solid fa-hand-holding-dollar"></i></div></div>
                     <h3 class="text-3xl font-black text-rose-600 font-mono mt-2" id="dash-total-debts">$0</h3>
                 </div>
@@ -464,7 +464,7 @@
     </div>
 
     <!-- STAFF MODAL -->
-    <div id="modal-staff" class="fixed inset-0 modal-backdrop z-[160] hidden items-center justify-center p-4 admin-only">
+    <div id="modal-staff" class="fixed inset-0 modal-backdrop z-[160] hidden items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl space-y-4">
             <div class="flex justify-between items-center border-b pb-3"><h3 class="font-black text-lg text-slate-900">حساب موظف / شريك</h3><button type="button" onclick="closeStaffModal()" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition"><i class="fa-solid fa-xmark"></i></button></div>
             <form onsubmit="saveStaffAccount(event)" class="space-y-4 text-xs">
@@ -871,41 +871,36 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- MASTER JAVASCRIPT SYSTEM (PRO MAX - 1500+ LINES LOGIC) -->
+    <!-- MASTER JAVASCRIPT SYSTEM (PRO MAX) -->
     <!-- ==================================================== -->
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        // Core System DB Storage (Version 7 - Final ERP)
+        // Core System DB Storage
         const STORAGE_KEY = 'EB_MASTER_ERP_V7';
         const LOGIN_KEY = 'EB_SECURE_AUTH_V7';
         const API_KEY_STORAGE = 'EB_AI_KEY_V7';
         
-        // Cloud Infrastructure (Supabase JSON Blob Storage mechanism)
+        // Supabase
         const SUPABASE_URL = 'https://zkzpxaqffrctjhfgkpnm.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_Xi7Owac1858P4KUmIt-YCw_wWcy2XyC';
         const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // Core States
         let currentLang = 'ar';
-        let currentUser = null; // { username, role, name, title }
+        let currentUser = null; 
         let activeTab = 'dashboard';
         let selectedClientProfileId = null;
         let appDb = null;
-        
-        // Sourcing & AI States
         let compState = { slots: [], analysisResult: null };
-        let currentRfqItems = []; // For the dynamic RFQ Builder
+        let currentRfqItems = []; 
 
         const defaultDatabase = {
-            adminUsername: 'admin', adminPassword: '123456',
-            companyLogo: '',
+            adminUsername: 'admin', adminPassword: '123456', companyLogo: '',
             exchangeRates: { usdToCny: 7.23, eurToUsd: 1.08, lastUpdate: 'تلقائي' },
             emailConfig: { serviceId: '', templateId: '', publicKey: '' },
             staff: [], clients: [], suppliers: [], requests: [], inspections: [], shipping: []
         };
 
-        // --- 1. INTERNATIONALIZATION (i18n) DICTIONARY ---
         const i18nDict = {
             ar: {
                 navDashboard: 'الرئيسية', navComparator: 'مقارنة العروض', navClients: 'العملاء',
@@ -978,11 +973,9 @@
             }
         };
 
-        // --- 2. DB INITIALIZATION & CLOUD SYNC ---
         function loadLocalDb() {
-            try { const stored = localStorage.getItem(STORAGE_KEY); if (stored) appDb = JSON.parse(stored); } catch(e) { console.error("Local Load Error:", e); }
+            try { const stored = localStorage.getItem(STORAGE_KEY); if (stored) appDb = JSON.parse(stored); } catch(e) {}
             if (!appDb) appDb = JSON.parse(JSON.stringify(defaultDatabase));
-            // Ensure schema upgrades
             if (!appDb.adminUsername) appDb.adminUsername = 'admin';
             if (!appDb.adminPassword) appDb.adminPassword = '123456';
             if (!appDb.emailConfig) appDb.emailConfig = { serviceId: '', templateId: '', publicKey: '' };
@@ -990,34 +983,17 @@
             if (!appDb.staff) appDb.staff = [];
         }
         async function syncCloudDb() {
-            try { 
-                const { data } = await sbClient.from('app_storage').select('value').eq('key', STORAGE_KEY).single(); 
-                if (data && data.value) { 
-                    appDb = data.value; 
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); 
-                    renderCurrentView(); 
-                } 
-            } catch (err) { console.warn("Supabase Sync Read warning:", err); }
+            try { const { data } = await sbClient.from('app_storage').select('value').eq('key', STORAGE_KEY).single(); if (data && data.value) { appDb = data.value; localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); renderCurrentView(); } } catch (err) {}
         }
         async function persistDb() {
-            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); } catch (err) { console.error("Local save failed", err); }
-            try { await sbClient.from('app_storage').upsert({ key: STORAGE_KEY, value: appDb }); } catch(err) { console.warn("Supabase save failed", err); }
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); } catch (err) {}
+            try { await sbClient.from('app_storage').upsert({ key: STORAGE_KEY, value: appDb }); } catch(err) {}
         }
-        async function manualSync() {
-            showToast(currentLang==='ar'?'جاري سحب أحدث البيانات من السحابة المركزية...':'Syncing with master cloud database...');
-            await syncCloudDb();
-            showToast(currentLang==='ar'?'تمت مطابقة البيانات السحابية بنجاح ☁️':'Cloud Sync complete ☁️');
-        }
+        async function manualSync() { showToast(currentLang==='ar'?'جاري المزامنة...':'Syncing...'); await syncCloudDb(); showToast(currentLang==='ar'?'تمت المزامنة بنجاح ☁️':'Synced ☁️'); }
 
-        // --- 3. UI, THEME & TOAST UTILITIES ---
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
-            const icon = document.getElementById('theme-icon');
-            if(document.documentElement.classList.contains('dark')) {
-                icon.className = 'fa-solid fa-sun';
-            } else {
-                icon.className = 'fa-solid fa-moon';
-            }
+            document.getElementById('theme-icon').className = document.documentElement.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
         }
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container'); if (!container) return;
@@ -1033,11 +1009,10 @@
         function handleImageUpload(e, targetId) {
             const file = e.target.files[0]; if(!file) return;
             const reader = new FileReader();
-            reader.onload = function(event) { document.getElementById(targetId).value = event.target.result; showToast(currentLang==='ar'?'تم رفع الملف وإرفاقه بالذاكرة بنجاح 📎':'File attached securely to memory 📎'); };
+            reader.onload = function(event) { document.getElementById(targetId).value = event.target.result; showToast('تم إرفاق الملف 📎'); };
             reader.readAsDataURL(file);
         }
 
-        // Logo Upload specific handler for inline dashboard settings
         function handleLogoUploadInline(e) {
             const file = e.target.files[0]; if(!file) return;
             const reader = new FileReader();
@@ -1047,23 +1022,17 @@
                 document.getElementById('dashboard-logo-preview').src = b64;
                 document.getElementById('dashboard-logo-preview').classList.remove('hidden');
                 document.getElementById('dashboard-logo-icon').classList.add('hidden');
-                showToast(currentLang==='ar'?'تم التقاط الشعار بنجاح! اضغط (حفظ الإعدادات) لتطبيقه 🖼️':'Logo captured, save to apply 🖼️'); 
+                showToast('تم التقاط الشعار! اضغط حفظ.'); 
             };
             reader.readAsDataURL(file);
         }
 
-        // --- 4. AUTHENTICATION & ROLE-BASED ACCESS CONTROL (RBAC) ---
         function checkAdminAccess() {
             try {
                 const storedUser = localStorage.getItem(LOGIN_KEY);
-                if (storedUser) {
-                    currentUser = JSON.parse(storedUser);
-                    document.getElementById('modal-login').classList.add('hidden'); document.getElementById('modal-login').classList.remove('flex');
-                    applyUserSession();
-                } else { throw new Error('Not logged in'); }
-            } catch(e) {
-                currentUser = null; document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex');
-            }
+                if (storedUser) { currentUser = JSON.parse(storedUser); document.getElementById('modal-login').classList.add('hidden'); document.getElementById('modal-login').classList.remove('flex'); applyUserSession(); } 
+                else { throw new Error('Not logged in'); }
+            } catch(e) { currentUser = null; document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex'); }
         }
 
         function handleAdminLogin(e) {
@@ -1084,14 +1053,12 @@
                 currentUser = matchedUser;
                 if(rem) localStorage.setItem(LOGIN_KEY, JSON.stringify(currentUser)); else localStorage.removeItem(LOGIN_KEY);
                 document.getElementById('modal-login').classList.add('hidden'); document.getElementById('modal-login').classList.remove('flex');
-                showToast(currentLang==='ar'?`تم الدخول للمنصة بنجاح 🛡️`:'Secure login successful 🛡️');
+                showToast('تم الدخول للمنصة بنجاح 🛡️');
                 applyUserSession(); 
-            } else { 
-                showToast(currentLang==='ar'?'البيانات غير صحيحة، الوصول مرفوض!':'Access Denied: Invalid Credentials', 'error'); 
-            }
+            } else { showToast('البيانات غير صحيحة!', 'error'); }
         }
 
-        function handleLogout() { currentUser = null; localStorage.removeItem(LOGIN_KEY); document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex'); showToast(currentLang==='ar'?'تم تأمين الجلسة والخروج 🔒':'Session secured & logged out 🔒'); }
+        function handleLogout() { currentUser = null; localStorage.removeItem(LOGIN_KEY); document.getElementById('modal-login').classList.remove('hidden'); document.getElementById('modal-login').classList.add('flex'); showToast('تم تأمين الجلسة والخروج 🔒'); }
         
         function applyUserSession() { 
             const isAdmin = currentUser && currentUser.role === 'admin';
@@ -1100,22 +1067,21 @@
             document.getElementById('header-user-name').textContent = currentUser.name || currentUser.username;
             let roleStr = isAdmin ? (currentLang==='ar' ? 'مدير عام / شريك' : 'Admin / Partner') : (currentLang==='ar' ? 'موظف' : 'Employee');
             document.getElementById('user-role-badge').textContent = roleStr;
-            
             navigateTo('dashboard'); 
         }
 
-        // Admin Profile Settings Inline
-        async function saveAdminSettingsInline(e) { 
+        function openAdminSettingsModal() { document.getElementById('modal-admin-settings').classList.remove('hidden'); document.getElementById('modal-admin-settings').classList.add('flex'); document.getElementById('admin-new-user').value = appDb.adminUsername; document.getElementById('admin-new-pass').value = appDb.adminPassword; document.getElementById('admin-logo-data').value = appDb.companyLogo || ''; }
+        function closeAdminSettingsModal() { document.getElementById('modal-admin-settings').classList.add('hidden'); document.getElementById('modal-admin-settings').classList.remove('flex'); }
+        async function saveAdminCredentials(e) { 
             e.preventDefault(); 
-            appDb.adminUsername = document.getElementById('admin-username-inline').value; 
-            appDb.adminPassword = document.getElementById('admin-password-inline').value; 
-            appDb.companyLogo = document.getElementById('admin-logo-data-inline').value;
-            await persistDb(); 
-            showToast(currentLang==='ar'?'تم تحديث الإعدادات الجوهرية للنظام. سيتم الإغلاق لتأكيد الأمن.':'System core updated. Forcing secure logout.'); 
+            appDb.adminUsername = document.getElementById('admin-new-user').value; 
+            appDb.adminPassword = document.getElementById('admin-new-pass').value; 
+            appDb.companyLogo = document.getElementById('admin-logo-data').value;
+            await persistDb(); closeAdminSettingsModal(); 
+            showToast('تم تحديث الإعدادات. سيتم الإغلاق لتأكيد الأمن.'); 
             setTimeout(() => { handleLogout(); window.location.reload(); }, 2000); 
         }
 
-        // Staff CRUD
         function openStaffModal(id=null) { 
             document.getElementById('modal-staff').classList.remove('hidden'); document.getElementById('modal-staff').classList.add('flex'); 
             if(id){ 
@@ -1129,56 +1095,51 @@
             e.preventDefault(); const id = document.getElementById('staff-edit-id').value; const nm = document.getElementById('staff-fullname').value; const ti = document.getElementById('staff-title').value; const rl = document.getElementById('staff-role').value; const us = document.getElementById('staff-username').value; const pw = document.getElementById('staff-password').value; 
             if(!appDb.staff) appDb.staff = []; 
             if(id){ const s=appDb.staff.find(x=>x.id===id); s.name=nm; s.title=ti; s.role=rl; s.username=us; s.password=pw; } else { appDb.staff.push({id:'st_'+Date.now(), name:nm, title:ti, role:rl, username:us, password:pw}); } 
-            await persistDb(); closeStaffModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم تسجيل/تعديل بيانات الموظف والصلاحية':'Staff Access Saved'); 
+            await persistDb(); closeStaffModal(); renderCurrentView(); showToast('تم الحفظ'); 
         }
         async function deleteStaff(id){ 
-            if(currentUser.role !== 'admin') { showToast(currentLang==='ar'?'رفض أمني: لا تملك صلاحية للحذف 🛑':'Security Reject 🛑', 'error'); return; }
-            if(confirm(currentLang==='ar'?'تأكيد الإزالة النهائية لسجل الموظف وحرمانه من الدخول؟':'Permanently revoke staff access?')) { appDb.staff = appDb.staff.filter(x=>x.id!==id); await persistDb(); renderCurrentView(); showToast(currentLang==='ar'?'تم الإزالة بنجاح':'Revoked Successfully'); }
+            if(currentUser.role !== 'admin') { showToast('مرفوض 🛑', 'error'); return; }
+            if(confirm('تأكيد الإزالة؟')) { appDb.staff = appDb.staff.filter(x=>x.id!==id); await persistDb(); renderCurrentView(); showToast('تم الإزالة'); }
         }
 
-        // Global System Delete Gatekeeper
         async function deleteRecord(type, id) {
-            if(currentUser && currentUser.role !== 'admin') { showToast(currentLang==='ar'?'صلاحيتك (موظف) تمنعك من الحذف. يرجى مراجعة الإدارة العليا.':'Employee permission blocks deletion.', 'error'); return; }
-            if(confirm(currentLang==='ar'?'تحذير: هل أنت متأكد من الحذف النهائي للبيانات؟ لا يمكن التراجع.':'WARNING: Permanent Deletion. Proceed?')) {
-                if(appDb[type]) { appDb[type] = appDb[type].filter(x => x.id !== id); await persistDb(); renderCurrentView(); showToast(currentLang==='ar'?'تم مسح البيانات بنجاح 🗑️':'Wiped Successfully 🗑️'); }
+            if(currentUser && currentUser.role !== 'admin') { showToast('صلاحيتك تمنعك من الحذف.', 'error'); return; }
+            if(confirm('تحذير: تأكيد الحذف النهائي؟')) {
+                if(appDb[type]) { appDb[type] = appDb[type].filter(x => x.id !== id); await persistDb(); renderCurrentView(); showToast('تم مسح البيانات 🗑️'); }
             }
         }
 
-        // --- 5. SYSTEM SETTINGS & AUTOMATION APIS ---
-        function saveDashboardApiKey() { const k = document.getElementById('dashboard-gemini-key').value.trim(); if(k) localStorage.setItem(API_KEY_STORAGE, k); else localStorage.removeItem(API_KEY_STORAGE); showToast(currentLang==='ar'?'تم تشفير وتخزين مفتاح AI في متصفحك المحلي 🔐':'AI Key Encrypted locally 🔐'); }
+        function saveDashboardApiKey() { const k = document.getElementById('dashboard-gemini-key').value.trim(); if(k) localStorage.setItem(API_KEY_STORAGE, k); else localStorage.removeItem(API_KEY_STORAGE); showToast('تم تخزين مفتاح AI 🔐'); }
 
-        async function fetchLiveExchangeRates() { try { showToast(currentLang==='ar'?'جاري الاتصال بالبورصة العالمية للصرف...':'Connecting to Global FX...'); const res = await fetch('https://open.er-api.com/v6/latest/USD'); const data = await res.json(); if(data && data.rates && data.rates.CNY) { appDb.exchangeRates.usdToCny = parseFloat(data.rates.CNY.toFixed(4)); appDb.exchangeRates.eurToUsd = parseFloat((1/data.rates.EUR).toFixed(4)); appDb.exchangeRates.lastUpdate = new Date().toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'}); await persistDb(); renderCurrentView(); showToast(currentLang==='ar'?'تم ضبط الرادار المالي بناءً على سعر السوق الحالي 💱':'Live FX synced 💱'); } } catch(err) { showToast(currentLang==='ar'?'تعذر الاتصال بخوادم الصرف العالمي':'FX Sync Failed', 'error'); } }
-        async function saveExchangeRates() { appDb.exchangeRates.usdToCny=parseFloat(document.getElementById('rate-usd-cny').value); appDb.exchangeRates.eurToUsd=parseFloat(document.getElementById('rate-eur-usd').value); await persistDb(); showToast(currentLang==='ar'?'تم تثبيت سعر الصرف المرجعي يدوياً':'Manual Peg Saved'); }
+        async function fetchLiveExchangeRates() { try { showToast('جاري الاتصال للبورصة...'); const res = await fetch('https://open.er-api.com/v6/latest/USD'); const data = await res.json(); if(data && data.rates && data.rates.CNY) { appDb.exchangeRates.usdToCny = parseFloat(data.rates.CNY.toFixed(4)); appDb.exchangeRates.eurToUsd = parseFloat((1/data.rates.EUR).toFixed(4)); appDb.exchangeRates.lastUpdate = new Date().toLocaleTimeString('ar-EG', {hour:'2-digit', minute:'2-digit'}); await persistDb(); renderCurrentView(); showToast('تم التحديث 💱'); } } catch(err) { showToast('فشل التحديث', 'error'); } }
+        async function saveExchangeRates() { appDb.exchangeRates.usdToCny=parseFloat(document.getElementById('rate-usd-cny').value); appDb.exchangeRates.eurToUsd=parseFloat(document.getElementById('rate-eur-usd').value); await persistDb(); showToast('تم التثبيت اليدوي'); }
 
-        async function saveEmailApiSettings(e) { e.preventDefault(); appDb.emailConfig.serviceId = document.getElementById('emailjs-service-id').value.trim(); appDb.emailConfig.templateId = document.getElementById('emailjs-template-id').value.trim(); appDb.emailConfig.publicKey = document.getElementById('emailjs-public-key').value.trim(); await persistDb(); showToast(currentLang==='ar'?'ممر المراسلة الآمن (EmailJS) جاهز للعمل ✉️':'EmailJS Tunnel Armed ✉️'); }
+        async function saveEmailApiSettings(e) { e.preventDefault(); appDb.emailConfig.serviceId = document.getElementById('emailjs-service-id').value.trim(); appDb.emailConfig.templateId = document.getElementById('emailjs-template-id').value.trim(); appDb.emailConfig.publicKey = document.getElementById('emailjs-public-key').value.trim(); await persistDb(); showToast('EmailJS جاهز ✉️'); }
         
         function openSendEmailModal(toEmail, defaultSubj="", prefilledBody="") { 
             document.getElementById('modal-send-email').classList.remove('hidden'); document.getElementById('modal-send-email').classList.add('flex'); 
             document.getElementById('send-email-to').value = toEmail; document.getElementById('send-email-subject').value = defaultSubj; 
-            
-            // Generate Signature
             let sig = `\n\n---\nBest Regards,\n${currentUser.name || 'Management'}\n${currentUser.title || 'Echo Bridges Trade Co.'}\nSystem Powered by EchoBridges Sourcing`;
             document.getElementById('send-email-body').value = prefilledBody + sig; 
         }
         function closeSendEmailModal() { document.getElementById('modal-send-email').classList.add('hidden'); document.getElementById('modal-send-email').classList.remove('flex'); }
         async function sendInternalEmail(e) {
             e.preventDefault(); const sId = appDb.emailConfig.serviceId; const tId = appDb.emailConfig.templateId; const pK = appDb.emailConfig.publicKey;
-            if(!sId || !tId || !pK) { showToast(currentLang==='ar'?'النظام مقفل: يتطلب إدخال مفاتيح EmailJS في إعدادات الرئيسية!':'System Locked: EmailJS config missing!', 'error'); return; }
+            if(!sId || !tId || !pK) { showToast('يتطلب إدخال مفاتيح EmailJS في إعدادات الرئيسية!', 'error'); return; }
             const btn = document.getElementById('btn-send-email-action'); const origHTML = btn.innerHTML; btn.disabled = true; btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> إرسال...';
             const to = document.getElementById('send-email-to').value; const sub = document.getElementById('send-email-subject').value; const msg = document.getElementById('send-email-body').value;
             const data = { service_id: sId, template_id: tId, user_id: pK, template_params: { to_email: to, subject: sub, message: msg, from_name: (currentUser.name || 'Echo Bridges') } };
             try {
                 const res = await fetch('https://api.emailjs.com/api/v1.0/email/send', { method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(data) });
-                if(res.ok) { showToast(currentLang==='ar'?'تم الإطلاق! رسالتك الرسمية في صندوق الوارد للطرف الآخر 🚀':'Official Dispatch Successful 🚀'); closeSendEmailModal(); } else { throw new Error('API Reject'); }
-            } catch(err) { showToast(currentLang==='ar'?'فشل الإطلاق، تآكد من حصص EmailJS المجانية.':'Dispatch Failed. Check Quotas.', 'error'); }
+                if(res.ok) { showToast('رسالتك الرسمية في صندوق الوارد للطرف الآخر 🚀'); closeSendEmailModal(); } else { throw new Error('API Reject'); }
+            } catch(err) { showToast('فشل الإرسال.', 'error'); }
             finally { btn.disabled = false; btn.innerHTML = origHTML; }
         }
 
-        // WhatsApp Dynamic Generator
         function shareViaWhatsApp(textPayload) {
             const encodedText = encodeURIComponent(textPayload);
             window.open(`https://wa.me/?text=${encodedText}`, '_blank');
-            showToast(currentLang==='ar'?'تم تجهيز صياغة الواتساب وفتح التطبيق 📱':'WhatsApp drafted successfully 📱');
+            showToast('تم تجهيز صياغة الواتساب 📱');
         }
 
         function shareLedgerViaWhatsApp() {
@@ -1187,16 +1148,15 @@
             const b = calculateClientBalance(selectedClientProfileId);
             let msg = `*كشف حساب مالي - صدى الجسور*\n------------------------\n`;
             msg += `العميل: *${client.companyAr}*\nالتاريخ: ${new Date().toISOString().split('T')[0]}\n\n`;
-            msg += `إجمالي قيمة المطالبات والصفقات: *$${Math.round(b.totalCharges).toLocaleString()}*\n`;
-            msg += `إجمالي المبالغ المسددة من قبلكم: *$${Math.round(b.totalPaid).toLocaleString()}*\n\n`;
+            msg += `إجمالي المطالبات: *$${Math.round(b.totalCharges).toLocaleString()}*\n`;
+            msg += `إجمالي المسدد: *$${Math.round(b.totalPaid).toLocaleString()}*\n\n`;
             if(b.balance > 0) { msg += `🔴 *الرصيد المتبقي بذمتكم: $${Math.round(b.balance).toLocaleString()}*\n`; }
-            else if(b.balance < 0) { msg += `🟢 *رصيد فائض (أمانة لكم): $${Math.round(Math.abs(b.balance)).toLocaleString()}*\n`; }
-            else { msg += `✅ *الرصيد متوازن ($0). لا توجد مستحقات.*\n`; }
-            msg += `\nنرجو منكم مراجعة الكشف. مع خالص التحيات،\n_${currentUser.name || 'إدارة الحسابات'}_\n*Echo Bridges Trade Co.*`;
+            else if(b.balance < 0) { msg += `🟢 *رصيد أمانة لكم: $${Math.round(Math.abs(b.balance)).toLocaleString()}*\n`; }
+            else { msg += `✅ *الرصيد متوازن ($0).*\n`; }
+            msg += `\nمع التحيات،\n_${currentUser.name || 'إدارة الحسابات'}_\n*Echo Bridges Trade Co.*`;
             shareViaWhatsApp(msg);
         }
 
-        // --- 6. LANGUAGE & NAVIGATION ROUTER ---
         function setLanguage(lang) {
             currentLang = lang; document.documentElement.lang = lang; document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
             ['ar', 'en', 'zh'].forEach(l => { const btn = document.getElementById(`lang-btn-${l}`); if (btn) btn.className = (l === lang) ? 'px-2 py-1 rounded transition bg-gold-500 text-black' : 'px-2 py-1 rounded transition text-slate-300 hover:text-white'; });
@@ -1207,7 +1167,7 @@
         }
 
         function navigateTo(tab) {
-            if (tab === 'accounting' && currentUser && currentUser.role !== 'admin') { showToast(currentLang==='ar'?'جدار الحماية: القسم المالي مخصص للشركاء والإدارة فقط ⛔':'Firewall: Finance is Admin Only ⛔', 'error'); return; }
+            if (tab === 'accounting' && currentUser && currentUser.role !== 'admin') { showToast('جدار الحماية: القسم المالي مخصص للشركاء فقط ⛔', 'error'); return; }
             activeTab = tab;
             ['dashboard', 'comparator', 'clients', 'requests', 'inspections', 'shipping', 'suppliers', 'accounting'].forEach(id => {
                 const el = document.getElementById(`view-${id}`); const btn = document.getElementById(`nav-${id}`);
@@ -1219,7 +1179,6 @@
             renderCurrentView();
         }
 
-        // --- 7. CORE FINANCE & DB RENDER ENGINE ---
         function calculateClientBalance(clientId) {
             const reqs = (appDb.requests || []).filter(r => r.clientId === clientId && r.status !== 'قيد البحث').reduce((s, r) => s + (Number(r.totalCost)||0), 0); 
             const ships = (appDb.shipping || []).filter(s => s.clientId === clientId).reduce((s, x) => s + (Number(x.clientPrice)||0), 0);
@@ -1231,7 +1190,6 @@
         }
 
         function renderCurrentView() {
-            // Dashboard Inline Settings Populate
             if(document.getElementById('admin-username-inline')) document.getElementById('admin-username-inline').value = appDb.adminUsername || '';
             if(document.getElementById('admin-password-inline')) document.getElementById('admin-password-inline').value = appDb.adminPassword || '';
             if(document.getElementById('admin-logo-data-inline')) {
@@ -1247,18 +1205,15 @@
                 }
             }
 
-            // Header Logo Injection
             if (appDb.companyLogo) { document.getElementById('header-logo-icon').classList.add('hidden'); document.getElementById('header-logo-img').classList.remove('hidden'); document.getElementById('header-logo-img').src = appDb.companyLogo; } 
             else { document.getElementById('header-logo-icon').classList.remove('hidden'); document.getElementById('header-logo-img').classList.add('hidden'); }
 
-            // KPI Sync
             document.getElementById('dash-clients-count').textContent = (appDb.clients||[]).length;
             document.getElementById('dash-active-reqs-count').textContent = (appDb.requests||[]).filter(r=>r.status!=='مكتمل').length;
             document.getElementById('dash-suppliers-count').textContent = (appDb.suppliers||[]).length;
             let globalDebt = 0; (appDb.clients||[]).forEach(c => { const b=calculateClientBalance(c.id); if(b.balance>0) globalDebt += b.balance; });
             document.getElementById('dash-total-debts').textContent = '$'+Math.round(globalDebt).toLocaleString();
 
-            // Dashboard Inputs
             if(document.getElementById('rate-usd-cny')) document.getElementById('rate-usd-cny').value = appDb.exchangeRates.usdToCny;
             if(document.getElementById('rate-eur-usd')) document.getElementById('rate-eur-usd').value = appDb.exchangeRates.eurToUsd;
             if(document.getElementById('dashboard-gemini-key')) document.getElementById('dashboard-gemini-key').value = localStorage.getItem(API_KEY_STORAGE) || '';
@@ -1290,7 +1245,6 @@
             if (activeTab === 'accounting') renderAccountingView();
         }
 
-        // --- 8. CLIENTS DIRECTORY & PROFILE PORTAL (WITH BROKER INTEGRATION) ---
         function toggleBrokerFields() {
             const val = document.getElementById('client-source').value;
             const els = document.querySelectorAll('.broker-group');
@@ -1379,10 +1333,9 @@
             source:document.getElementById('client-source').value, brokerName:document.getElementById('client-broker-name').value, brokerType:document.getElementById('client-broker-type').value, brokerValue:document.getElementById('client-broker-value').value, brokerPaid:document.getElementById('client-broker-paid').value, brokerDate:document.getElementById('client-broker-date').value, brokerMethod:document.getElementById('client-broker-method').value, brokerReceipt:document.getElementById('client-broker-receipt').value,
             payments:isNew?[]:(appDb.clients.find(c=>c.id===id)?.payments||[])};
             if(isNew) appDb.clients.unshift(d); else { const i=appDb.clients.findIndex(x=>x.id===id); appDb.clients[i]=d; }
-            await persistDb(); closeClientModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم حفظ بيانات العميل في السجلات 🗃️':'Client portfolio secured 🗃️');
+            await persistDb(); closeClientModal(); renderCurrentView(); showToast('تم حفظ بيانات العميل 🗃️');
         }
 
-        // Deep Client Profile (Portal View)
         function renderClientProfileView(id) {
             const client = appDb.clients.find(c=>c.id===id); if(!client) return closeClientProfile();
             const b = calculateClientBalance(id);
@@ -1472,7 +1425,6 @@
 
         function closeClientProfile() { selectedClientProfileId=null; document.getElementById('view-client-profile').classList.add('hidden'); document.getElementById('view-clients').classList.remove('hidden'); renderClientsTable(); }
 
-        // --- 9. SOURCING (RFQ) & SMART EMAILING ENGINE ---
         function toggleRfqFinance() {
             const st = document.getElementById('request-status-select').value;
             const bx = document.getElementById('rfq-finance-box');
@@ -1572,10 +1524,9 @@
                 items: currentRfqItems, totalCost:tc, date:document.getElementById('request-date').value, status:st
             };
             if(isNew) appDb.requests.unshift(d); else { const i=appDb.requests.findIndex(x=>x.id===id); appDb.requests[i]=d; }
-            await persistDb(); closeRequestModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم الحفظ والتأمين بمركز الصفقات 🛡️':'RFQ Deal Secured 🛡️');
+            await persistDb(); closeRequestModal(); renderCurrentView(); showToast('تم الحفظ والتأمين بمركز الصفقات 🛡️');
         }
 
-        // SMART EMAIL GENERATOR (Drafting to Suppliers)
         function draftSupplierEmailFromRfq() {
             const title = document.getElementById('request-title').value || 'New Sourcing Inquiry';
             const inctm = document.getElementById('request-incoterm').value;
@@ -1583,19 +1534,14 @@
             const specs = document.getElementById('request-specs').value;
             
             let htmlTable = `Product Details:\n`;
-            currentRfqItems.forEach((it, i) => {
-                if(it.desc) htmlTable += `${i+1}. ${it.desc} | QTY: ${it.qty} ${it.unit} | Specs: ${it.specs} | Pack: ${it.packing}\n`;
-            });
-
+            currentRfqItems.forEach((it, i) => { if(it.desc) htmlTable += `${i+1}. ${it.desc} | QTY: ${it.qty} ${it.unit} | Specs: ${it.specs} | Pack: ${it.packing}\n`; });
             const body = `Dear Sales Team,\n\nWe at Echo Bridges Trade Co. are looking to source the following products. Please review and provide your best quotation.\n\nProject Name: ${title}\nIncoterms Required: ${inctm}\nTarget Port: ${port}\n\n${htmlTable}\nGeneral Requirements / Specifications:\n${specs}\n\nPlease include in your quote:\n1. Unit Price & Total Price\n2. Production Lead Time\n3. Warranty Terms & Payment Terms\n4. Packing Dimensions & CBM\n\nLooking forward to your prompt response.`;
             
-            closeRequestModal(); // Hide RFQ modal temporarily
-            openSendEmailModal('', `RFQ Inquiry: ${title}`, body); // Open Email Modal
-            showToast(currentLang==='ar'?'تم صياغة القالب الاحترافي للإيميل آلياً 🤖':'Smart Draft Generated 🤖');
+            closeRequestModal(); 
+            openSendEmailModal('', `RFQ Inquiry: ${title}`, body); 
+            showToast('تم صياغة القالب الاحترافي للإيميل آلياً 🤖');
         }
 
-
-        // --- 10. INSPECTIONS & LOGISTICS (SHIPPING) ---
         function renderInspectionsList() {
             const c = document.getElementById('inspections-list-container');
             c.innerHTML = (appDb.inspections||[]).map(i=>{
@@ -1649,10 +1595,9 @@
             e.preventDefault(); const id=document.getElementById('inspection-id').value; const isNew=!id;
             const d={id:isNew?'i_'+Date.now():id, clientId:document.getElementById('inspection-client-id').value, title:document.getElementById('inspection-title').value, date:document.getElementById('inspection-date').value, status:document.getElementById('inspection-status').value, notes:document.getElementById('inspection-notes').value, fileLink:document.getElementById('inspection-file-link').value, sampleCost:Number(document.getElementById('insp-sample-cost').value)||0, shippingCompany:document.getElementById('insp-shipping-company').value, sampleTrack:document.getElementById('insp-sample-track').value, sampleWeight:document.getElementById('insp-sample-weight').value };
             if(isNew) appDb.inspections.unshift(d); else { const i=appDb.inspections.findIndex(x=>x.id===id); appDb.inspections[i]=d; }
-            await persistDb(); closeInspectionModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم التوثيق والاعتماد في النظام':'QC Logged');
+            await persistDb(); closeInspectionModal(); renderCurrentView(); showToast('تم التوثيق والاعتماد في النظام');
         }
 
-        // Logistics & Shipping
         function renderShippingList() {
             const c = document.getElementById('shipping-list-container');
             c.innerHTML = (appDb.shipping||[]).map(s=>{
@@ -1702,72 +1647,10 @@
             e.preventDefault(); const id=document.getElementById('shipping-id').value; const isNew=!id;
             const d={id:isNew?'s_'+Date.now():id, clientId:document.getElementById('shipping-client-id').value, title:document.getElementById('shipping-title').value, date:document.getElementById('shipping-date').value, mode:document.getElementById('shipping-mode').value, trackingNo:document.getElementById('shipping-tracking-no').value, hsCode:document.getElementById('shipping-hscode').value, companyName:document.getElementById('shipping-company-name').value, trackingUrl:document.getElementById('shipping-tracking-url').value, clientPrice:Number(document.getElementById('shipping-client-price').value)||0, cost:Number(document.getElementById('shipping-cost').value)||0, warehouseCost:Number(document.getElementById('shipping-warehouse-cost').value)||0, internalCost:Number(document.getElementById('shipping-internal-cost').value)||0, laborCost:Number(document.getElementById('shipping-labor-cost').value)||0, forkliftCost:Number(document.getElementById('shipping-forklift-cost').value)||0 };
             if(isNew) appDb.shipping.unshift(d); else { const i=appDb.shipping.findIndex(x=>x.id===id); appDb.shipping[i]=d; }
-            await persistDb(); closeShippingModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم الاعتماد! بوليصة الشحن مقيدة بالسجل':'Logistics Booked');
+            await persistDb(); closeShippingModal(); renderCurrentView(); showToast('تم الاعتماد! بوليصة الشحن مقيدة بالسجل');
         }
 
-        // Factory / Suppliers Directory
-        function renderSuppliersDirectory() {
-            const c = document.getElementById('suppliers-list-container');
-            const search = (document.getElementById('supplier-search-input')?.value || '').toLowerCase();
-            const list = (appDb.suppliers || []).filter(s => (s.name||'').toLowerCase().includes(search) || (s.specialty||'').toLowerCase().includes(search) || (s.manager||'').toLowerCase().includes(search) || (s.nameZh||'').includes(search));
-            
-            c.innerHTML = list.map(sup => {
-                let badgeClr = sup.rating.includes('A')?'bg-emerald-100 text-emerald-800 border-emerald-200':(sup.rating.includes('B')?'bg-blue-100 text-blue-800 border-blue-200':(sup.rating.includes('C')?'bg-amber-100 text-amber-800 border-amber-200':'bg-rose-100 text-rose-800 border-rose-200'));
-                return `
-                <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm flex flex-col md:flex-row justify-between items-start gap-6 transition hover:shadow-lg">
-                    <div class="flex-1 w-full">
-                        <div class="flex items-center gap-3 mb-3">
-                            <h4 class="font-black text-xl text-slate-900 flex items-center gap-2"><div class="w-8 h-8 bg-slate-100 rounded-lg text-slate-500 flex items-center justify-center text-sm shadow-inner border border-slate-200"><i class="fa-solid fa-industry"></i></div> ${sup.name}</h4>
-                            ${sup.nameZh ? `<span class="text-xs font-bold text-slate-600 bg-slate-50 px-2 py-1 rounded-lg border border-slate-200 shadow-sm font-sans">${sup.nameZh}</span>` : ''}
-                            ${sup.rating ? `<span class="text-[10px] ${badgeClr} px-2.5 py-1 rounded-lg border font-black uppercase tracking-wider shadow-sm">${sup.rating.split(' ')[0]}</span>` : ''}
-                        </div>
-                        
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4 text-xs bg-slate-50 p-4 rounded-2xl border border-slate-100">
-                            <div><span class="block text-[10px] text-slate-400 font-bold uppercase mb-0.5"><i class="fa-solid fa-tag text-slate-300 mr-1"></i> التخصص</span><span class="font-black text-slate-800 text-sm">${sup.specialty||'-'}</span></div>
-                            <div><span class="block text-[10px] text-slate-400 font-bold uppercase mb-0.5"><i class="fa-solid fa-user-tie text-slate-300 mr-1"></i> الإدارة</span><span class="font-bold text-slate-800">${sup.manager||'-'}</span></div>
-                            <div><span class="block text-[10px] text-slate-400 font-bold uppercase mb-0.5"><i class="fa-solid fa-id-card text-slate-300 mr-1"></i> الترخيص</span><span class="font-mono font-bold text-slate-700">${sup.license||'-'}</span></div>
-                            <div><span class="block text-[10px] text-slate-400 font-bold uppercase mb-0.5"><i class="fa-solid fa-money-check text-slate-300 mr-1"></i> الدفع</span><span class="font-bold text-sky-700">${sup.paymentTerms||'-'}</span></div>
-                        </div>
-                        
-                        <div class="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-slate-100 text-xs">
-                            ${sup.whatsapp ? `<a href="https://wa.me/${sup.whatsapp.replace(/\+/g,'')}" target="_blank" class="text-emerald-600 hover:text-white hover:bg-emerald-500 font-bold bg-emerald-50 border border-emerald-100 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5" dir="ltr"><i class="fa-brands fa-whatsapp text-sm"></i> ${sup.whatsapp}</a>` : ''}
-                            ${sup.wechat ? `<span class="text-blue-600 font-bold bg-blue-50 border border-blue-100 px-3 py-1.5 rounded-lg flex items-center gap-1.5"><i class="fa-brands fa-weixin text-sm"></i> ${sup.wechat}</span>` : ''}
-                            ${sup.email ? `<button type="button" onclick="openSendEmailModal('${sup.email}', 'Echo Bridges Trade RFQ')" class="text-slate-600 hover:text-white hover:bg-slate-800 font-bold bg-slate-100 border border-slate-200 px-3 py-1.5 rounded-lg transition flex items-center gap-1.5"><i class="fa-solid fa-envelope"></i> Mails</button>` : ''}
-                            ${sup.website ? `<a href="${sup.website.startsWith('http')?sup.website:'https://'+sup.website}" target="_blank" class="text-slate-600 hover:text-sky-600 hover:underline font-bold px-2 py-1.5 flex items-center gap-1.5"><i class="fa-solid fa-globe"></i> Website</a>` : ''}
-                            ${sup.licenseImg ? `<a href="${sup.licenseImg}" target="_blank" class="text-slate-600 hover:text-amber-600 hover:underline font-bold px-2 py-1.5 flex items-center gap-1.5"><i class="fa-solid fa-image"></i> License</a>` : ''}
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-2 shrink-0 w-full md:w-32 border-t md:border-t-0 pt-4 md:pt-0 border-slate-100 admin-only-block admin-only">
-                        <button type="button" onclick="openSupplierAccountModal('${sup.id}')" class="w-full py-2.5 bg-[#121216] hover:bg-black text-gold-400 font-black rounded-xl text-xs transition flex items-center justify-center gap-1.5 shadow-lg shadow-black/20 border border-gold-500/30"><i class="fa-solid fa-money-bill-transfer"></i> الحوالات TT</button>
-                        <div class="flex gap-2">
-                            <button type="button" onclick="openSupplierModal('${sup.id}')" class="flex-1 h-10 flex items-center justify-center bg-slate-50 hover:bg-slate-200 border border-slate-200 rounded-xl transition text-slate-700 shadow-sm"><i class="fa-solid fa-pen"></i></button>
-                            <button type="button" onclick="deleteRecord('suppliers', '${sup.id}')" class="flex-1 h-10 flex items-center justify-center bg-rose-50 hover:bg-rose-600 hover:text-white border border-rose-200 rounded-xl transition text-rose-600 shadow-sm"><i class="fa-solid fa-trash"></i></button>
-                        </div>
-                    </div>
-                </div>`;
-            }).join('') || `<div class="text-center p-12 border-2 border-dashed border-slate-200 bg-white rounded-3xl flex flex-col items-center justify-center"><div class="w-20 h-20 bg-slate-50 text-slate-300 rounded-full flex items-center justify-center text-4xl mb-4"><i class="fa-solid fa-industry"></i></div><h4 class="font-black text-slate-600 text-lg mb-1">دليل المصانع فارغ</h4><p class="text-sm text-slate-400 font-bold">قم بتوثيق المصانع المعتمدة، وبيانات الاتصال والتقييمات الخاصة بهم هنا.</p></div>`;
-        }
-
-        function openSupplierModal(id=null) {
-            document.getElementById('modal-supplier').classList.remove('hidden'); document.getElementById('modal-supplier').classList.add('flex');
-            if(id){
-                const r=appDb.suppliers.find(x=>x.id===id); document.getElementById('supplier-id').value=r.id; document.getElementById('supplier-name').value=r.name; document.getElementById('supplier-name-zh').value=r.nameZh||''; document.getElementById('supplier-license').value=r.license||''; document.getElementById('supplier-manager').value=r.manager||''; document.getElementById('supplier-specialty').value=r.specialty||''; document.getElementById('supplier-rating').value=r.rating||'A (⭐⭐⭐⭐⭐)'; document.getElementById('supplier-agreement-type').value=r.agreementType||'عمولة مئوية (%)'; document.getElementById('supplier-agreement-value').value=r.agreementValue||''; document.getElementById('supplier-payment-terms').value=r.paymentTerms||''; document.getElementById('supplier-phone').value=r.phone||''; document.getElementById('supplier-whatsapp').value=r.whatsapp||''; document.getElementById('supplier-wechat').value=r.wechat||''; document.getElementById('supplier-port').value=r.port||''; document.getElementById('supplier-email').value=r.email||''; document.getElementById('supplier-website').value=r.website||''; document.getElementById('supplier-notes').value=r.notes||''; document.getElementById('supplier-license-img-data').value=r.licenseImg||'';
-            } else {
-                document.getElementById('supplier-id').value=''; document.getElementById('supplier-name').value=''; document.getElementById('supplier-name-zh').value=''; document.getElementById('supplier-license').value=''; document.getElementById('supplier-manager').value=''; document.getElementById('supplier-specialty').value=''; document.getElementById('supplier-rating').value='A (⭐⭐⭐⭐⭐)'; document.getElementById('supplier-agreement-type').value='عمولة مئوية (%)'; document.getElementById('supplier-agreement-value').value=''; document.getElementById('supplier-payment-terms').value=''; document.getElementById('supplier-phone').value=''; document.getElementById('supplier-whatsapp').value=''; document.getElementById('supplier-wechat').value=''; document.getElementById('supplier-port').value=''; document.getElementById('supplier-email').value=''; document.getElementById('supplier-website').value=''; document.getElementById('supplier-notes').value=''; document.getElementById('supplier-license-img-data').value='';
-            }
-        }
-        function closeSupplierModal() { document.getElementById('modal-supplier').classList.add('hidden'); document.getElementById('modal-supplier').classList.remove('flex'); }
-        async function saveSupplierForm(e) {
-            e.preventDefault(); const id=document.getElementById('supplier-id').value; const isNew=!id;
-            const d={id:isNew?'sup_'+Date.now():id, name:document.getElementById('supplier-name').value, nameZh:document.getElementById('supplier-name-zh').value, license:document.getElementById('supplier-license').value, manager:document.getElementById('supplier-manager').value, specialty:document.getElementById('supplier-specialty').value, rating:document.getElementById('supplier-rating').value, agreementType:document.getElementById('supplier-agreement-type').value, agreementValue:document.getElementById('supplier-agreement-value').value, paymentTerms:document.getElementById('supplier-payment-terms').value, phone:document.getElementById('supplier-phone').value, whatsapp:document.getElementById('supplier-whatsapp').value, wechat:document.getElementById('supplier-wechat').value, port:document.getElementById('supplier-port').value, email:document.getElementById('supplier-email').value, website:document.getElementById('supplier-website').value, notes:document.getElementById('supplier-notes').value, licenseImg:document.getElementById('supplier-license-img-data').value, payments:isNew?[]:(appDb.suppliers.find(s=>s.id===id)?.payments||[])};
-            if(isNew) appDb.suppliers.unshift(d); else { const i=appDb.suppliers.findIndex(x=>x.id===id); appDb.suppliers[i]=d; }
-            await persistDb(); closeSupplierModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم تسجيل ملف المصنع وتوثيقه':'Factory Onboarded');
-        }
-
-
-        // --- 11. FINANCIAL LEDGERS (CLIENT & SUPPLIER TRANSACTIONS) ---
-
-        // View Account Table globally
+        // --- 11. FINANCIAL LEDGERS ---
         function renderAccountingView() {
             const c = document.getElementById('accounting-clients-table-body');
             const list = (appDb.clients||[]).map(cl=>{ 
@@ -1792,7 +1675,6 @@
             if(list) { c.innerHTML = list; } else { c.innerHTML = `<tr><td colspan="6" class="text-center p-8 text-slate-400 font-bold">لا يوجد سجلات مالية</td></tr>`; }
         }
 
-        // Open Client Ledger Modal
         function openClientAccountModal(id) {
             document.getElementById('modal-client-account').classList.remove('hidden'); document.getElementById('modal-client-account').classList.add('flex');
             document.getElementById('account-client-id').value = id;
@@ -1822,8 +1704,7 @@
             e.preventDefault(); const id = document.getElementById('account-client-id').value; const c = appDb.clients.find(x=>x.id===id); if(!c) return; 
             if(!c.payments) c.payments=[]; 
             c.payments.unshift({ id: 'p_'+Date.now(), amount: Number(document.getElementById('pay-amount').value), currency: document.getElementById('pay-currency').value, rate: document.getElementById('pay-rate').value, ref: document.getElementById('pay-ref').value, date: document.getElementById('pay-date').value }); 
-            await persistDb(); openClientAccountModal(id); renderCurrentView(); 
-            showToast(currentLang==='ar'?'تم تسجيل النقدية وخصمها من ذمة العميل':'Payment Logged & Ledger Updated'); 
+            await persistDb(); openClientAccountModal(id); renderCurrentView(); showToast('تم تسجيل النقدية وخصمها من ذمة العميل'); 
         }
 
         function openSupplierAccountModal(id) {
@@ -1843,28 +1724,16 @@
             }
         }
         function closeSupplierAccountModal() { document.getElementById('modal-supplier-account').classList.add('hidden'); document.getElementById('modal-supplier-account').classList.remove('flex'); }
-        async function addSupplierPayment(e) { e.preventDefault(); const id = document.getElementById('account-supplier-id').value; const s = appDb.suppliers.find(x=>x.id===id); if(!s) return; if(!s.payments) s.payments=[]; s.payments.unshift({ id: 'sp_'+Date.now(), amount: Number(document.getElementById('sup-pay-amount').value), currency: document.getElementById('sup-pay-currency').value, ref: document.getElementById('sup-pay-ref').value, date: document.getElementById('sup-pay-date').value }); await persistDb(); openSupplierAccountModal(id); renderCurrentView(); showToast(currentLang==='ar'?'تم توثيق وأرشفة الحوالة البنكية بنجاح 🏦':'T/T Transfer Archived 🏦'); }
+        async function addSupplierPayment(e) { e.preventDefault(); const id = document.getElementById('account-supplier-id').value; const s = appDb.suppliers.find(x=>x.id===id); if(!s) return; if(!s.payments) s.payments=[]; s.payments.unshift({ id: 'sp_'+Date.now(), amount: Number(document.getElementById('sup-pay-amount').value), currency: document.getElementById('sup-pay-currency').value, ref: document.getElementById('sup-pay-ref').value, date: document.getElementById('sup-pay-date').value }); await persistDb(); openSupplierAccountModal(id); renderCurrentView(); showToast('تم توثيق الحوالة 🏦'); }
         
         async function deletePayment(t, pId, payId) { 
-            if(currentUser && currentUser.role !== 'admin') { showToast('غير مصرح لك بحذف البيانات', 'error'); return; }
+            if(currentUser && currentUser.role !== 'admin') { showToast('مرفوض', 'error'); return; }
             const p = appDb[t].find(x=>x.id===pId); 
             if(p && p.payments) { p.payments = p.payments.filter(x=>x.id!==payId); await persistDb(); if(t==='clients') openClientAccountModal(pId); else openSupplierAccountModal(pId); renderCurrentView(); showToast('تم الحذف'); } 
         }
 
-        // --- 12. BOOTSTRAP ---
-        window.addEventListener('DOMContentLoaded', () => {
-            loadLocalDb();
-            checkAdminAccess();
-            setLanguage('ar'); 
-            syncCloudDb();
-            fetchLiveExchangeRates();
-            initComparatorSlots();
-        });
-        
-        // Auto-sync when tab gains focus
-        window.addEventListener('focus', () => {
-            if(currentUser) syncCloudDb();
-        });
+        window.addEventListener('DOMContentLoaded', () => { loadLocalDb(); checkAdminAccess(); setLanguage('ar'); syncCloudDb(); fetchLiveExchangeRates(); initComparatorSlots(); });
+        window.addEventListener('focus', () => { if(currentUser) syncCloudDb(); });
     </script>
 </body>
 </html>
