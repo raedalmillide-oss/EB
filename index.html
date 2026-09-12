@@ -84,7 +84,7 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <span id="header-user-name" class="text-xs font-bold text-slate-300 hidden sm:inline-block"></span>
+                    <span id="header-user-name" class="text-xs font-bold text-slate-300 hidden sm:inline-block">المدير العام: رائد الملي</span>
                     <button type="button" onclick="openAdminSettingsModal()" class="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-3 py-1.5 rounded-xl text-xs font-bold transition flex items-center gap-1.5" title="تعديل حسابي">
                         <i class="fa-solid fa-user-gear"></i>
                     </button>
@@ -1323,17 +1323,17 @@
     </div>
 
     <script>
-        const STORAGE_KEY = 'EB_LOGISTICS_DB_V_FINAL';
+        const STORAGE_KEY = 'EB_LOGISTICS_DB_V_PERFECT';
 
         // -----------------------------------------------------
-        // Supabase Cloud Configuration
+        // Supabase Cloud Configuration (تم تغيير الاسم لتجنب التعارض)
         // -----------------------------------------------------
         const SUPABASE_URL = 'https://zkzpxaqffrctjhfgkpnm.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_Xi7Owac1858P4KUmIt-YCw_wWcy2XyC';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
         let currentLang = 'ar';
-        let currentUser = 'admin'; // منح صلاحيات الإدارة الكاملة تلقائياً وتجاوز شاشة الدخول
+        let currentUser = 'admin'; // تسجيل الدخول كمدير عام دائماً
         let activeTab = 'dashboard';
         let selectedClientProfileId = null;
         let appDb = null;
@@ -1353,6 +1353,83 @@
             shipping: []
         };
 
+        const i18nDict = {
+            ar: {
+                't-nav-dashboard': 'لوحة التحكم',
+                't-nav-clients': 'إدارة العملاء',
+                't-nav-requests': 'طلب التسعير',
+                't-nav-inspections': 'الفحص',
+                't-nav-shipping': 'الشحن',
+                't-nav-suppliers': 'دليل الموردين',
+                't-nav-accounting': 'التحليل المالي',
+                't-ai-title': 'مساعد الذكاء الاصطناعي الذكي (Gemini AI)',
+                't-ai-desc': 'صياغة طلبات التسعير بالإنجليزية والصينية، تحليل مواصفات العملاء، وترجمة عروض المصانع بضغطة زر واحدة.',
+                't-ai-btn': 'تشغيل المساعد الذكي',
+                't-kpi-clients': 'إجمالي العملاء',
+                't-kpi-active-reqs': 'طلبات قيد العمل',
+                't-kpi-suppliers': 'دليل الموردين',
+                't-kpi-profit': 'الأرباح المتوقعة',
+                't-exchange-title': 'أسعار الصرف والعملات (USD/RMB/EUR)',
+                't-save-rates': 'تحديث أسعار الصرف الآن',
+                't-email-config': 'إعدادات البريد ومتابعة المراسلات',
+                't-email-label': 'البريد الإلكتروني للشركة:',
+                't-inbox-title': 'سجل الرسائل:',
+                't-active': 'نشط',
+                't-save-settings': 'حفظ الإعدادات',
+                't-staff-mgmt': 'إدارة حسابات الموظفين',
+                't-add-staff': 'إضافة موظف',
+                't-clients-title': 'إدارة العملاء',
+                't-clients-subtitle': 'ملفات العملاء الموثقة، الأرقام التسلسلية الثابتة، والتسجيل المالي المتكامل.',
+                't-add-client': 'إضافة عميل جديد',
+                'th-c-serial': 'الرقم',
+                'th-c-company': 'الشركة والمسؤول',
+                'th-c-cr': 'السجل والميناء',
+                'th-c-contact': 'التواصل والموقع',
+                'th-c-paid': 'إجمالي المقبوضات',
+                'th-c-actions': 'إجراءات',
+                't-requests-title': 'طلب التسعير',
+                't-requests-subtitle': 'متابعة كافة طلبات العملاء وتتبع عروض المصانع المتعددة لكل طلب.',
+                't-add-request': 'إنشاء طلب جديد',
+                't-inspections-title': 'الفحص',
+                't-inspections-subtitle': 'سجلات الفحص الميداني، التقارير الفنية، أرقام شحنات العينات، والإرسال الفوري للعملاء.',
+                't-add-inspection': 'إضافة فحص جديد',
+                't-shipping-title': 'الشحن',
+                't-shipping-subtitle': 'تتبع الحاويات، روابط التتبع الحية، تفاصيل Delivery Note، وأوراق الشحن الرسمية.',
+                't-add-shipping': 'تسجيل شحنة جديدة',
+                't-suppliers-title': 'دليل الموردين',
+                't-suppliers-subtitle': 'قاعدة بيانات المصانع، التراخيص، وسائل التواصل، الاتفاقات التجارية، ونظام التقييم.',
+                't-ai-organize': 'تنظيم بالذكاء الاصطناعي',
+                't-add-supplier': 'تسجيل مورد جديد',
+                't-accounting-title': 'التحليل المالي',
+                't-accounting-subtitle': 'كشوفات الحسابات، الأرباح، مدفوعات الموردين، وتصفية الحركات المالية بالتواريخ.',
+                'opt-all': 'كافة الفترات',
+                'opt-month': 'الشهر الحالي',
+                'opt-year': 'العام الحالي',
+                't-acc-client-paid': 'إجمالي مقبوضات العملاء',
+                't-acc-sup-paid': 'إجمالي مدفوعات الموردين',
+                't-acc-net-profit': 'صافي الأرباح المتوقعة من الصفقات',
+                't-acc-ledger-title': 'سجل المقبوضات حسب العملاء'
+            },
+            en: {
+                't-nav-dashboard': 'Dashboard',
+                't-nav-clients': 'Clients',
+                't-nav-requests': 'RFQs',
+                't-nav-inspections': 'Inspection',
+                't-nav-shipping': 'Shipping',
+                't-nav-suppliers': 'Suppliers',
+                't-nav-accounting': 'Accounting'
+            },
+            zh: {
+                't-nav-dashboard': '控制面板',
+                't-nav-clients': '客户管理',
+                't-nav-requests': '询价单',
+                't-nav-inspections': '验货',
+                't-nav-shipping': '航运',
+                't-nav-suppliers': '供应商目录',
+                't-nav-accounting': '财务分析'
+            }
+        };
+
         function setLanguage(lang) {
             currentLang = lang || 'ar';
             document.documentElement.lang = currentLang;
@@ -1369,10 +1446,14 @@
                 }
             });
 
+            const dict = i18nDict[currentLang] || i18nDict['ar'];
+            Object.keys(dict).forEach(id => {
+                safeSetText(id, dict[id]);
+            });
+
             if (currentUser) renderCurrentView();
         }
 
-        // 1. Load Local Data instantly
         function loadLocalDb() {
             try {
                 const stored = localStorage.getItem(STORAGE_KEY);
@@ -1384,10 +1465,9 @@
             if (!appDb.adminPassword) appDb.adminPassword = 'Haitham2007@';
         }
 
-        // 2. Fetch Latest Cloud Data Silently
         async function syncCloudDb() {
             try {
-                const { data, error } = await supabase
+                const { data, error } = await sbClient
                     .from('app_storage')
                     .select('value')
                     .eq('key', STORAGE_KEY)
@@ -1399,23 +1479,20 @@
                     if (!appDb.adminPassword) appDb.adminPassword = 'Haitham2007@';
                     
                     localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); 
-                    if (currentUser) {
-                        renderCurrentView(); 
-                    }
+                    if (currentUser) renderCurrentView(); 
                 }
             } catch (err) {
                 console.error("Cloud Sync ignored", err);
             }
         }
 
-        // 3. Save Data (Local first, then Cloud)
         async function persistDb() {
             try { 
                 localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); 
             } catch (err) {}
             
             try {
-                await supabase
+                await sbClient
                     .from('app_storage')
                     .upsert({ key: STORAGE_KEY, value: appDb });
             } catch(err) {
@@ -1479,7 +1556,6 @@
         }
 
         function openAdminSettingsModal() {
-            if (currentUser !== 'admin') return;
             const modal = document.getElementById('modal-admin-settings');
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -1731,10 +1807,10 @@
                 const totalPaidInUsd = (c.payments || []).reduce((acc, p) => acc + convertToUsd(p.amount, p.currency || 'USD'), 0);
                 const managerDisplay = (currentLang === 'en' && c.managerEn) ? c.managerEn : c.managerAr;
                 const companyDisplay = (currentLang === 'en' && c.companyEn) ? c.companyEn : c.companyAr;
-                const contactDisplay = (currentUser === 'admin') ? `
+                const contactDisplay = `
                     <div><i class="fa-solid fa-phone text-slate-400 ml-1"></i> <span dir="ltr">${c.phone || '-'}</span></div>
                     <div><i class="fa-solid fa-globe text-blue-600 ml-1"></i> <a href="${c.website || '#'}" target="_blank" class="underline">${c.website || '-'}</a></div>
-                ` : `<span class="text-slate-400 italic">محجوب للموظفين</span>`;
+                `;
 
                 return `
                     <tr class="hover:bg-amber-50/40 cursor-pointer transition" onclick="openClientProfile('${c.id}')">
@@ -1760,7 +1836,7 @@
                             <div class="flex items-center justify-center gap-1.5">
                                 <button type="button" onclick="openClientProfile('${c.id}')" class="p-2 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-xl" title="فتح الملف المستقل"><i class="fa-solid fa-folder-open"></i></button>
                                 <button type="button" onclick="openClientModal('${c.id}')" class="p-2 bg-amber-50 hover:bg-amber-100 text-amber-800 rounded-xl" title="تعديل"><i class="fa-solid fa-pen-to-square"></i></button>
-                                ${currentUser === 'admin' ? `<button type="button" onclick="deleteClientRecord('${c.id}')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl" title="حذف"><i class="fa-solid fa-trash"></i></button>` : ''}
+                                <button type="button" onclick="deleteClientRecord('${c.id}')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl" title="حذف"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </td>
                     </tr>
@@ -1806,11 +1882,9 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-2">
-                        ${currentUser === 'admin' ? `
-                            <button type="button" onclick="openClientAccountModal('${client.id}')" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-4 py-2.5 rounded-xl text-xs font-black transition flex items-center gap-2 shadow-sm">
-                                <i class="fa-solid fa-money-bill-transfer"></i> دفتر الحسابات (~$${Math.round(totalPaidUsd).toLocaleString()})
-                            </button>
-                        ` : ''}
+                        <button type="button" onclick="openClientAccountModal('${client.id}')" class="bg-blue-50 hover:bg-blue-100 text-blue-700 border border-blue-200 px-4 py-2.5 rounded-xl text-xs font-black transition flex items-center gap-2 shadow-sm">
+                            <i class="fa-solid fa-money-bill-transfer"></i> دفتر الحسابات (~$${Math.round(totalPaidUsd).toLocaleString()})
+                        </button>
                         <button type="button" onclick="openClientModal('${client.id}')" class="bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2.5 rounded-xl text-xs font-bold transition">
                             <i class="fa-solid fa-pen"></i> تعديل البيانات
                         </button>
@@ -1822,11 +1896,9 @@
                     <div><strong>عنوان العميل:</strong> <span class="font-bold text-slate-800">${client.address || '-'}</span></div>
                     <div><strong>نوع الاتفاق:</strong> <span class="bg-amber-50 text-amber-900 px-2 py-0.5 rounded font-bold">${client.agreementType || '-'}</span></div>
                     <div><strong>العمولة المتفق عليها:</strong> <span class="font-bold">${client.agreementCommission || '-'}</span></div>
-                    ${currentUser === 'admin' ? `
-                        <div><strong>الهاتف:</strong> <span dir="ltr">${client.phone || '-'}</span></div>
-                        <div><strong>البريد:</strong> <span>${client.email || '-'}</span></div>
-                        <div><strong>الموقع:</strong> <a href="${client.website}" target="_blank" class="text-blue-600 underline">${client.website || '-'}</a></div>
-                    ` : ''}
+                    <div><strong>الهاتف:</strong> <span dir="ltr">${client.phone || '-'}</span></div>
+                    <div><strong>البريد:</strong> <span>${client.email || '-'}</span></div>
+                    <div><strong>الموقع:</strong> <a href="${client.website}" target="_blank" class="text-blue-600 underline">${client.website || '-'}</a></div>
                 </div>
             `;
 
@@ -1903,7 +1975,7 @@
                         <div class="flex items-center gap-2">
                             <span class="px-3.5 py-1.5 rounded-xl text-xs font-black ${statusBadgeClass} shadow-sm">${req.status}</span>
                             <button type="button" onclick="openRequestModal('${req.id}')" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl" title="تعديل"><i class="fa-solid fa-pen"></i></button>
-                            ${currentUser === 'admin' ? `<button type="button" onclick="deleteRequestRecord('${req.id}')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl" title="حذف"><i class="fa-solid fa-trash"></i></button>` : ''}
+                            <button type="button" onclick="deleteRequestRecord('${req.id}')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl" title="حذف"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 bg-slate-50 p-3 rounded-2xl border border-slate-200 text-xs">
@@ -1976,7 +2048,7 @@
                                     </a>
                                 ` : ''}
                                 <button type="button" onclick="openInspectionModal('${insp.id}')" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl" title="تعديل"><i class="fa-solid fa-pen"></i></button>
-                                ${currentUser === 'admin' ? `<button type="button" onclick="deleteInspectionRecord('${insp.id}')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl" title="حذف"><i class="fa-solid fa-trash"></i></button>` : ''}
+                                <button type="button" onclick="deleteInspectionRecord('${insp.id}')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl" title="حذف"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </div>
                         ${insp.notes ? `<div class="text-xs bg-slate-50 p-3 rounded-xl border border-slate-100 text-slate-700"><strong>ملاحظات وتقرير الجودة:</strong> ${insp.notes}</div>` : ''}
@@ -2030,7 +2102,7 @@
                             </div>
                             <div class="flex items-center gap-2">
                                 <button type="button" onclick="openShippingModal('${shp.id}')" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl" title="تعديل"><i class="fa-solid fa-pen"></i></button>
-                                ${currentUser === 'admin' ? `<button type="button" onclick="deleteShippingRecord('${shp.id}')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl" title="حذف"><i class="fa-solid fa-trash"></i></button>` : ''}
+                                <button type="button" onclick="deleteShippingRecord('${shp.id}')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl" title="حذف"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </div>
                         <div class="flex flex-wrap items-center justify-between gap-3 bg-slate-50 p-3 rounded-2xl border border-slate-200 text-xs">
@@ -2121,13 +2193,11 @@
                                 <p class="text-xs text-slate-500 mt-0.5">المسؤول: <strong class="text-slate-800">${s.manager}</strong> | الميناء: <strong class="text-blue-700">${s.port}</strong> | شروط الدفع: <strong>${s.paymentTerms}</strong></p>
                             </div>
                             <div class="flex items-center gap-2">
-                                ${currentUser === 'admin' ? `
-                                    <button type="button" onclick="openSupplierAccountModal('${s.id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-1.5 shadow-sm">
-                                        <i class="fa-solid fa-money-bill-transfer"></i> المحاسبة (~$${Math.round(totalPaidUsd).toLocaleString()})
-                                    </button>
-                                ` : ''}
+                                <button type="button" onclick="openSupplierAccountModal('${s.id}')" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 px-3.5 py-2 rounded-xl text-xs font-black transition flex items-center gap-1.5 shadow-sm">
+                                    <i class="fa-solid fa-money-bill-transfer"></i> المحاسبة (~$${Math.round(totalPaidUsd).toLocaleString()})
+                                </button>
                                 <button type="button" onclick="openSupplierModal('${s.id}')" class="p-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl" title="تعديل"><i class="fa-solid fa-pen"></i></button>
-                                ${currentUser === 'admin' ? `<button type="button" onclick="deleteSupplierRecord('${s.id}')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl" title="حذف"><i class="fa-solid fa-trash"></i></button>` : ''}
+                                <button type="button" onclick="deleteSupplierRecord('${s.id}')" class="p-2 bg-rose-50 hover:bg-rose-100 text-rose-600 rounded-xl" title="حذف"><i class="fa-solid fa-trash"></i></button>
                             </div>
                         </div>
                         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 bg-slate-50 p-3 rounded-2xl border border-slate-200 text-xs">
@@ -2162,7 +2232,6 @@
         }
 
         function renderAccountingView() {
-            if (currentUser !== 'admin') return;
             const totalClientRevUsd = (appDb.clients || []).reduce((acc, c) => acc + (c.payments || []).reduce((sum, p) => sum + convertToUsd(p.amount, p.currency || 'USD'), 0), 0);
             const totalSupplierPaidUsd = (appDb.suppliers || []).reduce((acc, s) => acc + (s.payments || []).reduce((sum, p) => sum + convertToUsd(p.amount, p.currency || 'USD'), 0), 0);
             const totalExpectedProfitUsd = (appDb.requests || []).reduce((acc, r) => acc + Number(r.profit || 0), 0);
@@ -2886,9 +2955,7 @@
                         </td>
                         <td class="p-3 text-slate-700 max-w-xs">${p.note || '-'}</td>
                         <td class="p-3 text-center">
-                            ${currentUser === 'admin' ? `
-                                <button type="button" onclick="deleteClientPayment('${client.id}', '${p.id}')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg" title="حذف الدفعة"><i class="fa-solid fa-trash"></i></button>
-                            ` : '-'}
+                            <button type="button" onclick="deleteClientPayment('${client.id}', '${p.id}')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg" title="حذف الدفعة"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -3015,9 +3082,7 @@
                             ` : ''}
                         </td>
                         <td class="p-3 text-center">
-                            ${currentUser === 'admin' ? `
-                                <button type="button" onclick="deleteSupplierPayment('${sup.id}', '${p.id}')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg" title="حذف التحويل"><i class="fa-solid fa-trash"></i></button>
-                            ` : '-'}
+                            <button type="button" onclick="deleteSupplierPayment('${sup.id}', '${p.id}')" class="text-rose-500 hover:text-rose-700 p-1.5 rounded-lg" title="حذف التحويل"><i class="fa-solid fa-trash"></i></button>
                         </td>
                     </tr>
                 `;
@@ -3218,14 +3283,35 @@
             }
         }
 
+        function calculateClientConversion() {
+            const amt = Number(document.getElementById('pay-amount')?.value || 0);
+            const rate = parseFloat(document.getElementById('pay-rate')?.value || 1);
+            const convEl = document.getElementById('pay-converted-amount');
+            if (convEl) convEl.value = (amt * rate).toFixed(2);
+        }
+
+        function calculateSupplierConversion() {
+            const amt = Number(document.getElementById('sup-pay-amount')?.value || 0);
+            const rate = parseFloat(document.getElementById('sup-pay-rate')?.value || 7.23);
+            const eqEl = document.getElementById('sup-pay-usd-eq');
+            if (eqEl) eqEl.value = (rate > 0 ? (amt / rate).toFixed(2) : '0.00');
+        }
+
+        function saveExchangeRates() {
+            const usdCny = parseFloat(document.getElementById('rate-usd-cny')?.value || 7.23);
+            const eurUsd = parseFloat(document.getElementById('rate-eur-usd')?.value || 1.08);
+            if (!appDb.exchangeRates) appDb.exchangeRates = {};
+            appDb.exchangeRates.usdToCny = usdCny;
+            appDb.exchangeRates.eurToUsd = eurUsd;
+            persistDb();
+            showToast('تم تحديث وحفظ أسعار الصرف بنجاح');
+        }
+
+        // تشغيل النظام المباشر
         window.addEventListener('DOMContentLoaded', () => {
             loadLocalDb();
             setLanguage('ar');
-            
-            // Bypass Login logic
-            currentUser = 'admin'; 
             applyUserSession();
-
             syncCloudDb();
         });
     </script>
