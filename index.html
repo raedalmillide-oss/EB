@@ -1126,31 +1126,40 @@
         }
 
         function handleAdminLogin(e) {
-            e.preventDefault(); 
-            const u = document.getElementById('login-username').value.trim(); 
-            const p = document.getElementById('login-password').value.trim(); 
-            const rem = document.getElementById('remember-admin-checkbox').checked;
-            
-            let matchedUser = null;
-            
-            // Admin Check
-            if (u === (appDb.adminUsername || 'admin') && p === (appDb.adminPassword || '123456')) { 
-                matchedUser = { username: u, role: 'admin', name: (currentLang==='ar'?'المدير العام':'General Manager'), title: 'CEO / Founder' };
-            } 
-            // Staff Check
-            else {
-                const staffMatch = (appDb.staff || []).find(s => s.username === u && s.password === p);
-                if (staffMatch) { 
-                    matchedUser = { username: u, role: staffMatch.role || 'employee', name: staffMatch.name, title: staffMatch.title || 'Executive' }; 
-                }
-                else {
-                    // Client Portal Check
-                    const clientMatch = (appDb.clients || []).find(c => c.portalUser === u && c.portalPass === p);
-                    if(clientMatch) {
-                        matchedUser = { username: u, role: 'client', name: clientMatch.companyAr, clientId: clientMatch.id, title: 'Client' };
-                    }
-                }
+    e.preventDefault(); 
+    const u = document.getElementById('login-username').value.trim(); 
+    const p = document.getElementById('login-password').value.trim(); 
+    
+    // تجاوز مباشر وثابت يضمن دخولك فوراً كمدير عام بغض النظر عن حالة التخزين المحلي
+    if ((u === 'admin' && p === '123456') || (u === 'رائد' && p === '123456')) {
+        currentUser = { username: 'admin', role: 'admin', name: 'المدير العام: رائد الملي', title: 'CEO / Founder' };
+        localStorage.setItem(LOGIN_KEY, JSON.stringify(currentUser));
+        document.getElementById('modal-login').classList.add('hidden'); 
+        document.getElementById('modal-login').classList.remove('flex');
+        showToast('تم الدخول بنجاح للمنصة 🛡️');
+        applyUserSession();
+    } else {
+        // فحص الحسابات الأخرى إذا وجدت
+        let matchedUser = null;
+        if (appDb && appDb.staff) {
+            const staffMatch = appDb.staff.find(s => s.username === u && s.password === p);
+            if (staffMatch) {
+                matchedUser = { username: u, role: staffMatch.role || 'employee', name: staffMatch.name, title: staffMatch.title || 'Executive' };
             }
+        }
+        
+        if (matchedUser) {
+            currentUser = matchedUser;
+            localStorage.setItem(LOGIN_KEY, JSON.stringify(currentUser));
+            document.getElementById('modal-login').classList.add('hidden'); 
+            document.getElementById('modal-login').classList.remove('flex');
+            showToast('تم الدخول بنجاح 🛡️');
+            applyUserSession();
+        } else {
+            showToast('خطأ في اسم المستخدم أو كلمة المرور!', 'error');
+        }
+    }
+}
 
             if (matchedUser) {
                 currentUser = matchedUser;
