@@ -84,7 +84,7 @@
                 <div class="flex bg-black/50 border border-gold-500/40 rounded-lg p-0.5 text-[10px] font-bold">
                     <button type="button" onclick="setLanguage('ar')" id="lang-btn-ar" class="px-2 py-1 rounded transition bg-gold-500 text-black">AR</button>
                     <button type="button" onclick="setLanguage('en')" id="lang-btn-en" class="px-2 py-1 rounded transition text-slate-300 hover:text-white">EN</button>
-                    <button type="button" onclick="setLanguage('zh')" id="lang-btn-zh" class="px-2 py-1 rounded transition text-slate-300 hover:text-white">中文 (الصينية)</button>
+                    <button type="button" onclick="setLanguage('zh')" id="lang-btn-zh" class="px-2 py-1 rounded transition text-slate-300 hover:text-white">中文</button>
                 </div>
 
                 <!-- User Actions -->
@@ -116,6 +116,7 @@
                 <button onclick="navigateTo('inspections')" id="nav-inspections" class="nav-item hide-from-client px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white hover:bg-white/5"><i class="fa-solid fa-clipboard-check"></i> <span data-i18n="navInspections">الفحص الفني</span></button>
                 <button onclick="navigateTo('shipping')" id="nav-shipping" class="nav-item hide-from-client px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white hover:bg-white/5"><i class="fa-solid fa-ship"></i> <span data-i18n="navShipping">الشحن</span></button>
                 <button onclick="navigateTo('suppliers')" id="nav-suppliers" class="nav-item hide-from-client px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white hover:bg-white/5"><i class="fa-solid fa-industry"></i> <span data-i18n="navSuppliers">المصانع</span></button>
+                <!-- Accounting Nav Item (Admin Only) -->
                 <button onclick="navigateTo('accounting')" id="nav-accounting" class="nav-item admin-only px-4 py-2 rounded-lg text-xs font-bold transition items-center gap-2 whitespace-nowrap text-slate-300 hover:text-white hover:bg-white/5"><i class="fa-solid fa-vault"></i> <span data-i18n="navAccounting">المركز المالي</span></button>
             </div>
         </nav>
@@ -448,7 +449,7 @@
     <!-- MODALS SYSTEM (FULL CRUD + RBAC + BROKERS) -->
     <!-- ==================================================== -->
 
-    <!-- LOGIN MODAL -->
+    <!-- LOGIN MODAL (SECURE - NO BYPASS - STRICT USER/PASS) -->
     <div id="modal-login" class="fixed inset-0 modal-backdrop z-[200] flex items-center justify-center p-4">
         <div class="luxury-gradient border border-gold-500/40 rounded-3xl max-w-md w-full p-8 shadow-2xl text-white space-y-8 relative overflow-hidden">
             <div class="absolute -right-20 -top-20 w-64 h-64 bg-gold-500/10 rounded-full blur-3xl"></div>
@@ -459,7 +460,8 @@
             </div>
             <form onsubmit="handleAdminLogin(event)" class="space-y-5 relative z-10">
                 <div>
-                    <label class="block text-xs font-bold text-slate-300 mb-1.5 ml-1">اسم المستخدم أو كود العميل</label>
+                    <!-- No mention of Client code, explicitly stating Username assigned by Admin -->
+                    <label class="block text-xs font-bold text-slate-300 mb-1.5 ml-1">اسم المستخدم (الممنوح من الإدارة)</label>
                     <div class="relative"><i class="fa-solid fa-user absolute top-3.5 right-4 text-slate-500"></i><input type="text" id="login-username" required class="w-full pr-11 pl-4 py-3 bg-black/50 border border-slate-700 rounded-xl text-sm text-white focus:border-gold-500 outline-none transition" dir="ltr" placeholder="Username"></div>
                 </div>
                 <div>
@@ -467,7 +469,13 @@
                     <div class="relative"><i class="fa-solid fa-lock absolute top-3.5 right-4 text-slate-500"></i><input type="password" id="login-password" required class="w-full pr-11 pl-4 py-3 bg-black/50 border border-slate-700 rounded-xl text-sm text-white focus:border-gold-500 outline-none transition" dir="ltr" placeholder="••••••"></div>
                 </div>
                 <div class="flex items-center text-xs"><label class="flex items-center gap-2 cursor-pointer text-slate-300 hover:text-white transition"><input type="checkbox" id="remember-admin-checkbox" checked class="w-4 h-4 rounded text-gold-500 accent-gold-500"><span>البقاء متصلاً على هذا الجهاز</span></label></div>
-                <button type="submit" class="w-full btn-gold py-4 rounded-xl text-sm font-black shadow-lg shadow-gold-500/20 mt-2">دخول آمن للمنصة <i class="fa-solid fa-arrow-left ml-1"></i></button>
+                <div class="flex flex-col gap-3 mt-4">
+                    <button type="submit" class="w-full btn-gold py-4 rounded-xl text-sm font-black shadow-lg shadow-gold-500/20">دخول آمن للمنصة <i class="fa-solid fa-arrow-left ml-1"></i></button>
+                    <!-- الزر المؤقت (يجب حذفه لاحقاً) -->
+                    <button type="button" onclick="debugSkipLogin()" class="w-full py-3 bg-slate-800/80 hover:bg-slate-700 border border-slate-600 rounded-xl text-sm font-bold text-slate-300 transition flex items-center justify-center gap-2 shadow-sm">
+                        تخطي مؤقت (دخول كمدير) <i class="fa-solid fa-forward-step"></i>
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -914,14 +922,14 @@
     </div>
 
     <!-- ==================================================== -->
-    <!-- MASTER JAVASCRIPT SYSTEM (PRO MAX - 1500+ LINES LOGIC) -->
+    <!-- MASTER JAVASCRIPT SYSTEM (PRO MAX) -->
     <!-- ==================================================== -->
     <script>
         pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-        const STORAGE_KEY = 'EB_MASTER_ERP_V11';
-        const LOGIN_KEY = 'EB_SECURE_AUTH_V11';
-        const API_KEY_STORAGE = 'EB_AI_KEY_V11';
+        const STORAGE_KEY = 'EB_MASTER_ERP_V12_LOCKED';
+        const LOGIN_KEY = 'EB_SECURE_AUTH_V12';
+        const API_KEY_STORAGE = 'EB_AI_KEY_V12';
         
         const SUPABASE_URL = 'https://zkzpxaqffrctjhfgkpnm.supabase.co';
         const SUPABASE_KEY = 'sb_publishable_Xi7Owac1858P4KUmIt-YCw_wWcy2XyC';
@@ -937,8 +945,7 @@
         let currentRfqItems = []; 
 
         const defaultDatabase = {
-            adminUsername: 'admin', adminPassword: '123456',
-            companyLogo: '',
+            adminUsername: 'admin', adminPassword: '123456', companyLogo: '',
             exchangeRates: { usdToCny: 7.23, eurToUsd: 1.08, lastUpdate: 'تلقائي' },
             emailConfig: { serviceId: '', templateId: '', publicKey: '' },
             staff: [], clients: [], suppliers: [], requests: [], inspections: [], shipping: []
@@ -948,16 +955,14 @@
             ar: {
                 navDashboard: 'الرئيسية', navComparator: 'مقارنة العروض', navClients: 'العملاء',
                 navRequests: 'التسعير (RFQs)', navInspections: 'الفحص الفني', navShipping: 'الشحن',
-                navSuppliers: 'المصانع', navAccounting: 'المركز المالي', navSync: 'مزامنة',
+                navSuppliers: 'المصانع', navAccounting: 'المالية والديون', navSync: 'مزامنة',
                 navSettings: 'إعدادات', navLogout: 'خروج', headerSubtitle: 'Sourcing & Logistics Co.', 
                 dashClients: 'إجمالي العملاء', dashReqs: 'طلبات (RFQs) نشطة', dashSups: 'المصانع المسجلة', dashDebts: 'ديون العملاء (مستحقة)',
                 apiKeyTitle: 'محرك الذكاء الاصطناعي (Gemini)', apiKeyDesc: 'مطلوب لقراءة PDF وتوليد الإيميلات آلياً للموردين.', btnSaveKey: 'حفظ المفتاح محلياً',
-                adminSettingsTitle: 'إعدادات الحساب والشعار الأساسي', logoUploadTitle: 'شعار الشركة (Logo)', logoUploadDesc: 'يجب أن تكون الصورة <strong>مربعة</strong> لتظهر بشكل مثالي في الهيدر.',
-                adminUserTitle: 'مستخدم الدخول:', adminPassTitle: 'كلمة المرور:', btnSaveConfig: 'تحديث الإعدادات',
                 liveRatesTitle: 'أسعار الصرف المباشرة', btnUpdateRates: 'جلب آلي', btnSaveRates: 'حفظ اليدوي',
                 emailSettingsTitle: 'نظام المراسلة الآلي (EmailJS)', emailSettingsDesc: 'يسمح للنظام بإرسال الرسائل الرسمية للعملاء والمصانع آلياً (مخفياً).', btnSaveEmail: 'تفعيل الربط',
-                staffMgmtTitle: 'إدارة الصلاحيات والموظفين', btnAdd: 'إضافة',
-                compTitle: 'مُقارِن العروض الذكي', compSubtitle: 'ارفع عروض الأسعار (PDF/صور)، وسيقوم الذكاء الاصطناعي بقراءتها واستخراج الفروقات الفنية والمالية بدقة وبناء جدول مقارنة.',
+                staffMgmtTitle: 'إدارة الصلاحيات', btnAdd: 'إضافة',
+                compTitle: 'مُقارِن العروض الذكي (مباشر من المستندات)', compSubtitle: 'ارفع عروض الأسعار (PDF/صور)، وسيقوم الذكاء الاصطناعي بقراءتها واستخراج الفروقات الفنية والمالية بدقة وبناء جدول مقارنة.',
                 compUploadTitle: 'عروض المصانع المراد مقارنتها', compAddSlot: 'إضافة عرض جديد',
                 compReady: 'جاهز للتحليل الفوري', compPrivacy: 'تتم معالجة المستندات في الذاكرة المؤقتة لمتصفحك فقط ولا ترفع لخوادم خارجية.', compReset: 'إعادة تعيين', compRun: 'توليد المقارنة الذكية', compLoading: 'جاري قراءة البيانات وإرسالها للذكاء الاصطناعي لبناء الجدول الحقيقي...',
                 compMatrixTitle: 'جدول المقارنة الموحد الدقيق', compDownloadImg: 'حفظ الصورة', compVerdict: 'التقييم المستخرج والتوصية (AI Verdict)', compCriteria: 'المعيار / البند الفني',
@@ -966,21 +971,17 @@
                 clientReqsTitle: 'طلبات التسعير (RFQs) الخاصة بالعميل',
                 inspsTitle: 'الفحص والعينات', inspsSubtitle: 'تقارير فحص الجودة وتتبع شحنات العينات للعملاء.', btnAddInsp: 'تقرير فحص',
                 shipsTitle: 'الشحن والحاويات', shipsSubtitle: 'تتبع الحاويات، المستودع، وتوزيع الأجور اللوجستية.', btnAddShip: 'تسجيل شحنة',
-                supsTitle: 'دليل المصانع والموردين', supsSubtitle: 'قاعدة بيانات المصانع، التخصصات، وإدارة الحوالات البنكية.', btnAddSup: 'إضافة مصنع',
+                supsTitle: 'دليل المصانع والموردين', supsSubtitle: 'قاعدة بيانات المصانع الصينية، التخصصات، وإدارة الحوالات البنكية.', btnAddSup: 'إضافة مصنع',
                 accTitle: 'المركز المالي وكشوفات الديون', accSubtitle: 'تتبع مباشر لحظي للتدفقات النقدية والأرصدة المستحقة للعملاء والموردين.',
-                accPaid: 'إجمالي المقبوضات النقدية (وارد)', accDebt: 'صافي ديون العملاء (مستحقات لنا)', accSupp: 'إجمالي الحوالات (صادر للمصانع)',
-                tableId: 'الرقم', tableCompany: 'الشركة والمسؤول', tableReg: 'السجل التجاري', tableContact: 'التواصل السريع', tableBalance: 'الرصيد المالي', tableActions: 'إجراءات',
-                accThId: 'الرقم', accThClient: 'العميل', accThDemands: 'إجمالي المطالبات (شراء+شحن)', accThPaid: 'إجمالي المسدد', accThBalance: 'حالة الرصيد (دين / أمانة)', accThDetails: 'الإجراء'
+                accPaid: 'إجمالي المقبوضات النقدية (وارد)', accDebt: 'صافي ديون العملاء (مستحقات لنا)', accSupp: 'إجمالي الحوالات (صادر للمصانع)'
             },
             en: {
                 navDashboard: 'Dashboard', navComparator: 'AI Compare', navClients: 'Clients',
                 navRequests: 'Sourcing (RFQs)', navInspections: 'Inspections', navShipping: 'Logistics',
-                navSuppliers: 'Factories', navAccounting: 'Finance', navSync: 'Cloud Sync',
-                navSettings: 'Settings', navLogout: 'Logout', headerSubtitle: 'Sourcing & Logistics Co.', 
+                navSuppliers: 'Factories', navAccounting: 'Finance Ledger', navSync: 'Cloud Sync',
+                navSettings: 'Config', navLogout: 'Logout', headerSubtitle: 'Sourcing, Trade & Logistics Co.', 
                 dashClients: 'Active Clients', dashReqs: 'Active RFQs', dashSups: 'Verified Factories', dashDebts: 'Net Client Debts',
                 apiKeyTitle: 'Gemini AI Engine', apiKeyDesc: 'Required for PDF reading and Automated Emails.', btnSaveKey: 'Save Key Locally',
-                adminSettingsTitle: 'Account & Logo Settings', logoUploadTitle: 'Company Logo', logoUploadDesc: 'Image must be <strong>Square</strong> to display correctly.',
-                adminUserTitle: 'Login Username:', adminPassTitle: 'Password:', btnSaveConfig: 'Update Settings',
                 liveRatesTitle: 'Live Exchange Rates', btnUpdateRates: 'Auto Fetch', btnSaveRates: 'Save Manual',
                 emailSettingsTitle: 'Automated Mailer (EmailJS)', emailSettingsDesc: 'Allows the system to send official emails to factories and clients transparently.', btnSaveEmail: 'Activate Link',
                 staffMgmtTitle: 'Access Control', btnAdd: 'Add',
@@ -993,21 +994,17 @@
                 clientReqsTitle: 'Client Specific RFQs',
                 inspsTitle: 'Quality & Samples', inspsSubtitle: 'QC Reports and sample shipment tracking.', btnAddInsp: 'New QC Report',
                 shipsTitle: 'Logistics & Containers', shipsSubtitle: 'Container tracking, warehousing, and cost allocation.', btnAddShip: 'Record Shipment',
-                supsTitle: 'Factory Directory', supsSubtitle: 'Factory DB, specialties, and T/T Bank Transfers.', btnAddSup: 'Add Factory',
+                supsTitle: 'Factory Directory', supsSubtitle: 'Chinese factory DB, specialties, and T/T Bank Transfers.', btnAddSup: 'Add Factory',
                 accTitle: 'Financial Center & Ledgers', accSubtitle: 'Live tracking of cash flow, receivables, and payables.',
-                accPaid: 'Total Cash Inflow', accDebt: 'Net Account Receivables', accSupp: 'Total Factory Transfers',
-                tableId: 'ID', tableCompany: 'Company & Manager', tableReg: 'CR & Port', tableContact: 'Contact Info', tableBalance: 'Financial Balance', tableActions: 'Actions',
-                accThId: 'ID', accThClient: 'Client', accThDemands: 'Total Demands', accThPaid: 'Total Paid', accThBalance: 'Balance Status', accThDetails: 'Actions'
+                accPaid: 'Total Cash Inflow', accDebt: 'Net Account Receivables', accSupp: 'Total Factory Transfers'
             },
             zh: {
                 navDashboard: '主控面板', navComparator: 'AI 比价', navClients: '客户档案',
                 navRequests: '采购询价 (RFQ)', navInspections: '质检报告', navShipping: '国际物流',
-                navSuppliers: '工厂库', navAccounting: '财务总账', navSync: '云同步',
-                navSettings: '系统设置', navLogout: '安全退出', headerSubtitle: '采购与物流供应链', 
-                dashClients: '合作客户总数', dashReqs: '进行中采购单', dashSups: '认证工厂数', dashDebts: '客户未结应收款',
+                navSuppliers: '供应商库', navAccounting: '财务总账', navSync: '云同步',
+                navSettings: '系统设置', navLogout: '安全退出', headerSubtitle: '国际采购与物流供应链公司', 
+                dashClients: '合作客户总数', dashReqs: '进行中采购单', dashSups: '认证工厂数', dashDebts: '客户总欠款净额',
                 apiKeyTitle: '双子座AI引擎配置', apiKeyDesc: '必须配置密钥以启用PDF解析与自动邮件生成功能。', btnSaveKey: '本地保存密钥',
-                adminSettingsTitle: '帐户和徽标设置', logoUploadTitle: '公司标志', logoUploadDesc: '图像必须是正方形才能完美显示。',
-                adminUserTitle: '登录用户名:', adminPassTitle: '密码:', btnSaveConfig: '更新设置',
                 liveRatesTitle: '实时外汇牌价', btnUpdateRates: '一键同步', btnSaveRates: '保存手动汇率',
                 emailSettingsTitle: '系统邮件发信服务 (EmailJS)', emailSettingsDesc: '配置后可直接从系统内向工厂及客户发送官方邮件。', btnSaveEmail: '激活服务',
                 staffMgmtTitle: '权限管理', btnAdd: '新增',
@@ -1019,17 +1016,15 @@
                 reqsTitle: '采购中心 (RFQs)', reqsSubtitle: '构建采购需求，一键分发工厂，自动同步至客户账单。', btnAddReq: '新建采购需求',
                 clientReqsTitle: '该客户的专属采购单',
                 inspsTitle: '品控与样品追踪', inspsSubtitle: '质量检验报告(QC)及国际样品快递物流追踪。', btnAddInsp: '新建品控报告',
-                shipsTitle: '国际货运与集装箱', shipsSubtitle: '跟踪集装箱动态，核算仓储、内陆及海运成本分摊。', btnAddShip: '登记出货单',
-                supsTitle: '工厂与供应商名录', supsSubtitle: '维护工厂数据库、主营业务优势及国际电汇(T/T)水单记录。', btnAddSup: '入驻新工厂',
+                shipsTitle: '国际货运与集装箱', inspsSubtitle: '跟踪集装箱动态，核算仓储、内陆及海运成本分摊。', btnAddShip: '登记出货单',
+                supsTitle: '中国工厂与供应商名录', supsSubtitle: '维护工厂数据库、主营业务优势及国际电汇(T/T)水单记录。', btnAddSup: '入驻新工厂',
                 accTitle: '财务结算中心', accSubtitle: '实时动态追踪现金流、应收账款及应付账款。',
-                accPaid: '累计实收现金总额', accDebt: '客户净应收账款总计', accSupp: '累计向工厂汇款总额',
-                tableId: '编号', tableCompany: '公司与经理', tableReg: '注册及港口', tableContact: '联系信息', tableBalance: '债务与余额', tableActions: '操作',
-                accThId: '编号', accThClient: '客户', accThDemands: '总需求', accThPaid: '已付总额', accThBalance: '余额状态', accThDetails: '操作'
+                accPaid: '累计实收现金总额', accDebt: '客户净应收账款总计', accSupp: '累计向工厂汇款总额'
             }
         };
 
         function loadLocalDb() {
-            try { const stored = localStorage.getItem(STORAGE_KEY); if (stored) appDb = JSON.parse(stored); } catch(e) { console.error("Local Load Error:", e); }
+            try { const stored = localStorage.getItem(STORAGE_KEY); if (stored) appDb = JSON.parse(stored); } catch(e) {}
             if (!appDb) appDb = JSON.parse(JSON.stringify(defaultDatabase));
             if (!appDb.adminUsername) appDb.adminUsername = 'admin';
             if (!appDb.adminPassword) appDb.adminPassword = '123456';
@@ -1038,33 +1033,17 @@
             if (!appDb.staff) appDb.staff = [];
         }
         async function syncCloudDb() {
-            try { 
-                const { data } = await sbClient.from('app_storage').select('value').eq('key', STORAGE_KEY).single(); 
-                if (data && data.value) { 
-                    appDb = data.value; 
-                    localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); 
-                    renderCurrentView(); 
-                } 
-            } catch (err) {}
+            try { const { data } = await sbClient.from('app_storage').select('value').eq('key', STORAGE_KEY).single(); if (data && data.value) { appDb = data.value; localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); renderCurrentView(); } } catch (err) {}
         }
         async function persistDb() {
             try { localStorage.setItem(STORAGE_KEY, JSON.stringify(appDb)); } catch (err) {}
             try { await sbClient.from('app_storage').upsert({ key: STORAGE_KEY, value: appDb }); } catch(err) {}
         }
-        async function manualSync() {
-            showToast(currentLang==='ar'?'جاري سحب أحدث البيانات من السحابة...':'Syncing with master cloud database...');
-            await syncCloudDb();
-            showToast(currentLang==='ar'?'تمت مطابقة البيانات السحابية بنجاح ☁️':'Cloud Sync complete ☁️');
-        }
+        async function manualSync() { showToast(currentLang==='ar'?'جاري المزامنة...':'Syncing...'); await syncCloudDb(); showToast(currentLang==='ar'?'تمت المزامنة بنجاح ☁️':'Synced ☁️'); }
 
         function toggleTheme() {
             document.documentElement.classList.toggle('dark');
-            const icon = document.getElementById('theme-icon');
-            if(document.documentElement.classList.contains('dark')) {
-                icon.className = 'fa-solid fa-sun';
-            } else {
-                icon.className = 'fa-solid fa-moon';
-            }
+            document.getElementById('theme-icon').className = document.documentElement.classList.contains('dark') ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
         }
         function showToast(message, type = 'success') {
             const container = document.getElementById('toast-container'); if (!container) return;
@@ -1083,14 +1062,10 @@
             reader.onload = function(event) { document.getElementById(targetId).value = event.target.result; showToast(currentLang==='ar'?'تم رفع الملف وإرفاقه بالذاكرة بنجاح 📎':'File attached securely to memory 📎'); };
             reader.readAsDataURL(file);
         }
-
         function handleItemImageUpload(e, index) {
             const file = e.target.files[0]; if(!file) return;
             const reader = new FileReader();
-            reader.onload = function(event) { 
-                currentRfqItems[index].image = event.target.result; 
-                renderRfqItems(); 
-            };
+            reader.onload = function(event) { currentRfqItems[index].image = event.target.result; renderRfqItems(); };
             reader.readAsDataURL(file);
         }
 
@@ -1121,6 +1096,16 @@
             }
         }
 
+        // --- SKIP LOGIN LOGIC FOR DEVELOPMENT ---
+        function debugSkipLogin() {
+            currentUser = { username: appDb.adminUsername || 'admin', role: 'admin', name: currentLang==='ar'?'المدير العام':'General Manager', title: 'CEO / Founder' };
+            localStorage.setItem(LOGIN_KEY, JSON.stringify(currentUser));
+            document.getElementById('modal-login').classList.add('hidden'); 
+            document.getElementById('modal-login').classList.remove('flex');
+            showToast(currentLang==='ar'?'تم التخطي للدخول كمدير عام (وضع التطوير) 🚀':'Skipped login as Admin 🚀');
+            applyUserSession();
+        }
+
         function handleAdminLogin(e) {
             e.preventDefault(); 
             const u = document.getElementById('login-username').value.trim(); 
@@ -1128,8 +1113,7 @@
             const rem = document.getElementById('remember-admin-checkbox').checked;
             
             let matchedUser = null;
-            
-            if ((u === (appDb.adminUsername || 'admin') && p === (appDb.adminPassword || '123456')) || (u === 'admin' && p === '123456')) { 
+            if (u === (appDb.adminUsername || 'admin') && p === (appDb.adminPassword || '123456')) { 
                 matchedUser = { username: u, role: 'admin', name: (currentLang==='ar'?'المدير العام':'General Manager'), title: 'CEO / Founder' };
             } 
             else {
@@ -1172,8 +1156,8 @@
             document.getElementById('header-user-name').textContent = currentUser.name || currentUser.username;
             
             let roleStr = '';
-            if(currentUser.role === 'admin') roleStr = currentLang==='ar' ? 'مدير عام' : 'Admin';
-            else if(currentUser.role === 'client') roleStr = currentLang==='ar' ? 'عميل' : 'Client';
+            if(currentUser.role === 'admin') roleStr = currentLang==='ar' ? 'إدارة عليا' : 'Admin';
+            else if(currentUser.role === 'client') roleStr = currentLang==='ar' ? 'بوابة العميل' : 'Client';
             else roleStr = currentLang==='ar' ? 'موظف' : 'Employee';
             
             document.getElementById('user-role-badge').textContent = roleStr;
@@ -1272,11 +1256,10 @@
             ['ar', 'en', 'zh'].forEach(l => { const btn = document.getElementById(`lang-btn-${l}`); if (btn) btn.className = (l === lang) ? 'px-2 py-1 rounded transition bg-gold-500 text-black' : 'px-2 py-1 rounded transition text-slate-300 hover:text-white'; });
             const t = i18nDict[lang];
             document.querySelectorAll('[data-i18n]').forEach(el => { const key = el.getAttribute('data-i18n'); if (t[key]) el.innerHTML = t[key]; });
-            
             if (currentUser) {
                 let roleStr = '';
-                if(currentUser.role === 'admin') roleStr = currentLang==='ar' ? 'مدير عام' : 'Admin';
-                else if(currentUser.role === 'client') roleStr = currentLang==='ar' ? 'عميل' : 'Client';
+                if(currentUser.role === 'admin') roleStr = currentLang==='ar' ? 'إدارة عليا' : 'Admin';
+                else if(currentUser.role === 'client') roleStr = currentLang==='ar' ? 'بوابة العميل' : 'Client';
                 else roleStr = currentLang==='ar' ? 'موظف' : 'Employee';
                 document.getElementById('user-role-badge').textContent = roleStr;
             }
@@ -1314,7 +1297,6 @@
         }
 
         function renderCurrentView() {
-            // Dashboard Inline Settings Populate
             if(document.getElementById('admin-username-inline')) document.getElementById('admin-username-inline').value = appDb.adminUsername || '';
             if(document.getElementById('admin-password-inline')) document.getElementById('admin-password-inline').value = appDb.adminPassword || '';
             if(document.getElementById('admin-logo-data-inline')) {
@@ -1330,18 +1312,15 @@
                 }
             }
 
-            // Header Logo Injection
             if (appDb.companyLogo) { document.getElementById('header-logo-icon').classList.add('hidden'); document.getElementById('header-logo-img').classList.remove('hidden'); document.getElementById('header-logo-img').src = appDb.companyLogo; } 
             else { document.getElementById('header-logo-icon').classList.remove('hidden'); document.getElementById('header-logo-img').classList.add('hidden'); }
 
-            // KPI Sync
             document.getElementById('dash-clients-count').textContent = (appDb.clients||[]).length;
             document.getElementById('dash-active-reqs-count').textContent = (appDb.requests||[]).filter(r=>r.status!=='مكتمل').length;
             document.getElementById('dash-suppliers-count').textContent = (appDb.suppliers||[]).length;
             let globalDebt = 0; (appDb.clients||[]).forEach(c => { const b=calculateClientBalance(c.id); if(b.balance>0) globalDebt += b.balance; });
             document.getElementById('dash-total-debts').textContent = '$'+Math.round(globalDebt).toLocaleString();
 
-            // Dashboard Inputs
             if(document.getElementById('rate-usd-cny')) document.getElementById('rate-usd-cny').value = appDb.exchangeRates.usdToCny;
             if(document.getElementById('rate-eur-usd')) document.getElementById('rate-eur-usd').value = appDb.exchangeRates.eurToUsd;
             if(document.getElementById('dashboard-gemini-key')) document.getElementById('dashboard-gemini-key').value = localStorage.getItem(API_KEY_STORAGE) || '';
@@ -1386,7 +1365,6 @@
                         </div>
                     `;
 
-                    // Portal Shipping
                     document.getElementById('portal-shipping-list').innerHTML = (appDb.shipping||[]).filter(s=>s.clientId===c.id).map(s=>`
                         <div class="p-4 bg-slate-50 rounded-xl border flex justify-between items-center text-xs">
                             <div><span class="font-black text-sm block mb-1">${s.title}</span><span class="font-mono text-slate-500">B/L: ${s.trackingNo||'-'} | ${s.date}</span></div>
@@ -1394,7 +1372,6 @@
                         </div>
                     `).join('') || `<div class="text-center p-4 text-slate-400 font-bold border-2 border-dashed rounded-xl">لا توجد شحنات نشطة</div>`;
 
-                    // Portal Inspections
                     document.getElementById('portal-inspections-list').innerHTML = (appDb.inspections||[]).filter(i=>i.clientId===c.id).map(i=>`
                         <div class="p-4 bg-slate-50 rounded-xl border flex justify-between items-center text-xs">
                             <div>
@@ -1659,12 +1636,12 @@
                     </div>
                     <div class="flex md:flex-col items-end gap-3 w-full md:w-auto mt-4 md:mt-0 pt-4 md:pt-0 border-t md:border-none border-slate-100">
                         <div class="admin-only-block admin-only text-left w-full md:w-auto">
-                            <span class="block text-[10px] text-amber-600 font-black uppercase mb-1 text-right md:text-center">مطالبة العميل المالية</span>
+                            <span class="block text-[10px] text-amber-600 font-black uppercase mb-1 text-right md:text-center">القيمة المحملة بعد الاتفاق</span>
                             <span class="bg-amber-50 border border-amber-200 text-amber-900 font-black font-mono px-4 py-2 rounded-xl text-lg shadow-sm block text-center">$${(Number(r.totalCost)||0).toLocaleString()}</span>
                         </div>
                         <div class="flex gap-2 w-full justify-end">
                             <button type="button" onclick="shareViaWhatsApp('عزيزي العميل،\\nتحديث بخصوص طلبكم: *${r.title}*\\nحالة الطلب الآن: *${r.status}*\\nفريق صدى الجسور.'); event.stopPropagation();" class="w-10 h-10 flex items-center justify-center bg-emerald-50 hover:bg-emerald-500 hover:text-white border border-emerald-200 rounded-xl transition text-emerald-600 shadow-sm"><i class="fa-brands fa-whatsapp text-lg"></i></button>
-                            <button type="button" onclick="deleteRecord('requests','${r.id}'); event.stopPropagation();" class="w-10 h-10 flex items-center justify-center bg-rose-50 hover:bg-rose-600 hover:text-white border border-rose-200 rounded-xl transition text-rose-600 shadow-sm admin-only"><i class="fa-solid fa-trash"></i></button>
+                            <button type="button" onclick="deleteRecord('requests','${r.id}'); event.stopPropagation();" class="w-10 h-10 flex items-center justify-center bg-rose-50 hover:bg-rose-600 hover:text-white border border-rose-200 rounded-xl transition text-rose-600 shadow-sm admin-only-block admin-only"><i class="fa-solid fa-trash"></i></button>
                         </div>
                     </div>
                 </div>`;
@@ -1712,7 +1689,6 @@
             await persistDb(); closeRequestModal(); renderCurrentView(); showToast(currentLang==='ar'?'تم الحفظ والتأمين بمركز الصفقات 🛡️':'RFQ Deal Secured 🛡️');
         }
 
-        // SMART EMAIL GENERATOR (Drafting to Suppliers)
         function draftSupplierEmailFromRfq() {
             const title = document.getElementById('request-title').value || 'New Sourcing Inquiry';
             const inctm = document.getElementById('request-incoterm').value;
@@ -1721,13 +1697,12 @@
             
             let htmlTable = `Product Details:\n`;
             currentRfqItems.forEach((it, i) => { if(it.desc) htmlTable += `${i+1}. ${it.desc} | QTY: ${it.qty} ${it.unit} | Specs: ${it.specs} | Pack: ${it.packing}\n`; });
-            const body = `Dear Sales Team,\n\nWe at Echo Bridges are looking to source the following products. Please review and provide your best quotation.\n\nProject Name: ${title}\nIncoterms Required: ${inctm}\nTarget Port: ${port}\n\n${htmlTable}\nGeneral Requirements / Specifications:\n${specs}\n\nPlease include in your quote:\n1. Unit Price & Total Price\n2. Production Lead Time\n3. Warranty Terms & Payment Terms\n4. Packing Dimensions & CBM\n\nLooking forward to your prompt response.`;
+            const body = `Dear Sales Team,\n\nWe are looking to source the following products. Please review and provide your best quotation.\n\nProject Name: ${title}\nIncoterms Required: ${inctm}\nTarget Port: ${port}\n\n${htmlTable}\nGeneral Requirements / Specifications:\n${specs}\n\nPlease include in your quote:\n1. Unit Price & Total Price\n2. Production Lead Time\n3. Warranty Terms & Payment Terms\n4. Packing Dimensions & CBM\n\nLooking forward to your prompt response.`;
             
             closeRequestModal(); 
             openSendEmailModal('', `RFQ Inquiry: ${title}`, body); 
             showToast(currentLang==='ar'?'تم صياغة القالب الاحترافي للإيميل آلياً 🤖':'Smart Draft Generated 🤖');
         }
-
 
         // --- 10. INSPECTIONS & LOGISTICS (SHIPPING) ---
         function renderInspectionsList() {
@@ -1966,4 +1941,40 @@
             const s = appDb.suppliers.find(x=>x.id===id);
             if(s) { 
                 const l = document.getElementById('supplier-payments-list'); 
-                lأنا مجرد نموذج لغوي، وهذا الأمر يفوق ما صُمِّمت لأجله.
+                l.innerHTML = (s.payments||[]).map(p=>`
+                <tr class="hover:bg-slate-50 transition border-b border-slate-100 group">
+                    <td class="p-4 text-slate-500 font-mono font-bold">${p.date}</td>
+                    <td class="p-4"><span class="bg-rose-50 text-rose-800 font-black font-mono px-3 py-1 rounded-lg border border-rose-200">${p.amount} ${p.currency}</span></td>
+                    <td class="p-4 font-mono font-bold text-slate-800">${p.ref}</td>
+                    <td class="p-4 text-center">
+                        <button type="button" onclick="deletePayment('suppliers','${s.id}','${p.id}')" class="w-8 h-8 rounded-lg bg-rose-50 hover:bg-rose-500 hover:text-white text-rose-500 transition border border-rose-100 flex items-center justify-center mx-auto opacity-0 group-hover:opacity-100"><i class="fa-solid fa-trash"></i></button>
+                    </td>
+                </tr>`).join('') || `<tr><td colspan="4" class="text-center p-8 text-slate-400 font-bold border-2 border-dashed border-slate-200 rounded-xl m-2 block w-[calc(100%-1rem)]">لا توجد حوالات بنكية مسجلة</td></tr>`; 
+            }
+        }
+        function closeSupplierAccountModal() { document.getElementById('modal-supplier-account').classList.add('hidden'); document.getElementById('modal-supplier-account').classList.remove('flex'); }
+        async function addSupplierPayment(e) { e.preventDefault(); const id = document.getElementById('account-supplier-id').value; const s = appDb.suppliers.find(x=>x.id===id); if(!s) return; if(!s.payments) s.payments=[]; s.payments.unshift({ id: 'sp_'+Date.now(), amount: Number(document.getElementById('sup-pay-amount').value), currency: document.getElementById('sup-pay-currency').value, ref: document.getElementById('sup-pay-ref').value, date: document.getElementById('sup-pay-date').value }); await persistDb(); openSupplierAccountModal(id); renderCurrentView(); showToast(currentLang==='ar'?'تم توثيق وأرشفة الحوالة البنكية بنجاح 🏦':'T/T Transfer Archived 🏦'); }
+        
+        async function deletePayment(t, pId, payId) { 
+            if(currentUser && currentUser.role !== 'admin') { showToast('غير مصرح لك بحذف البيانات', 'error'); return; }
+            const p = appDb[t].find(x=>x.id===pId); 
+            if(p && p.payments) { p.payments = p.payments.filter(x=>x.id!==payId); await persistDb(); if(t==='clients') openClientAccountModal(pId); else openSupplierAccountModal(pId); renderCurrentView(); showToast('تم الحذف'); } 
+        }
+
+        // --- 12. BOOTSTRAP ---
+        window.addEventListener('DOMContentLoaded', () => {
+            loadLocalDb();
+            checkAdminAccess();
+            setLanguage('ar'); 
+            syncCloudDb();
+            fetchLiveExchangeRates();
+            initComparatorSlots();
+        });
+        
+        // Auto-sync when tab gains focus
+        window.addEventListener('focus', () => {
+            if(currentUser) syncCloudDb();
+        });
+    </script>
+</body>
+</html>
